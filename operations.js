@@ -9,6 +9,14 @@
   const date = value => { const d=new Date(value);return value && Number.isFinite(d.getTime()) ? d.toLocaleString(undefined,{month:'short',day:'numeric',hour:'numeric',minute:'2-digit',timeZoneName:'short'}) : 'Not observed'; };
   async function read(url) { const r=await fetch(url,{cache:'no-store',signal:AbortSignal.timeout(14_000)});if(!r.ok)throw new Error('unavailable');return r.json(); }
   let catalog, observation, mode='unavailable', refreshing=false;
+  let evidenceExpanded=false,history=[];
+  try{const saved=JSON.parse(localStorage.getItem('nucStatusHistory')||'[]');if(Array.isArray(saved))history=saved.filter(s=>Number.isFinite(Date.parse(s.at))&&Array.isArray(s.services)).slice(-24);}catch{}
+  function renderNetwork(view){
+    const scan=$('#statusScan'),components=$('#componentBoard');if(!scan||!components)return;
+    if(!view.stale&&['live','browser'].includes(mode)&&history.at(-1)?.at!==view.generatedAt){history.push({at:view.generatedAt,services:view.services.map(s=>({id:s.id,status:s.provider.status}))});history=history.slice(-24);try{localStorage.setItem('nucStatusHistory',JSON.stringify(history));}catch{}}
+    scan.innerHTML=view.services.map(s=>`<button type="button" data-inspect-service="${esc(s.id)}" aria-label="Inspect ${esc(s.name)}"><b>${esc(s.name)}</b><small data-state="${esc(s.provider.status)}">PROVIDER · ${esc(labels[s.provider.status])}</small><small>OUR LINK · ${esc(labels[s.connector.status])}</small></button>`).join('');
+    components.innerHTML=view.services.filter(s=>s.provider.components?.length).map(s=>`<article class="component-panel"><h3>${esc(s.name)}</h3>${badge(s.provider.status)}<p>Checked ${esc(date(s.provider.checkedAt))}</p><ul>${s.provider.components.map(c=>`<li><span>${esc(c.name)}</span>${badge(view.stale?'unknown':c.status)}</li>`).join('')}</ul><div class="check-history" aria-label="Recent observed provider checks">${history.slice(-12).map(h=>{const state=h.services.find(x=>x?.id===s.id)?.status;return `<i data-state="${esc(labels[state]?state:'unknown')}" title="${esc(date(h.at))} · ${esc(labels[state]||'Unknown')}"></i>`;}).join('')}</div><p>${history.length} observed checks on this device. This is not a historical uptime measurement.</p></article>`).join('')||'<p class="ops-empty">No component feed could be read. Current component availability is unknown.</p>';
+  }
   function effective(data) {
     const stale=!Number.isFinite(Date.parse(data.generatedAt)) || Date.now()-Date.parse(data.generatedAt)>(data.staleAfterSeconds || 180)*1000;
     return {...data,services:data.services.map(s=>({...s,provider:{...s.provider,status:stale?'unknown':s.provider.status},connector:{...s.connector,status:stale && s.connector.status!=='not_connected'?'unknown':s.connector.status}})),ownServices:data.ownServices.map(s=>({...s,status:s.status==='not_connected'?'not_connected':stale || !['live','browser'].includes(mode)?'unknown':s.status})),stale};
@@ -16,6 +24,7 @@
   function renderStatus() {
     if(!catalog || !observation)return;
     const view=effective(observation), counts={provider:view.services.filter(s=>issues(s.provider.status)).length,ours:view.services.filter(s=>issues(s.connector.status)).length,pending:view.services.filter(s=>s.connector.status==='not_connected').length,unknown:view.services.filter(s=>s.provider.status==='unknown').length};
+    renderNetwork(view);
     $('#statusFreshness').textContent=`${mode==='live'?'Live monitor':mode==='browser'?'Live public feeds':'Saved observation'} · checked ${date(view.generatedAt)} · ${view.environment}`;
     $('.ops-own .ops-section-title>span').textContent=view.environment.toUpperCase();
     $('#statusNotice').textContent=['live','browser'].includes(mode) ? `${view.coverage.monitored} of ${view.coverage.total} services have readable provider feeds. Other provider states remain unknown. ${view.stale?'These observations are stale; current availability is unknown.':''}` : mode==='snapshot' ? `The live status API is unreachable from this browser. Showing a dated snapshot${view.stale?' with stale states marked unknown':''}. This does not establish a site-wide outage.` : 'The live API and saved observations are unavailable. Current service health is unknown.';
@@ -33,7 +42,7 @@
     }).join('') || '<p class="ops-empty">No services match this view.</p>';
     const root=$('#serviceRows');
     // A minute's refresh should not collapse the provider evidence someone is reading.
-    if(root.dataset.renderedMarkup!==markup){const open=new Set([...root.querySelectorAll('details[open]')].map(el=>el.closest('[data-service]').dataset.service));root.innerHTML=markup;root.dataset.renderedMarkup=markup;root.querySelectorAll('details').forEach(el=>{if(open.has(el.closest('[data-service]').dataset.service))el.open=true;});}
+    if(root.dataset.renderedMarkup!==markup){const open=new Set([...root.querySelectorAll('details[open]')].map(el=>el.closest('[data-service]').dataset.service));root.innerHTML=markup;root.dataset.renderedMarkup=markup;root.querySelectorAll('details').forEach(el=>{if(evidenceExpanded||open.has(el.closest('[data-service]').dataset.service))el.open=true;});}
   }
   function validStatus(data) { return data?.schemaVersion===1 && Array.isArray(data.services) && Array.isArray(data.ownServices) && data.coverage && data.services.every(s=>s.provider && s.connector && labels[s.provider.status] && labels[s.connector.status]); }
   async function refresh() {
@@ -43,6 +52,7 @@
     refreshing=false;button.disabled=false;button.textContent='REFRESH ↻';renderStatus();
   }
   function renderRoadmap() {
+    if(window.NUC_FLOWMAP){window.NUC_FLOWMAP.render(catalog,$('#roadmapFilter').value);return;}
     const focus=$('#roadmapFilter').value;
     const selected=catalog.phases.filter(p=>focus==='all' || focus==='access' && [3,4,5,6].includes(p.id) || focus==='chain' && [1,2].includes(p.id) || focus==='hosting' && [3,4].includes(p.id));
     $('#roadmapStages').innerHTML=selected.map(p=>{
@@ -55,6 +65,10 @@
     try{catalog=await read('data/services.json');if(!Array.isArray(catalog.services) || !Array.isArray(catalog.phases))throw new Error('schema');}
     catch{const el=$('#statusFreshness') || $('#roadmapStages');el.textContent='The service register could not be loaded. Please refresh or inspect the integration notes in the project vault.';return;}
     if($('#serviceRows')){
+      document.body.dataset.statusDensity='compact';
+      document.querySelectorAll('[data-status-density]').forEach(button=>button.addEventListener('click',()=>{document.body.dataset.statusDensity=button.dataset.statusDensity;document.querySelectorAll('[data-status-density]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));}));
+      $('#toggleStatusEvidence')?.addEventListener('click',event=>{evidenceExpanded=!evidenceExpanded;$('#serviceRows').querySelectorAll('details').forEach(d=>d.open=evidenceExpanded);event.currentTarget.setAttribute('aria-pressed',String(evidenceExpanded));event.currentTarget.textContent=evidenceExpanded?'COLLAPSE EVIDENCE ↗':'EXPAND EVIDENCE ↘';});
+      $('#statusScan')?.addEventListener('click',event=>{const button=event.target.closest('[data-inspect-service]');if(!button)return;$('#serviceSearch').value='';$('#statusFilter').value='all';renderStatus();const row=$(`[data-service="${button.dataset.inspectService}"]`);row?.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth',block:'center'});row?.setAttribute('tabindex','-1');row?.focus({preventScroll:true});});
       $('#serviceSearch').addEventListener('input',renderStatus);$('#statusFilter').addEventListener('change',renderStatus);$('#refreshStatus').addEventListener('click',refresh);await refresh();
       setInterval(()=>{if(!document.hidden)refresh()},60_000);
       document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh()});

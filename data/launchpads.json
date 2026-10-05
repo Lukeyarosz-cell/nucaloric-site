@@ -1,0 +1,205 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-10-05T18:12:42.931Z",
+  "sources": [
+    {
+      "id": "otc",
+      "name": "OTC Desks",
+      "url": "https://otcdesks.cash/explore",
+      "endpoint": "https://otcdesks.cash/api/coins",
+      "mode": "live-with-snapshot"
+    },
+    {
+      "id": "paid",
+      "name": "PAID",
+      "url": "https://usepaid.app/",
+      "mode": "verified-snapshot"
+    }
+  ],
+  "coins": [
+    {
+      "mint": "EseC6tvTtx8fdtq1KtGX55tSzVQgVyQ2UddcqtXwjva",
+      "name": "Doctor Inu",
+      "symbol": "DI",
+      "launchpad": "otc",
+      "sourceUrl": "https://otcdesks.cash/coin/EseC6tvTtx8fdtq1KtGX55tSzVQgVyQ2UddcqtXwjva"
+    },
+    {
+      "mint": "RDcTmwawXzWRfwQcHdkhwzfY47Lvc7qKbvFTVxHpump",
+      "name": "Slopcoin",
+      "symbol": "SLOP",
+      "launchpad": "otc",
+      "sourceUrl": "https://otcdesks.cash/coin/RDcTmwawXzWRfwQcHdkhwzfY47Lvc7qKbvFTVxHpump"
+    },
+    {
+      "mint": "BHFywtieUMw8nR8Kp2bQahS6H8c9eNo4dWZupFc96Rp7",
+      "name": "GRUMP",
+      "symbol": "GRUMP",
+      "launchpad": "otc",
+      "sourceUrl": "https://otcdesks.cash/coin/BHFywtieUMw8nR8Kp2bQahS6H8c9eNo4dWZupFc96Rp7"
+    },
+    {
+      "mint": "DYweyLVUd5HbDpzCz3G74G36BTQVXa9jvDBzcziHYdK",
+      "name": "Corps Lance Cpl. Bruno",
+      "symbol": "BRUNO",
+      "launchpad": "otc",
+      "sourceUrl": "https://otcdesks.cash/coin/DYweyLVUd5HbDpzCz3G74G36BTQVXa9jvDBzcziHYdK"
+    },
+    {
+      "mint": "4U4JmsjwKVLGN1zE1Uk1JVVEHvb5G9J2k9mYb15YjvS2",
+      "name": "Be Like Elon",
+      "symbol": "Elon",
+      "launchpad": "otc",
+      "sourceUrl": "https://otcdesks.cash/coin/4U4JmsjwKVLGN1zE1Uk1JVVEHvb5G9J2k9mYb15YjvS2"
+    },
+    {
+      "mint": "2YF2H8W7KNNTXbzutdZiJXsC1sRDzCZ1zGrTtghXpump",
+      "name": "SI coin",
+      "symbol": "SI",
+      "launchpad": "otc",
+      "sourceUrl": "https://otcdesks.cash/coin/2YF2H8W7KNNTXbzutdZiJXsC1sRDzCZ1zGrTtghXpump"
+    },
+    {
+      "mint": "5dj9syYRWv42SePaZnxbxSTPLVC3NZTAjxgsbHJepump",
+      "name": "Made With AI",
+      "symbol": "Ⓐⓘ",
+      "launchpad": "otc",
+      "sourceUrl": "https://otcdesks.cash/coin/5dj9syYRWv42SePaZnxbxSTPLVC3NZTAjxgsbHJepump"
+    },
+    {
+      "mint": "GhuKUDLJ71yTmSFXEAwmo5ZazHK9y4nsqwoKzja88Kie",
+      "name": "Pump is Life",
+      "symbol": "PUMPLIFE",
+      "launchpad": "otc",
+      "sourceUrl": "https://otcdesks.cash/coin/GhuKUDLJ71yTmSFXEAwmo5ZazHK9y4nsqwoKzja88Kie"
+    },
+    {
+      "mint": "AxFf8S39Pa6qme3bGfNBpFdhn3GJNYEkjNZia1Zp7ZE",
+      "name": "Pump is Life",
+      "symbol": "PUMPLIFE",
+      "launchpad": "otc",
+      "sourceUrl": "https://otcdesks.cash/coin/AxFf8S39Pa6qme3bGfNBpFdhn3GJNYEkjNZia1Zp7ZE"
+    },
+    {
+      "mint": "kqQAUHWMqwzvGJ9zDbt9j59QZKDvxUhfDp4EcJZpump",
+      "name": "Pump is Life",
+      "symbol": "PUMPLIFE",
+      "launchpad": "otc",
+      "sourceUrl": "https://otcdesks.cash/coin/kqQAUHWMqwzvGJ9zDbt9j59QZKDvxUhfDp4EcJZpump"
+    },
+    {
+      "mint": "2EJB1qKLtfmPzFgnNaXfGtipHxWso5U7yBfkNnwXdDTQ",
+      "name": "Pump is Life",
+      "symbol": "PUMPLIFE",
+      "launchpad": "otc",
+      "sourceUrl": "https://otcdesks.cash/coin/2EJB1qKLtfmPzFgnNaXfGtipHxWso5U7yBfkNnwXdDTQ"
+    },
+    {
+      "mint": "4i1MBL4EDDzwdmHhgKP9tqBM9RTNFGe2qvaTf5sGpump",
+      "name": "Pump is Life",
+      "symbol": "PUMPLIFE",
+      "launchpad": "otc",
+      "sourceUrl": "https://otcdesks.cash/coin/4i1MBL4EDDzwdmHhgKP9tqBM9RTNFGe2qvaTf5sGpump"
+    },
+    {
+      "mint": "CbcyNo7m1amFWqEQm2m4PLv1UNvpcL3C1Ujm6AkzpKoU",
+      "launchpad": "paid",
+      "sourceUrl": "https://usepaid.app/token/CbcyNo7m1amFWqEQm2m4PLv1UNvpcL3C1Ujm6AkzpKoU"
+    },
+    {
+      "mint": "8k4sBtEeK4pf26noKqApv8NBTnuSJcbdwpKYknk5PbAA",
+      "launchpad": "paid",
+      "sourceUrl": "https://usepaid.app/token/8k4sBtEeK4pf26noKqApv8NBTnuSJcbdwpKYknk5PbAA"
+    },
+    {
+      "mint": "EkFRff9a2jKztJHML1LG9FRmEkPJDR6XAYp3uCPdpump",
+      "launchpad": "paid",
+      "sourceUrl": "https://usepaid.app/token/EkFRff9a2jKztJHML1LG9FRmEkPJDR6XAYp3uCPdpump"
+    },
+    {
+      "mint": "GY9mZfyPpxXxBXBxS2hB2XjhP3kfUsywTvgveozxpump",
+      "launchpad": "paid",
+      "sourceUrl": "https://usepaid.app/token/GY9mZfyPpxXxBXBxS2hB2XjhP3kfUsywTvgveozxpump"
+    },
+    {
+      "mint": "CvUX4G2tzq7J3ECmNvWZLayZYV6KpgQp6SJ5K8Uvsu5g",
+      "launchpad": "paid",
+      "sourceUrl": "https://usepaid.app/token/CvUX4G2tzq7J3ECmNvWZLayZYV6KpgQp6SJ5K8Uvsu5g"
+    },
+    {
+      "mint": "Fj886GvHFyxQhunb4pw7WLRPRASNh25LT8Zpv8qqr3Ab",
+      "launchpad": "paid",
+      "sourceUrl": "https://usepaid.app/token/Fj886GvHFyxQhunb4pw7WLRPRASNh25LT8Zpv8qqr3Ab"
+    },
+    {
+      "mint": "FaL1PFQhNo4JAGaQKSnKurWeNtpexqEAduQjR4H6pump",
+      "launchpad": "paid",
+      "sourceUrl": "https://usepaid.app/token/FaL1PFQhNo4JAGaQKSnKurWeNtpexqEAduQjR4H6pump"
+    },
+    {
+      "mint": "5wW9mhbwq1HTFh341iimpmrqBB4mfxdXiYhdYBL7hUnp",
+      "launchpad": "paid",
+      "sourceUrl": "https://usepaid.app/token/5wW9mhbwq1HTFh341iimpmrqBB4mfxdXiYhdYBL7hUnp"
+    },
+    {
+      "mint": "DAemPFNc3RtibBDKkUA4eL2Ns11q9VRdbpptmqm8DGqN",
+      "launchpad": "paid",
+      "sourceUrl": "https://usepaid.app/token/DAemPFNc3RtibBDKkUA4eL2Ns11q9VRdbpptmqm8DGqN"
+    },
+    {
+      "mint": "D4SeBJ4Cra65HtQPiB4v9RgyqbMXXgXacZsefsb1pump",
+      "launchpad": "paid",
+      "sourceUrl": "https://usepaid.app/token/D4SeBJ4Cra65HtQPiB4v9RgyqbMXXgXacZsefsb1pump"
+    },
+    {
+      "mint": "J1yxV53EmVRmt9RUj6PPufMfdAYUbtgwXCuNYTBTsYzJ",
+      "launchpad": "paid",
+      "sourceUrl": "https://usepaid.app/token/J1yxV53EmVRmt9RUj6PPufMfdAYUbtgwXCuNYTBTsYzJ"
+    },
+    {
+      "mint": "HgoScXAo4zFv5kDb6axGrwuz95FaVEcLskyDVZfo297z",
+      "launchpad": "paid",
+      "sourceUrl": "https://usepaid.app/token/HgoScXAo4zFv5kDb6axGrwuz95FaVEcLskyDVZfo297z"
+    },
+    {
+      "mint": "CC5D6puFmcsnGaJh7kNXeAcRpL2SZzQfoQezvx45uKjt",
+      "launchpad": "paid",
+      "sourceUrl": "https://usepaid.app/token/CC5D6puFmcsnGaJh7kNXeAcRpL2SZzQfoQezvx45uKjt"
+    },
+    {
+      "mint": "EX3vJeVbHhD1tPUnm8zaeMtj9jvFPd3aSGfhShrmpump",
+      "launchpad": "paid",
+      "sourceUrl": "https://usepaid.app/token/EX3vJeVbHhD1tPUnm8zaeMtj9jvFPd3aSGfhShrmpump"
+    },
+    {
+      "mint": "9U1f18idDeySFnYrurxqT1f5n5nE4g4Uk5LLzP69bh1",
+      "launchpad": "paid",
+      "sourceUrl": "https://usepaid.app/token/9U1f18idDeySFnYrurxqT1f5n5nE4g4Uk5LLzP69bh1"
+    },
+    {
+      "mint": "FFPSq1ByV2XdPTj2UkSPRe14NoQydUkarBLeNfXd1gdj",
+      "launchpad": "paid",
+      "sourceUrl": "https://usepaid.app/token/FFPSq1ByV2XdPTj2UkSPRe14NoQydUkarBLeNfXd1gdj"
+    },
+    {
+      "mint": "A7iQ8N5jKDrg1YUxJ7v8aN5AtkwJaUTNhq1jZ8YLFrAJ",
+      "launchpad": "paid",
+      "sourceUrl": "https://usepaid.app/token/A7iQ8N5jKDrg1YUxJ7v8aN5AtkwJaUTNhq1jZ8YLFrAJ"
+    },
+    {
+      "mint": "FpK5hAznKm9MnkgievzLx8H4maM9EGvXGa1sJVHmpump",
+      "launchpad": "paid",
+      "sourceUrl": "https://usepaid.app/token/FpK5hAznKm9MnkgievzLx8H4maM9EGvXGa1sJVHmpump"
+    },
+    {
+      "mint": "7cXWSNTq71PZREBmGCBvZirkNwoGokWBQz9fWferViiV",
+      "launchpad": "paid",
+      "sourceUrl": "https://usepaid.app/token/7cXWSNTq71PZREBmGCBvZirkNwoGokWBQz9fWferViiV"
+    },
+    {
+      "mint": "7eJb35mrLTtg78XVTxX4xQcWeEGbvqCkAGHqwRSEN8vR",
+      "launchpad": "paid",
+      "sourceUrl": "https://usepaid.app/token/7eJb35mrLTtg78XVTxX4xQcWeEGbvqCkAGHqwRSEN8vR"
+    }
+  ]
+}
