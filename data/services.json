@@ -366,8 +366,8 @@
     {
       "id": 0,
       "title": "Foundation & visibility",
-      "state": "Available locally",
-      "description": "Project Studio, this status monitor, and the integration documentation are ready for review. Production hosting and independent monitoring remain open.",
+      "state": "Public frontend available",
+      "description": "The website is published with a working local project library, portable backups and milestone tracking. Read-only Solana pool search uses public market data. Official provider status feeds can be checked directly from the public site; backend connections remain unconfigured.",
       "gates": [
         "Deploy the monitor beside the website with HTTPS.",
         "Add an independent external uptime probe and alert owner.",

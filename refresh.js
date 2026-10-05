@@ -72,7 +72,7 @@
     storage.set('nucStudioKit', key);
   }
   if(form){
-    const draft=storage.get('nucProjectBrief',null);
+    const draft=window.NUC_PROJECTS?.active()?.draft || storage.get('nucProjectBrief',null);
     if(draft?.version===1&&draft.fields&&typeof draft.fields==='object'){
       for(const key of ['name','purpose','milestone','repo','demo'])if(typeof draft.fields[key]==='string')form.elements[key].value=draft.fields[key].slice(0,500);
       if(['web','dev','model'].includes(draft.fields.workload))form.elements.workload.value=draft.fields.workload;
@@ -85,7 +85,7 @@
     else if(!draft)selectKit(pendingKit||'creator');
     form.addEventListener('input',renderBrief);form.addEventListener('change',renderBrief);
     document.querySelectorAll('[data-studio-kit]').forEach(b=>b.addEventListener('click',()=>selectKit(b.dataset.studioKit)));
-    form.addEventListener('submit',e=>{e.preventDefault();if(!form.reportValidity())return;const ok=storage.set('nucProjectBrief',{version:1,kit:activeKit,fields:fields(),tools:shortlist,updatedAt:new Date().toISOString()});document.querySelector('#briefStatus').textContent=ok?'Brief saved on this device. Your next step is a working prototype.':'Your browser could not save this brief. Export a copy instead.';});
+    form.addEventListener('submit',e=>{e.preventDefault();if(!form.reportValidity())return;const draft={version:1,kit:activeKit,fields:fields(),tools:shortlist,updatedAt:new Date().toISOString()};const result=window.NUC_PROJECTS?.saveDraft(draft);if(result){if(result.ok)storage.set('nucProjectBrief',draft);document.querySelector('#briefStatus').textContent=result.ok?'Project saved on this device. Track its milestones in your library below.':result.error;}else{const ok=storage.set('nucProjectBrief',draft);document.querySelector('#briefStatus').textContent=ok?'Brief saved on this device.':'Your browser could not save this brief. Export a copy instead.';}});
     document.querySelector('#exportBrief').addEventListener('click',()=>{
       if(!form.reportValidity())return;const v=fields();const text=`# ${v.name}\n\n${v.purpose}\n\n## First milestone\n${v.milestone||'Not yet specified'}\n\n## Workspace\n${v.workload}\n\n## Capabilities\n${shortlist.map(n=>'- '+n).join('\n')||'Not yet selected'}\n\n## Project evidence (self-reported)\nRepository: ${v.repo||'Not added'}\nDemo: ${v.demo||'Not added'}\n\n## Proposed income allocation\nBuilders: ${v.builderSplit}%\nCommunity work: ${100-Number(v.builderSplit)}%\n\nPlanning only. No funds move, no returns are promised, and no evidence is independently verified.\n`;
       const url=URL.createObjectURL(new Blob([text],{type:'text/markdown'}));const link=document.createElement('a');link.href=url;link.download=(v.name.toLowerCase().replace(/[^a-z0-9]+/g,'-').slice(0,60)||'project')+'-brief.md';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);document.querySelector('#briefStatus').textContent='Brief exported. Keep building, and add your next proof of work.';
@@ -94,7 +94,7 @@
   updateShortlist();
 
   const accountCard=document.querySelector('.account-project-card');
-  if(accountCard){const draft=storage.get('nucProjectBrief',null);const panel=document.createElement('div');panel.className='dashboard-brief-summary';const label=document.createElement('span');label.textContent='PROJECT STUDIO';const title=document.createElement('strong');title.textContent=draft?.version===1&&typeof draft.fields?.name==='string'?draft.fields.name:'Give your idea a first milestone.';const link=document.createElement('a');link.href='studio.html#brief';link.textContent=draft?.version===1?'CONTINUE YOUR PROJECT BRIEF ↗':'MAKE A PROJECT BRIEF ↗';panel.append(label,title,link);accountCard.append(panel);}
+  if(accountCard){const draft=window.NUC_PROJECTS?.active()?.draft || storage.get('nucProjectBrief',null);const panel=document.createElement('div');panel.className='dashboard-brief-summary';const label=document.createElement('span');label.textContent='PROJECT STUDIO';const title=document.createElement('strong');title.textContent=draft?.version===1&&typeof draft.fields?.name==='string'?draft.fields.name:'Give your idea a first milestone.';const link=document.createElement('a');link.href='studio.html#brief';link.textContent=draft?.version===1?'CONTINUE YOUR PROJECT BRIEF ↗':'MAKE A PROJECT BRIEF ↗';panel.append(label,title,link);accountCard.append(panel);}
 
   // Dot topography replaces rotating sculptures and overlapping ambient effects.
   const reduce=matchMedia('(prefers-reduced-motion: reduce)');

@@ -26,7 +26,7 @@ $$('[data-transition]').forEach(link=>link.addEventListener('click',e=>{
 const modal=$('#walletModal');
 $$('[data-wallet]').forEach(b=>b.addEventListener('click',()=>{modal?.classList.add('open');modal?.setAttribute('aria-hidden','false');setTimeout(()=>$('button',modal||document)?.focus(),30)}));
 $$('[data-close-modal]').forEach(b=>b.addEventListener('click',()=>{modal?.classList.remove('open');modal?.setAttribute('aria-hidden','true')}));
-$$('.wallet-choice').forEach(b=>b.addEventListener('click',()=>{modal?.classList.remove('open');try{localStorage.setItem('nucWallet',b.dataset.name||'Phantom')}catch(e){};showToast(`${b.dataset.name} connected in prototype`);window.dispatchEvent(new Event('nucWalletChange'))}));
+$$('.wallet-choice').forEach(b=>b.addEventListener('click',()=>{modal?.classList.remove('open');showToast('Wallet connection is not enabled yet. See the implementation roadmap.')}));
 $$('[data-xpay]').forEach(b=>b.addEventListener('click',()=>navigateWithTransition('roadmap.html#phase-6')));
 
 /* logo fallback */
@@ -213,9 +213,11 @@ $('.command-btn')?.addEventListener('click',openCommand);commandOverlay.addEvent
 $('#commandSearch')?.addEventListener('input',e=>renderCommands(e.target.value));
 document.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();commandOverlay.classList.contains('open')?closeCommand():openCommand()}if(e.key==='Escape'){closeCommand();closeDrawers()}});
 
-function renderAccountWatchlist(){const root=$('#accountWatchlist');if(!root)return;const list=getWatchlist();root.innerHTML=list.length?list.slice(0,5).map(k=>{const d=coinData[k];return `<a class="drawer-watch-row" href="coin.html?coin=${k}" data-transition><img src="${tokenIcons[k]}" alt=""><span><b>${d.name}</b><small>${d.ticker} / SOL · AI ${d.score}</small></span><em>${d.move}</em></a>`}).join(''):'<div class="drawer-watch-row"><span><b>NO WATCHED COINS</b><small>Add one from Explore.</small></span></div>'}
+function getLiveWatchlist(){try{const value=JSON.parse(localStorage.getItem('nucLiveWatchlist')||'[]');return Array.isArray(value)?value.filter(p=>p&&/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(p.pair)&&typeof p.name==='string').slice(0,20):[]}catch{return []}}
+function appendLiveWatchlist(root,limit){for(const pool of getLiveWatchlist().slice(0,limit)){const link=document.createElement('a');link.className=root.id==='dashboardWatchlist'?'dash-watch-item':'drawer-watch-row';link.href='coin.html?pair='+encodeURIComponent(pool.pair);const text=document.createElement('span'),title=document.createElement('b'),label=document.createElement('small'),action=document.createElement('em');title.textContent=pool.name;label.textContent='SOLANA / SAVED LIVE POOL';action.textContent='OPEN ↗';text.append(title,label);link.append(text,action);root.append(link)}}
+function renderAccountWatchlist(){const root=$('#accountWatchlist');if(!root)return;root.replaceChildren();appendLiveWatchlist(root,5);if(!root.children.length){const message=document.createElement('div');message.className='drawer-watch-row';message.textContent='Save a live pool from Explore to follow it here.';root.append(message)}}
 renderAccountWatchlist();
-function updateWalletUI(){let w='';try{w=localStorage.getItem('nucWallet')||''}catch(e){};const btn=$('.wallet-btn');if(btn&&w){btn.textContent='0X71…D2';btn.classList.add('connected')}const label=$('#accountWalletLabel');if(label)label.textContent=w?`${w.toUpperCase()} / 0X71…D2`:'DEMO WALLET'}
+function updateWalletUI(){const btn=$('.wallet-btn');if(btn){btn.textContent='CONNECT';btn.classList.remove('connected')}const label=$('#accountWalletLabel');if(label)label.textContent='WALLET NOT CONNECTED'}
 updateWalletUI();addEventListener('nucWalletChange',updateWalletUI);
 
 /* Explore product behavior: watchlist, quick view, compare, sort, compact mode */
@@ -255,7 +257,7 @@ function drawHolderMap(){const c=$('#holderMatrixCanvas');if(!c)return;const ctx
 drawHolderMap();
 
 /* dashboard */
-function renderDashboardWatchlist(){const root=$('#dashboardWatchlist');if(!root)return;const list=getWatchlist();$('#dashboardWatchCount')&&($('#dashboardWatchCount').textContent=list.length);root.innerHTML=list.slice(0,3).map(k=>{const d=coinData[k];return `<a class="dash-watch-item" href="coin.html?coin=${k}" data-transition><img src="${tokenIcons[k]}" alt=""><span><b>${d.name}</b><small>${d.ticker} · AI ${d.score}</small></span><em>${d.move}</em></a>`}).join('')||'<div class="watchlist-empty"><b>Your watchlist starts here.</b><p>Save coins from Explore to follow them here.</p><a href="explorer.html">EXPLORE COINS ↗</a></div>'}
+function renderDashboardWatchlist(){const root=$('#dashboardWatchlist');if(!root)return;const list=getLiveWatchlist();$('#dashboardWatchCount')&&($('#dashboardWatchCount').textContent=list.length);root.replaceChildren();appendLiveWatchlist(root,3);if(!list.length)root.innerHTML='<div class="watchlist-empty"><b>Your watchlist starts here.</b><p>Save live Solana pools from Explore to follow them here.</p><a href="explorer.html">EXPLORE POOLS ↗</a></div>'}
 renderDashboardWatchlist();
 $$('.claim-stack button').forEach(b=>b.addEventListener('click',()=>{b.textContent='CLAIMED ✓';b.disabled=true;showToast('Reward marked claimed in prototype')}));
 
@@ -345,3 +347,6 @@ function syncRegistryCategory(){const labels={all:'The complete toolset.',observ
 if($('#registrySearch')){$$('[data-reg-category]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();registryCategory=a.dataset.regCategory;syncRegistryCategory();$('#registrySearch').dispatchEvent(new Event('input'));history.replaceState(null,'',registryCategory==='all'?'#capabilityBrowser':`#${registryCategory}`);if(matchMedia('(max-width:760px)').matches)a.scrollIntoView({block:'nearest',inline:'nearest'})}));const selected=location.hash.slice(1);if($(`[data-reg-category="${CSS.escape(selected)}"]`)){registryCategory=selected;syncRegistryCategory();$('#registrySearch').dispatchEvent(new Event('input'))}else syncRegistryCategory()}
 
 if($('#registrySearch'))window.addEventListener('hashchange',()=>{const category=location.hash.slice(1);registryCategory=$(`[data-reg-category="${CSS.escape(category)}"]`)?category:'all';syncRegistryCategory();$('#registrySearch').dispatchEvent(new Event('input'))});
+
+addEventListener('nucLiveWatchChange',()=>{renderAccountWatchlist();renderDashboardWatchlist()});
+addEventListener('storage',event=>{if(event.key==='nucLiveWatchlist'){renderAccountWatchlist();renderDashboardWatchlist()}});
