@@ -28,7 +28,8 @@
       },
       "sources": [
         "https://solana.com/docs/rpc"
-      ]
+      ],
+      "logo": "assets/partners/solana.svg"
     },
     {
       "id": "helius",
@@ -46,7 +47,8 @@
       "statusSource": null,
       "sources": [
         "https://www.helius.dev/docs"
-      ]
+      ],
+      "logo": "assets/partners/helius.ico"
     },
     {
       "id": "phantom",
@@ -64,7 +66,8 @@
       "statusSource": null,
       "sources": [
         "https://docs.phantom.com/solana/integrating-phantom"
-      ]
+      ],
+      "logo": "assets/partners/phantom.svg"
     },
     {
       "id": "solflare",
@@ -82,7 +85,8 @@
       "statusSource": null,
       "sources": [
         "https://docs.solflare.com/"
-      ]
+      ],
+      "logo": "assets/partners/solflare.ico"
     },
     {
       "id": "backpack",
@@ -100,7 +104,8 @@
       "statusSource": null,
       "sources": [
         "https://docs.backpack.app/"
-      ]
+      ],
+      "logo": "assets/partners/backpack.ico"
     },
     {
       "id": "meteora",
@@ -121,7 +126,8 @@
       "sources": [
         "https://docs.meteora.ag/get-started",
         "https://github.com/MeteoraAg/dynamic-bonding-curve-sdk/blob/main/README.md"
-      ]
+      ],
+      "logo": "assets/partners/meteora.svg"
     },
     {
       "id": "jupiter",
@@ -152,7 +158,8 @@
       "sources": [
         "https://developers.jup.ag/docs/get-started",
         "https://developers.jup.ag/changelog/developer-platform"
-      ]
+      ],
+      "logo": "assets/partners/jupiter.ico"
     },
     {
       "id": "raydium",
@@ -171,7 +178,8 @@
       "statusSource": null,
       "sources": [
         "https://docs.raydium.io/"
-      ]
+      ],
+      "logo": "assets/partners/raydium.ico"
     },
     {
       "id": "birdeye",
@@ -189,7 +197,8 @@
       "statusSource": null,
       "sources": [
         "https://docs.birdeye.so/"
-      ]
+      ],
+      "logo": "assets/partners/birdeye.png"
     },
     {
       "id": "paymenter",
@@ -208,7 +217,8 @@
         "https://paymenter.org/docs/guides/servers/",
         "https://paymenter.org/docs/guides/gateways/",
         "https://paymenter.org/development/extensions/server"
-      ]
+      ],
+      "logo": "assets/partners/paymenter.svg"
     },
     {
       "id": "openai",
@@ -238,7 +248,8 @@
       },
       "sources": [
         "https://developers.openai.com/api/reference/overview"
-      ]
+      ],
+      "logo": "assets/partners/openai.svg"
     },
     {
       "id": "claude",
@@ -263,7 +274,8 @@
       },
       "sources": [
         "https://platform.claude.com/docs/en/api/overview"
-      ]
+      ],
+      "logo": "assets/partners/claude.svg"
     },
     {
       "id": "gemini",
@@ -281,7 +293,8 @@
       "statusSource": null,
       "sources": [
         "https://ai.google.dev/gemini-api/docs/api-key"
-      ]
+      ],
+      "logo": "assets/partners/gemini-color.svg"
     },
     {
       "id": "grok",
@@ -299,7 +312,8 @@
       "statusSource": null,
       "sources": [
         "https://docs.x.ai/overview"
-      ]
+      ],
+      "logo": "assets/partners/grok.svg"
     },
     {
       "id": "x-social",
@@ -316,7 +330,8 @@
       "sources": [
         "https://docs.x.com/fundamentals/authentication/overview",
         "https://docs.x.com/tools-and-libraries"
-      ]
+      ],
+      "logo": "assets/partners/x.svg"
     },
     {
       "id": "x-money",
@@ -334,7 +349,8 @@
       "statusSource": null,
       "sources": [
         "https://money.x.com/en"
-      ]
+      ],
+      "logo": "assets/partners/x.svg"
     },
     {
       "id": "github",
@@ -359,7 +375,192 @@
       },
       "sources": [
         "https://docs.github.com/en/rest/quickstart"
-      ]
+      ],
+      "logo": "assets/partners/github.svg"
+    },
+    {
+      "id": "cloudflare",
+      "name": "Cloudflare",
+      "category": "Network & access",
+      "phase": 3,
+      "docs": "https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/",
+      "access": "Account, domain and an owner-configured Tunnel/Access policy; credentials remain on the machine or backend.",
+      "role": "Planned DNS, protected tunnels, edge delivery and storage options for developer projects.",
+      "gate": "Verify domain ownership, access policy, tunnel health and revocation before attaching a project.",
+      "dependencies": [],
+      "connector": "not_connected",
+      "statusSource": {
+        "url": "https://www.cloudflarestatus.com/api/v2/summary.json",
+        "page": "https://www.cloudflarestatus.com",
+        "kind": "statuspage",
+        "components": [
+          "Tunnel",
+          "Access",
+          "Authoritative DNS",
+          "Workers",
+          "R2"
+        ]
+      },
+      "sources": [
+        "https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/"
+      ],
+      "logo": "assets/partners/cloudflare.svg"
+    },
+    {
+      "id": "docker",
+      "name": "Docker",
+      "category": "Self-hosting",
+      "phase": 3,
+      "docs": "https://docs.docker.com/engine/install/",
+      "access": "An owner-managed Linux machine and a supported container engine installation.",
+      "role": "Planned isolated app containers on a personal PC, Raspberry Pi or managed server.",
+      "gate": "Review image architecture, resource limits, non-root permissions, persistent data and restart behavior.",
+      "dependencies": [],
+      "connector": "not_connected",
+      "statusSource": null,
+      "sources": [
+        "https://docs.docker.com/engine/install/"
+      ],
+      "logo": "assets/partners/docker.svg"
+    },
+    {
+      "id": "tailscale",
+      "name": "Tailscale",
+      "category": "Network & access",
+      "phase": 3,
+      "docs": "https://tailscale.com/docs/how-to/quickstart",
+      "access": "An owner-controlled tailnet, enrolled devices and reviewed access policies.",
+      "role": "Planned private network access to a developer-owned machine.",
+      "gate": "Verify device ownership, least-privilege policy, service reachability and device removal.",
+      "dependencies": [],
+      "connector": "not_connected",
+      "statusSource": {
+        "url": "https://status.tailscale.com/api/v2/summary.json",
+        "page": "https://status.tailscale.com",
+        "kind": "statuspage",
+        "components": [
+          "Coordination service",
+          "DERP relay servers",
+          "API (api.tailscale.com)"
+        ]
+      },
+      "sources": [
+        "https://tailscale.com/docs/how-to/quickstart"
+      ],
+      "logo": "assets/partners/tailscale.svg"
+    },
+    {
+      "id": "raspberrypi",
+      "name": "Raspberry Pi",
+      "category": "Self-hosting",
+      "phase": 3,
+      "docs": "https://www.raspberrypi.com/documentation/computers/remote-access.html",
+      "access": "A developer-owned Raspberry Pi, compatible OS, storage and network connection.",
+      "role": "Planned lightweight ARM workspace on your own hardware.",
+      "gate": "Verify OS/ARM compatibility, resources, explicit enrollment and device heartbeat; a brand status page cannot establish your hardware uptime.",
+      "dependencies": [],
+      "connector": "not_connected",
+      "statusSource": null,
+      "sources": [
+        "https://www.raspberrypi.com/documentation/computers/remote-access.html"
+      ],
+      "logo": "assets/partners/raspberrypi.svg"
+    },
+    {
+      "id": "supabase",
+      "name": "Supabase",
+      "category": "Data & authentication",
+      "phase": 1,
+      "docs": "https://supabase.com/docs",
+      "access": "A project with reviewed authentication, database policies and server-side credentials.",
+      "role": "Planned project identity, database, storage and application data.",
+      "gate": "Test row-level policies, tenant boundaries, backups and key handling before storing project data.",
+      "dependencies": [],
+      "connector": "not_connected",
+      "statusSource": {
+        "url": "https://status.supabase.com/api/v2/summary.json",
+        "page": "https://status.supabase.com",
+        "kind": "statuspage",
+        "components": [
+          "Auth",
+          "Database",
+          "Storage",
+          "API Gateway"
+        ]
+      },
+      "sources": [
+        "https://supabase.com/docs"
+      ],
+      "logo": "assets/partners/supabase.svg"
+    },
+    {
+      "id": "vercel",
+      "name": "Vercel",
+      "category": "Deployment",
+      "phase": 3,
+      "docs": "https://vercel.com/docs",
+      "access": "An authorized project, repository connection and reviewed build configuration.",
+      "role": "Planned app deployment with project previews and build evidence.",
+      "gate": "Check repository ownership, build results, environment separation and rollback.",
+      "dependencies": [],
+      "connector": "not_connected",
+      "statusSource": {
+        "url": "https://www.vercel-status.com/api/v2/summary.json",
+        "page": "https://www.vercel-status.com",
+        "kind": "statuspage",
+        "components": [
+          "API",
+          "Build & Deploy",
+          "CDN"
+        ]
+      },
+      "sources": [
+        "https://vercel.com/docs"
+      ],
+      "logo": "assets/partners/vercel.svg"
+    },
+    {
+      "id": "netlify",
+      "name": "Netlify",
+      "category": "Deployment",
+      "phase": 3,
+      "docs": "https://docs.netlify.com/",
+      "access": "An authorized site, repository connection and reviewed deployment settings.",
+      "role": "Planned website delivery and deployment previews.",
+      "gate": "Check repository ownership, deployment evidence, environment settings and rollback.",
+      "dependencies": [],
+      "connector": "not_connected",
+      "statusSource": {
+        "url": "https://www.netlifystatus.com/api/v2/summary.json",
+        "page": "https://www.netlifystatus.com",
+        "kind": "statuspage",
+        "components": [
+          "API",
+          "Build Pipeline",
+          "Standard Edge Network"
+        ]
+      },
+      "sources": [
+        "https://docs.netlify.com/"
+      ],
+      "logo": "assets/partners/netlify.svg"
+    },
+    {
+      "id": "postgresql",
+      "name": "PostgreSQL",
+      "category": "Data & authentication",
+      "phase": 3,
+      "docs": "https://www.postgresql.org/docs/current/index.html",
+      "access": "An owner-managed database with a restricted application role and tested backups.",
+      "role": "Planned durable project data on managed or developer-owned infrastructure.",
+      "gate": "Test access isolation, migrations, backups and recovery; local database health needs an owner-specific probe.",
+      "dependencies": [],
+      "connector": "not_connected",
+      "statusSource": null,
+      "sources": [
+        "https://www.postgresql.org/docs/current/index.html"
+      ],
+      "logo": "assets/partners/postgresql.svg"
     }
   ],
   "phases": [
@@ -398,13 +599,13 @@
     },
     {
       "id": 3,
-      "title": "Billing & workspaces",
-      "state": "Needs portal access",
-      "description": "Connect the self-hosted Paymenter portal to paid, isolated workspaces.",
+      "title": "Hosting & your own hardware",
+      "state": "Planning available",
+      "description": "Choose a managed Paymenter workspace or plan a connection to your own Linux PC / Raspberry Pi. Local plans work today; machine enrollment and remote execution are future work.",
       "gates": [
-        "Deploy Paymenter and configure server-side API credentials.",
-        "Reconcile orders, payments, provisioned services, and suspension.",
-        "Authorize terminal sessions only for the correct active service owner."
+        "Connect Paymenter checkout and service ownership for the managed path.",
+        "Build explicit machine enrollment, identity, revocation and an outbound authenticated bridge for the own-hardware path.",
+        "Verify architecture, access policies, heartbeat and isolated workloads before enabling terminal access."
       ]
     },
     {

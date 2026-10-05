@@ -63,5 +63,58 @@
     "claude": "orange vector",
     "x": "light mark for dark surface",
     "grok": "light mark for dark surface"
+  },
+  "github": {
+    "file": "github.svg",
+    "source": "https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/github.svg"
+  },
+  "cloudflare": {
+    "file": "cloudflare.svg",
+    "source": "https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/cloudflare.svg"
+  },
+  "docker": {
+    "file": "docker.svg",
+    "source": "https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/docker.svg"
+  },
+  "tailscale": {
+    "file": "tailscale.svg",
+    "source": "https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/tailscale.svg"
+  },
+  "raspberrypi": {
+    "file": "raspberrypi.svg",
+    "source": "https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/raspberrypi.svg"
+  },
+  "supabase": {
+    "file": "supabase.svg",
+    "source": "https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/supabase.svg"
+  },
+  "vercel": {
+    "file": "vercel.svg",
+    "source": "https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/vercel.svg"
+  },
+  "netlify": {
+    "file": "netlify.svg",
+    "source": "https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/netlify.svg"
+  },
+  "postgresql": {
+    "file": "postgresql.svg",
+    "source": "https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/postgresql.svg"
+  },
+  "paymenter": {
+    "file": "paymenter.svg",
+    "source": "https://paymenter.org/symbol-negative.svg",
+    "guidelines": "https://paymenter.org/brand/"
+  },
+  "paid": {
+    "file": "paid.ico",
+    "source": "https://usepaid.app/favicon.ico"
+  },
+  "pump": {
+    "file": "pump.ico",
+    "source": "https://pump.fun/favicon.ico"
+  },
+  "otc": {
+    "file": "otc.svg",
+    "source": "https://otcdesks.cash/otc-icon.svg"
   }
 }

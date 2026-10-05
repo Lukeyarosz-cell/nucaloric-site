@@ -42,7 +42,7 @@ async function collect(catalog) {
  return {schemaVersion:1,generatedAt:at,staleAfterSeconds:180,environment:'Public provider checks',mode:'browser',coverage:{monitored,total:services.length},ownServices:[
  {id:'web',name:'Website in this browser',status:'operational',reason:'Website files and service catalog loaded successfully in this browser.',checkedAt:at},
  {id:'collector',name:'Public provider checks',status:failed?'degraded':'operational',reason:`${monitored} feeds read; ${failed} feeds could not be read. Unreadable feeds have unknown availability.`,checkedAt:at},
- ...[{id:'project-api',name:'Project API & identity'},{id:'workspace-provisioner',name:'Workspace provisioner'},{id:'terminal-gateway',name:'Terminal gateway'},{id:'ai-gateway',name:'AI gateway'}].map(s=>({...s,status:'not_connected',reason:'Backend component is not deployed or monitored.',checkedAt:null}))
+ ...[{id:'project-api',name:'Project API & identity'},{id:'workspace-provisioner',name:'Workspace provisioner'},{id:'terminal-gateway',name:'Terminal gateway'},{id:'ai-gateway',name:'AI gateway'},{id:'machine-bridge',name:'Own-hardware bridge'}].map(s=>({...s,status:'not_connected',reason:'Backend component is not deployed or monitored.',checkedAt:null}))
  ],services};
 }
 return {parseProvider,collect};

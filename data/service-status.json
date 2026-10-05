@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-05T15:23:42.872Z",
+  "generatedAt": "2026-10-05T19:42:11.811Z",
   "staleAfterSeconds": 180,
   "environment": "Local preview monitor",
   "mode": "snapshot",
   "coverage": {
-    "monitored": 5,
-    "total": 17
+    "monitored": 9,
+    "total": 25
   },
   "ownServices": [
     {
@@ -14,14 +14,14 @@
       "name": "Website / monitor server",
       "status": "unknown",
       "reason": "Saved observation; current server health requires the live API.",
-      "checkedAt": "2026-10-05T15:23:42.872Z"
+      "checkedAt": "2026-10-05T19:42:11.811Z"
     },
     {
       "id": "collector",
       "name": "Provider status collector",
       "status": "unknown",
       "reason": "Saved observation; current server health requires the live API.",
-      "checkedAt": "2026-10-05T15:23:42.872Z"
+      "checkedAt": "2026-10-05T19:42:11.811Z"
     },
     {
       "id": "project-api",
@@ -47,6 +47,13 @@
     {
       "id": "ai-gateway",
       "name": "AI gateway",
+      "status": "not_connected",
+      "reason": "Backend component is not deployed or monitored.",
+      "checkedAt": null
+    },
+    {
+      "id": "machine-bridge",
+      "name": "Own-hardware bridge",
       "status": "not_connected",
       "reason": "Backend component is not deployed or monitored.",
       "checkedAt": null
@@ -83,8 +90,8 @@
         ],
         "incidents": [],
         "providerSummary": "All Systems Operational",
-        "providerUpdatedAt": "2026-10-05T15:00:03.799Z",
-        "checkedAt": "2026-10-05T15:23:42.577Z",
+        "providerUpdatedAt": "2026-10-05T19:14:33.200Z",
+        "checkedAt": "2026-10-05T19:42:11.437Z",
         "reason": "provider_report",
         "source": "https://status.solana.com"
       },
@@ -214,8 +221,8 @@
         ],
         "incidents": [],
         "providerSummary": "operational",
-        "providerUpdatedAt": "2026-10-05T15:18:09.165Z",
-        "checkedAt": "2026-10-05T15:23:42.872Z",
+        "providerUpdatedAt": "2026-10-05T19:18:09.596Z",
+        "checkedAt": "2026-10-05T19:42:11.811Z",
         "reason": "provider_report",
         "source": "https://status.jup.ag"
       },
@@ -313,6 +320,27 @@
         ],
         "incidents": [
           {
+            "name": "Admin Console Intermittently Inaccessible",
+            "state": "monitoring",
+            "url": "https://status.openai.com",
+            "updatedAt": "2026-10-05T19:33:08Z",
+            "scope": "unconfirmed"
+          },
+          {
+            "name": "Elevated error rates in Codex Cloud",
+            "state": "monitoring",
+            "url": "https://status.openai.com",
+            "updatedAt": "2026-10-05T18:07:03Z",
+            "scope": "unconfirmed"
+          },
+          {
+            "name": "Elevated errors in ChatGPT conversations",
+            "state": "monitoring",
+            "url": "https://status.openai.com",
+            "updatedAt": "2026-10-05T17:55:04Z",
+            "scope": "unconfirmed"
+          },
+          {
             "name": "Elevated Work Mode errors",
             "state": "monitoring",
             "url": "https://status.openai.com",
@@ -321,8 +349,8 @@
           }
         ],
         "providerSummary": "Partial System Degradation",
-        "providerUpdatedAt": "2026-10-05T09:50:38Z",
-        "checkedAt": "2026-10-05T15:23:42.707Z",
+        "providerUpdatedAt": "2026-10-05T19:33:07Z",
+        "checkedAt": "2026-10-05T19:42:11.559Z",
         "reason": "provider_report",
         "source": "https://status.openai.com"
       },
@@ -346,8 +374,8 @@
         ],
         "incidents": [],
         "providerSummary": "All Systems Operational",
-        "providerUpdatedAt": "2026-10-05T15:00:43.300Z",
-        "checkedAt": "2026-10-05T15:23:42.577Z",
+        "providerUpdatedAt": "2026-10-05T19:14:47.468Z",
+        "checkedAt": "2026-10-05T19:42:11.438Z",
         "reason": "provider_report",
         "source": "https://status.claude.com"
       },
@@ -449,12 +477,273 @@
             "status": "operational"
           }
         ],
-        "incidents": [],
-        "providerSummary": "All Systems Operational",
-        "providerUpdatedAt": "2026-10-05T14:59:19.259Z",
-        "checkedAt": "2026-10-05T15:23:42.577Z",
+        "incidents": [
+          {
+            "name": "Incident with Actions",
+            "state": "investigating",
+            "url": "https://www.githubstatus.com",
+            "updatedAt": "2026-10-05T19:15:17.488Z",
+            "scope": "other"
+          }
+        ],
+        "providerSummary": "Partially Degraded Service",
+        "providerUpdatedAt": "2026-10-05T19:21:40.297Z",
+        "checkedAt": "2026-10-05T19:42:11.452Z",
         "reason": "provider_report",
         "source": "https://www.githubstatus.com"
+      },
+      "connector": {
+        "status": "not_connected",
+        "reason": "not_configured",
+        "checkedAt": null
+      }
+    },
+    {
+      "id": "cloudflare",
+      "name": "Cloudflare",
+      "category": "Network & access",
+      "provider": {
+        "status": "degraded",
+        "components": [
+          {
+            "name": "Tunnel",
+            "status": "operational"
+          },
+          {
+            "name": "Access",
+            "status": "operational"
+          },
+          {
+            "name": "Authoritative DNS",
+            "status": "operational"
+          },
+          {
+            "name": "Workers",
+            "status": "operational"
+          },
+          {
+            "name": "R2",
+            "status": "degraded"
+          }
+        ],
+        "incidents": [
+          {
+            "name": "Durable Objects Availability Issue in Eastern North America",
+            "state": "monitoring",
+            "url": "https://www.cloudflarestatus.com",
+            "updatedAt": "2026-10-05T17:53:19.000Z",
+            "scope": "selected"
+          },
+          {
+            "name": "API Shield JWT Validation Errors",
+            "state": "identified",
+            "url": "https://www.cloudflarestatus.com",
+            "updatedAt": "2026-10-05T11:24:33.000Z",
+            "scope": "other"
+          },
+          {
+            "name": "Cloudflare One Clients are incorrectly challenged on some sites",
+            "state": "identified",
+            "url": "https://www.cloudflarestatus.com",
+            "updatedAt": "2026-09-23T11:02:41.000Z",
+            "scope": "other"
+          },
+          {
+            "name": "Incorrect geo location for some Cloudflare WARP users",
+            "state": "identified",
+            "url": "https://www.cloudflarestatus.com",
+            "updatedAt": "2026-09-01T08:29:56.000Z",
+            "scope": "other"
+          }
+        ],
+        "providerSummary": "Partial System Outage",
+        "providerUpdatedAt": "2026-08-27T00:00:00.000Z",
+        "checkedAt": "2026-10-05T19:42:11.526Z",
+        "reason": "provider_report",
+        "source": "https://www.cloudflarestatus.com"
+      },
+      "connector": {
+        "status": "not_connected",
+        "reason": "not_configured",
+        "checkedAt": null
+      }
+    },
+    {
+      "id": "docker",
+      "name": "Docker",
+      "category": "Self-hosting",
+      "provider": {
+        "status": "unknown",
+        "checkedAt": null,
+        "reason": "no_verified_feed",
+        "source": null,
+        "components": [],
+        "incidents": []
+      },
+      "connector": {
+        "status": "not_connected",
+        "reason": "not_configured",
+        "checkedAt": null
+      }
+    },
+    {
+      "id": "tailscale",
+      "name": "Tailscale",
+      "category": "Network & access",
+      "provider": {
+        "status": "unknown",
+        "checkedAt": "2026-10-05T19:42:11.598Z",
+        "reason": "feed_unavailable",
+        "source": "https://status.tailscale.com",
+        "components": [],
+        "incidents": []
+      },
+      "connector": {
+        "status": "not_connected",
+        "reason": "not_configured",
+        "checkedAt": null
+      }
+    },
+    {
+      "id": "raspberrypi",
+      "name": "Raspberry Pi",
+      "category": "Self-hosting",
+      "provider": {
+        "status": "unknown",
+        "checkedAt": null,
+        "reason": "no_verified_feed",
+        "source": null,
+        "components": [],
+        "incidents": []
+      },
+      "connector": {
+        "status": "not_connected",
+        "reason": "not_configured",
+        "checkedAt": null
+      }
+    },
+    {
+      "id": "supabase",
+      "name": "Supabase",
+      "category": "Data & authentication",
+      "provider": {
+        "status": "degraded",
+        "components": [
+          {
+            "name": "Auth",
+            "status": "operational"
+          },
+          {
+            "name": "Database",
+            "status": "operational"
+          },
+          {
+            "name": "Storage",
+            "status": "operational"
+          },
+          {
+            "name": "API Gateway",
+            "status": "operational"
+          }
+        ],
+        "incidents": [
+          {
+            "name": "Intermittent latency in Eastern US",
+            "state": "monitoring",
+            "url": "https://status.supabase.com",
+            "updatedAt": "2026-10-05T18:45:47.730Z",
+            "scope": "selected"
+          }
+        ],
+        "providerSummary": "All Systems Operational",
+        "providerUpdatedAt": "2026-10-05T19:14:31.893Z",
+        "checkedAt": "2026-10-05T19:42:11.476Z",
+        "reason": "provider_report",
+        "source": "https://status.supabase.com"
+      },
+      "connector": {
+        "status": "not_connected",
+        "reason": "not_configured",
+        "checkedAt": null
+      }
+    },
+    {
+      "id": "vercel",
+      "name": "Vercel",
+      "category": "Deployment",
+      "provider": {
+        "status": "operational",
+        "components": [
+          {
+            "name": "API",
+            "status": "operational"
+          },
+          {
+            "name": "Build & Deploy",
+            "status": "operational"
+          },
+          {
+            "name": "CDN",
+            "status": "operational"
+          }
+        ],
+        "incidents": [],
+        "providerSummary": "All Systems Operational",
+        "providerUpdatedAt": "2026-10-05T19:14:23.176Z",
+        "checkedAt": "2026-10-05T19:42:11.493Z",
+        "reason": "provider_report",
+        "source": "https://www.vercel-status.com"
+      },
+      "connector": {
+        "status": "not_connected",
+        "reason": "not_configured",
+        "checkedAt": null
+      }
+    },
+    {
+      "id": "netlify",
+      "name": "Netlify",
+      "category": "Deployment",
+      "provider": {
+        "status": "operational",
+        "components": [
+          {
+            "name": "API",
+            "status": "operational"
+          },
+          {
+            "name": "Build Pipeline",
+            "status": "operational"
+          },
+          {
+            "name": "Standard Edge Network",
+            "status": "operational"
+          }
+        ],
+        "incidents": [],
+        "providerSummary": "All Systems Operational",
+        "providerUpdatedAt": "2026-10-05T18:19:30.063Z",
+        "checkedAt": "2026-10-05T19:42:11.492Z",
+        "reason": "provider_report",
+        "source": "https://www.netlifystatus.com"
+      },
+      "connector": {
+        "status": "not_connected",
+        "reason": "not_configured",
+        "checkedAt": null
+      }
+    },
+    {
+      "id": "postgresql",
+      "name": "PostgreSQL",
+      "category": "Data & authentication",
+      "provider": {
+        "status": "unknown",
+        "checkedAt": null,
+        "reason": "no_verified_feed",
+        "source": null,
+        "components": [],
+        "incidents": []
       },
       "connector": {
         "status": "not_connected",
