@@ -14,3 +14,5 @@
 /* Keep the responsive canvas out of intrinsic grid sizing to prevent resize growth. */
 .explorer-refined .terminal-market{position:relative;grid-template-rows:auto 1fr auto;height:300px;overflow:hidden}.explorer-refined #explorePulseCanvas{position:absolute;left:0;top:0;width:100%;height:100%;z-index:0;pointer-events:none}.explorer-refined .terminal-market>.terminal-label,.explorer-refined .terminal-market>.terminal-foot{position:relative;z-index:1}.explorer-refined .terminal-market>.terminal-foot{grid-row:3}
 @media(max-width:759px){.explorer-refined .terminal-market{height:260px}}
+.explorer-refined .terminal-queue{display:flex;flex-direction:column;gap:16px}.explorer-refined #explorePoolQueue{display:grid;gap:9px;align-content:start}.explorer-refined .queue-row{min-height:46px;padding:12px 14px}.explorer-refined .terminal-stat.pink b{color:#e7b5c4!important}
+@media(max-width:759px){.explorer-refined .terminal-stack{grid-template-rows:auto auto}.explorer-refined .queue-row{min-height:48px}}
