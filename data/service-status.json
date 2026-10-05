@@ -1,0 +1,466 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-05T15:23:42.872Z",
+  "staleAfterSeconds": 180,
+  "environment": "Local preview monitor",
+  "mode": "snapshot",
+  "coverage": {
+    "monitored": 5,
+    "total": 17
+  },
+  "ownServices": [
+    {
+      "id": "web",
+      "name": "Website / monitor server",
+      "status": "unknown",
+      "reason": "Saved observation; current server health requires the live API.",
+      "checkedAt": "2026-10-05T15:23:42.872Z"
+    },
+    {
+      "id": "collector",
+      "name": "Provider status collector",
+      "status": "unknown",
+      "reason": "Saved observation; current server health requires the live API.",
+      "checkedAt": "2026-10-05T15:23:42.872Z"
+    },
+    {
+      "id": "project-api",
+      "name": "Project API & identity",
+      "status": "not_connected",
+      "reason": "Backend component is not deployed or monitored.",
+      "checkedAt": null
+    },
+    {
+      "id": "workspace-provisioner",
+      "name": "Workspace provisioner",
+      "status": "not_connected",
+      "reason": "Backend component is not deployed or monitored.",
+      "checkedAt": null
+    },
+    {
+      "id": "terminal-gateway",
+      "name": "Terminal gateway",
+      "status": "not_connected",
+      "reason": "Backend component is not deployed or monitored.",
+      "checkedAt": null
+    },
+    {
+      "id": "ai-gateway",
+      "name": "AI gateway",
+      "status": "not_connected",
+      "reason": "Backend component is not deployed or monitored.",
+      "checkedAt": null
+    }
+  ],
+  "services": [
+    {
+      "id": "solana",
+      "name": "Solana",
+      "category": "Chain",
+      "provider": {
+        "status": "operational",
+        "components": [
+          {
+            "name": "Mainnet Beta - Cluster",
+            "status": "operational"
+          },
+          {
+            "name": "Mainnet Beta - RPC Nodes",
+            "status": "operational"
+          },
+          {
+            "name": "US RPC Nodes",
+            "status": "operational"
+          },
+          {
+            "name": "EU RPC Nodes",
+            "status": "operational"
+          },
+          {
+            "name": "Asia RPC Nodes",
+            "status": "operational"
+          }
+        ],
+        "incidents": [],
+        "providerSummary": "All Systems Operational",
+        "providerUpdatedAt": "2026-10-05T15:00:03.799Z",
+        "checkedAt": "2026-10-05T15:23:42.577Z",
+        "reason": "provider_report",
+        "source": "https://status.solana.com"
+      },
+      "connector": {
+        "status": "not_connected",
+        "reason": "not_configured",
+        "checkedAt": null
+      }
+    },
+    {
+      "id": "helius",
+      "name": "Helius",
+      "category": "Chain",
+      "provider": {
+        "status": "unknown",
+        "checkedAt": null,
+        "reason": "no_verified_feed",
+        "source": null,
+        "components": [],
+        "incidents": []
+      },
+      "connector": {
+        "status": "not_connected",
+        "reason": "not_configured",
+        "checkedAt": null
+      }
+    },
+    {
+      "id": "phantom",
+      "name": "Phantom",
+      "category": "Wallets",
+      "provider": {
+        "status": "unknown",
+        "checkedAt": null,
+        "reason": "no_verified_feed",
+        "source": null,
+        "components": [],
+        "incidents": []
+      },
+      "connector": {
+        "status": "not_connected",
+        "reason": "not_configured",
+        "checkedAt": null
+      }
+    },
+    {
+      "id": "solflare",
+      "name": "Solflare",
+      "category": "Wallets",
+      "provider": {
+        "status": "unknown",
+        "checkedAt": null,
+        "reason": "no_verified_feed",
+        "source": null,
+        "components": [],
+        "incidents": []
+      },
+      "connector": {
+        "status": "not_connected",
+        "reason": "not_configured",
+        "checkedAt": null
+      }
+    },
+    {
+      "id": "backpack",
+      "name": "Backpack",
+      "category": "Wallets",
+      "provider": {
+        "status": "unknown",
+        "checkedAt": null,
+        "reason": "no_verified_feed",
+        "source": null,
+        "components": [],
+        "incidents": []
+      },
+      "connector": {
+        "status": "not_connected",
+        "reason": "not_configured",
+        "checkedAt": null
+      }
+    },
+    {
+      "id": "meteora",
+      "name": "Meteora",
+      "category": "Liquidity",
+      "provider": {
+        "status": "unknown",
+        "checkedAt": null,
+        "reason": "no_verified_feed",
+        "source": null,
+        "components": [],
+        "incidents": []
+      },
+      "connector": {
+        "status": "not_connected",
+        "reason": "not_configured",
+        "checkedAt": null
+      }
+    },
+    {
+      "id": "jupiter",
+      "name": "Jupiter",
+      "category": "Liquidity",
+      "provider": {
+        "status": "operational",
+        "components": [
+          {
+            "name": "Swap API V2",
+            "status": "operational"
+          },
+          {
+            "name": "Ultra API",
+            "status": "operational"
+          },
+          {
+            "name": "Swap API",
+            "status": "operational"
+          },
+          {
+            "name": "Token API V2",
+            "status": "operational"
+          },
+          {
+            "name": "Price API V3",
+            "status": "operational"
+          }
+        ],
+        "incidents": [],
+        "providerSummary": "operational",
+        "providerUpdatedAt": "2026-10-05T15:18:09.165Z",
+        "checkedAt": "2026-10-05T15:23:42.872Z",
+        "reason": "provider_report",
+        "source": "https://status.jup.ag"
+      },
+      "connector": {
+        "status": "not_connected",
+        "reason": "not_configured",
+        "checkedAt": null
+      }
+    },
+    {
+      "id": "raydium",
+      "name": "Raydium",
+      "category": "Liquidity",
+      "provider": {
+        "status": "unknown",
+        "checkedAt": null,
+        "reason": "no_verified_feed",
+        "source": null,
+        "components": [],
+        "incidents": []
+      },
+      "connector": {
+        "status": "not_connected",
+        "reason": "not_configured",
+        "checkedAt": null
+      }
+    },
+    {
+      "id": "birdeye",
+      "name": "Birdeye",
+      "category": "Market data",
+      "provider": {
+        "status": "unknown",
+        "checkedAt": null,
+        "reason": "no_verified_feed",
+        "source": null,
+        "components": [],
+        "incidents": []
+      },
+      "connector": {
+        "status": "not_connected",
+        "reason": "not_configured",
+        "checkedAt": null
+      }
+    },
+    {
+      "id": "paymenter",
+      "name": "Paymenter",
+      "category": "Hosting & billing",
+      "provider": {
+        "status": "unknown",
+        "checkedAt": null,
+        "reason": "no_verified_feed",
+        "source": null,
+        "components": [],
+        "incidents": []
+      },
+      "connector": {
+        "status": "not_connected",
+        "reason": "not_configured",
+        "checkedAt": null
+      }
+    },
+    {
+      "id": "openai",
+      "name": "OpenAI",
+      "category": "AI",
+      "provider": {
+        "status": "operational",
+        "components": [
+          {
+            "name": "Responses",
+            "status": "operational"
+          },
+          {
+            "name": "Realtime",
+            "status": "operational"
+          },
+          {
+            "name": "Chat Completions",
+            "status": "operational"
+          },
+          {
+            "name": "Embeddings",
+            "status": "operational"
+          },
+          {
+            "name": "Images",
+            "status": "operational"
+          },
+          {
+            "name": "Audio",
+            "status": "operational"
+          }
+        ],
+        "incidents": [
+          {
+            "name": "Elevated Work Mode errors",
+            "state": "monitoring",
+            "url": "https://status.openai.com",
+            "updatedAt": "2026-10-05T09:50:38Z",
+            "scope": "unconfirmed"
+          }
+        ],
+        "providerSummary": "Partial System Degradation",
+        "providerUpdatedAt": "2026-10-05T09:50:38Z",
+        "checkedAt": "2026-10-05T15:23:42.707Z",
+        "reason": "provider_report",
+        "source": "https://status.openai.com"
+      },
+      "connector": {
+        "status": "not_connected",
+        "reason": "not_configured",
+        "checkedAt": null
+      }
+    },
+    {
+      "id": "claude",
+      "name": "Claude",
+      "category": "AI",
+      "provider": {
+        "status": "operational",
+        "components": [
+          {
+            "name": "Claude API (api.anthropic.com)",
+            "status": "operational"
+          }
+        ],
+        "incidents": [],
+        "providerSummary": "All Systems Operational",
+        "providerUpdatedAt": "2026-10-05T15:00:43.300Z",
+        "checkedAt": "2026-10-05T15:23:42.577Z",
+        "reason": "provider_report",
+        "source": "https://status.claude.com"
+      },
+      "connector": {
+        "status": "not_connected",
+        "reason": "not_configured",
+        "checkedAt": null
+      }
+    },
+    {
+      "id": "gemini",
+      "name": "Gemini",
+      "category": "AI",
+      "provider": {
+        "status": "unknown",
+        "checkedAt": null,
+        "reason": "no_verified_feed",
+        "source": null,
+        "components": [],
+        "incidents": []
+      },
+      "connector": {
+        "status": "not_connected",
+        "reason": "not_configured",
+        "checkedAt": null
+      }
+    },
+    {
+      "id": "grok",
+      "name": "Grok / xAI",
+      "category": "AI",
+      "provider": {
+        "status": "unknown",
+        "checkedAt": null,
+        "reason": "no_verified_feed",
+        "source": null,
+        "components": [],
+        "incidents": []
+      },
+      "connector": {
+        "status": "not_connected",
+        "reason": "not_configured",
+        "checkedAt": null
+      }
+    },
+    {
+      "id": "x-social",
+      "name": "X social API",
+      "category": "Community",
+      "provider": {
+        "status": "unknown",
+        "checkedAt": null,
+        "reason": "no_verified_feed",
+        "source": null,
+        "components": [],
+        "incidents": []
+      },
+      "connector": {
+        "status": "not_connected",
+        "reason": "not_configured",
+        "checkedAt": null
+      }
+    },
+    {
+      "id": "x-money",
+      "name": "X Money / payments",
+      "category": "Payments",
+      "provider": {
+        "status": "unknown",
+        "checkedAt": null,
+        "reason": "no_verified_feed",
+        "source": null,
+        "components": [],
+        "incidents": []
+      },
+      "connector": {
+        "status": "not_connected",
+        "reason": "not_configured",
+        "checkedAt": null
+      }
+    },
+    {
+      "id": "github",
+      "name": "GitHub",
+      "category": "Developer tools",
+      "provider": {
+        "status": "operational",
+        "components": [
+          {
+            "name": "Git Operations",
+            "status": "operational"
+          },
+          {
+            "name": "API Requests",
+            "status": "operational"
+          },
+          {
+            "name": "Webhooks",
+            "status": "operational"
+          }
+        ],
+        "incidents": [],
+        "providerSummary": "All Systems Operational",
+        "providerUpdatedAt": "2026-10-05T14:59:19.259Z",
+        "checkedAt": "2026-10-05T15:23:42.577Z",
+        "reason": "provider_report",
+        "source": "https://www.githubstatus.com"
+      },
+      "connector": {
+        "status": "not_connected",
+        "reason": "not_configured",
+        "checkedAt": null
+      }
+    }
+  ]
+}

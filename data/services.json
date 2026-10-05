@@ -1,0 +1,444 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-10-05",
+  "project": "NUCALORIC",
+  "services": [
+    {
+      "id": "solana",
+      "name": "Solana",
+      "category": "Chain",
+      "phase": 1,
+      "docs": "https://solana.com/docs/rpc",
+      "access": "Public RPC can be read without an account; production RPC capacity must be provisioned.",
+      "role": "Read chain state, simulate transactions, and confirm user-signed transactions.",
+      "gate": "A devnet transaction is simulated, approved in a real wallet, submitted, and confirmed; commitment, retries, and RPC limits are handled.",
+      "dependencies": [],
+      "connector": "not_connected",
+      "statusSource": {
+        "url": "https://status.solana.com/api/v2/summary.json",
+        "page": "https://status.solana.com",
+        "kind": "statuspage",
+        "components": [
+          "Mainnet Beta - Cluster",
+          "Mainnet Beta - RPC Nodes",
+          "US RPC Nodes",
+          "EU RPC Nodes",
+          "Asia RPC Nodes"
+        ]
+      },
+      "sources": [
+        "https://solana.com/docs/rpc"
+      ]
+    },
+    {
+      "id": "helius",
+      "name": "Helius",
+      "category": "Chain",
+      "phase": 1,
+      "docs": "https://www.helius.dev/docs",
+      "access": "Create an account and provision an RPC endpoint or API key under the chosen plan.",
+      "role": "Production RPC and indexed chain data for launch and market workflows.",
+      "gate": "Authenticated RPC reads, quota handling, and independent health checks work; endpoint secrets stay on the server.",
+      "dependencies": [
+        "solana"
+      ],
+      "connector": "not_connected",
+      "statusSource": null,
+      "sources": [
+        "https://www.helius.dev/docs"
+      ]
+    },
+    {
+      "id": "phantom",
+      "name": "Phantom",
+      "category": "Wallets",
+      "phase": 1,
+      "docs": "https://docs.phantom.com/solana/integrating-phantom",
+      "access": "A compatible wallet and explicit user connection/signing consent.",
+      "role": "Wallet connection and user-approved Solana transaction signing.",
+      "gate": "Real connect, rejection, disconnect, network mismatch, and signing flows pass on devnet.",
+      "dependencies": [
+        "solana"
+      ],
+      "connector": "not_connected",
+      "statusSource": null,
+      "sources": [
+        "https://docs.phantom.com/solana/integrating-phantom"
+      ]
+    },
+    {
+      "id": "solflare",
+      "name": "Solflare",
+      "category": "Wallets",
+      "phase": 1,
+      "docs": "https://docs.solflare.com/",
+      "access": "Use the official wallet integration documentation and user signing consent.",
+      "role": "An additional Solana wallet option.",
+      "gate": "Wallet detection, connection, cancellation, and devnet signing work on supported devices.",
+      "dependencies": [
+        "solana"
+      ],
+      "connector": "not_connected",
+      "statusSource": null,
+      "sources": [
+        "https://docs.solflare.com/"
+      ]
+    },
+    {
+      "id": "backpack",
+      "name": "Backpack",
+      "category": "Wallets",
+      "phase": 1,
+      "docs": "https://docs.backpack.app/",
+      "access": "Use the wallet provider integration and user connection/signing consent.",
+      "role": "An additional wallet option for project creators.",
+      "gate": "Provider availability, rejection, disconnect, and devnet transaction signing pass.",
+      "dependencies": [
+        "solana"
+      ],
+      "connector": "not_connected",
+      "statusSource": null,
+      "sources": [
+        "https://docs.backpack.app/"
+      ]
+    },
+    {
+      "id": "meteora",
+      "name": "Meteora",
+      "category": "Liquidity",
+      "phase": 2,
+      "docs": "https://docs.meteora.ag/get-started",
+      "access": "Official SDKs are public; chain operations require RPC capacity, a wallet, and transaction fees.",
+      "role": "Dynamic Bonding Curve launch configuration and a planned liquidity migration path.",
+      "gate": "Devnet create/swap/migrate tests pass with validated parameters and explicit signing; fee and migration behavior are documented.",
+      "dependencies": [
+        "solana",
+        "phantom",
+        "helius"
+      ],
+      "connector": "not_connected",
+      "statusSource": null,
+      "sources": [
+        "https://docs.meteora.ag/get-started",
+        "https://github.com/MeteoraAg/dynamic-bonding-curve-sdk/blob/main/README.md"
+      ]
+    },
+    {
+      "id": "jupiter",
+      "name": "Jupiter",
+      "category": "Liquidity",
+      "phase": 2,
+      "docs": "https://developers.jup.ag/docs/get-started",
+      "access": "Create a developer-platform key and confirm the API family, plan, and quotas.",
+      "role": "Price discovery and a reviewed swap-routing integration.",
+      "gate": "Quotes are fresh, token mints verified, slippage bounded, and signed execution confirmed on chain.",
+      "dependencies": [
+        "solana",
+        "helius"
+      ],
+      "connector": "not_connected",
+      "statusSource": {
+        "url": "https://status.jup.ag/index.json",
+        "page": "https://status.jup.ag",
+        "kind": "statuspal",
+        "components": [
+          "Swap API V2",
+          "Ultra API",
+          "Swap API",
+          "Token API V2",
+          "Price API V3"
+        ]
+      },
+      "sources": [
+        "https://developers.jup.ag/docs/get-started",
+        "https://developers.jup.ag/changelog/developer-platform"
+      ]
+    },
+    {
+      "id": "raydium",
+      "name": "Raydium",
+      "category": "Liquidity",
+      "phase": 2,
+      "docs": "https://docs.raydium.io/",
+      "access": "Review official SDK/program references; transactions require wallet signing and RPC.",
+      "role": "Alternative launch and liquidity research; route selection remains a design decision.",
+      "gate": "One explicit launch route is chosen; program/configuration and fee behavior are verified in integration tests.",
+      "dependencies": [
+        "solana",
+        "helius"
+      ],
+      "connector": "not_connected",
+      "statusSource": null,
+      "sources": [
+        "https://docs.raydium.io/"
+      ]
+    },
+    {
+      "id": "birdeye",
+      "name": "Birdeye",
+      "category": "Market data",
+      "phase": 2,
+      "docs": "https://docs.birdeye.so/",
+      "access": "Confirm endpoint access and API-key requirements with the developer portal; several deep documentation links were unavailable during this review.",
+      "role": "Token market data and freshness checks for discovery.",
+      "gate": "Authorized reads, timestamp validation, rate limits, and unavailable-data UI work.",
+      "dependencies": [
+        "solana"
+      ],
+      "connector": "not_connected",
+      "statusSource": null,
+      "sources": [
+        "https://docs.birdeye.so/"
+      ]
+    },
+    {
+      "id": "paymenter",
+      "name": "Paymenter",
+      "category": "Hosting & billing",
+      "phase": 3,
+      "docs": "https://paymenter.org/api/",
+      "access": "Deploy your own Paymenter portal; API reference requires v1.2.0+ and a server-side bearer token.",
+      "role": "Orders, invoices, and service state for paid developer workspaces.",
+      "gate": "Checkout, paid-order reconciliation, provisioning, suspension, and user ownership checks pass before terminal access is enabled.",
+      "dependencies": [],
+      "connector": "not_connected",
+      "statusSource": null,
+      "sources": [
+        "https://paymenter.org/api/",
+        "https://paymenter.org/docs/guides/servers/",
+        "https://paymenter.org/docs/guides/gateways/",
+        "https://paymenter.org/development/extensions/server"
+      ]
+    },
+    {
+      "id": "openai",
+      "name": "OpenAI",
+      "category": "AI",
+      "phase": 4,
+      "docs": "https://developers.openai.com/api/reference/overview",
+      "access": "Create project access and store an API credential on the backend with usage controls.",
+      "role": "A planned Responses/Realtime gateway for project assistants.",
+      "gate": "Server-side authentication, budgets, streaming errors, cancellation, and tenant boundaries are tested.",
+      "dependencies": [
+        "paymenter"
+      ],
+      "connector": "not_connected",
+      "statusSource": {
+        "url": "https://status.openai.com/api/v2/summary.json",
+        "page": "https://status.openai.com",
+        "kind": "statuspage",
+        "components": [
+          "Responses",
+          "Realtime",
+          "Chat Completions",
+          "Embeddings",
+          "Images",
+          "Audio"
+        ]
+      },
+      "sources": [
+        "https://developers.openai.com/api/reference/overview"
+      ]
+    },
+    {
+      "id": "claude",
+      "name": "Claude",
+      "category": "AI",
+      "phase": 4,
+      "docs": "https://platform.claude.com/docs/en/api/overview",
+      "access": "Provision Anthropic API access and keep credentials on the backend.",
+      "role": "A planned Claude model gateway.",
+      "gate": "Authenticated requests, quota handling, streaming interruption, and tenant metering pass.",
+      "dependencies": [
+        "paymenter"
+      ],
+      "connector": "not_connected",
+      "statusSource": {
+        "url": "https://status.claude.com/api/v2/summary.json",
+        "page": "https://status.claude.com",
+        "kind": "statuspage",
+        "components": [
+          "Claude API (api.anthropic.com)"
+        ]
+      },
+      "sources": [
+        "https://platform.claude.com/docs/en/api/overview"
+      ]
+    },
+    {
+      "id": "gemini",
+      "name": "Gemini",
+      "category": "AI",
+      "phase": 4,
+      "docs": "https://ai.google.dev/gemini-api/docs/api-key",
+      "access": "Create the appropriate project/API key and review available quotas.",
+      "role": "A planned Gemini model gateway.",
+      "gate": "Server-side access, supported models, quota handling, and tenant metering pass.",
+      "dependencies": [
+        "paymenter"
+      ],
+      "connector": "not_connected",
+      "statusSource": null,
+      "sources": [
+        "https://ai.google.dev/gemini-api/docs/api-key"
+      ]
+    },
+    {
+      "id": "grok",
+      "name": "Grok / xAI",
+      "category": "AI",
+      "phase": 4,
+      "docs": "https://docs.x.ai/overview",
+      "access": "Provision xAI API access; it is separate from X social developer credentials.",
+      "role": "A planned Grok model gateway.",
+      "gate": "Authorized server-side calls, streaming failure handling, and budget controls pass.",
+      "dependencies": [
+        "paymenter"
+      ],
+      "connector": "not_connected",
+      "statusSource": null,
+      "sources": [
+        "https://docs.x.ai/overview"
+      ]
+    },
+    {
+      "id": "x-social",
+      "name": "X social API",
+      "category": "Community",
+      "phase": 5,
+      "docs": "https://docs.x.com/fundamentals/authentication/overview",
+      "access": "Approved developer app and an access plan; OAuth mode and scopes depend on the endpoint.",
+      "role": "User-authorized community publishing and project updates.",
+      "gate": "PKCE/user authorization, required scopes, revocation, quotas, and explicit publish consent work.",
+      "dependencies": [],
+      "connector": "not_connected",
+      "statusSource": null,
+      "sources": [
+        "https://docs.x.com/fundamentals/authentication/overview",
+        "https://docs.x.com/tools-and-libraries"
+      ]
+    },
+    {
+      "id": "x-money",
+      "name": "X Money / payments",
+      "category": "Payments",
+      "phase": 6,
+      "docs": "https://money.x.com/en",
+      "access": "Public merchant API access has not been established from official documentation reviewed.",
+      "role": "Conditional future payment rail; not enabled and not interchangeable with independent xMoney products.",
+      "gate": "Obtain official merchant eligibility and API documentation first; then review settlement, refunds, and reconciliation.",
+      "dependencies": [
+        "paymenter"
+      ],
+      "connector": "not_connected",
+      "statusSource": null,
+      "sources": [
+        "https://money.x.com/en"
+      ]
+    },
+    {
+      "id": "github",
+      "name": "GitHub",
+      "category": "Developer tools",
+      "phase": 0,
+      "docs": "https://docs.github.com/en/rest/quickstart",
+      "access": "GitHub CLI is already authorized for this project archive; an in-product integration needs its own authorization.",
+      "role": "Source archive today; planned repository evidence and developer workflow connections.",
+      "gate": "App/user scopes, project ownership, private repository access, and webhook signature checks are implemented.",
+      "dependencies": [],
+      "connector": "not_connected",
+      "statusSource": {
+        "url": "https://www.githubstatus.com/api/v2/summary.json",
+        "page": "https://www.githubstatus.com",
+        "kind": "statuspage",
+        "components": [
+          "Git Operations",
+          "API Requests",
+          "Webhooks"
+        ]
+      },
+      "sources": [
+        "https://docs.github.com/en/rest/quickstart"
+      ]
+    }
+  ],
+  "phases": [
+    {
+      "id": 0,
+      "title": "Foundation & visibility",
+      "state": "Available locally",
+      "description": "Project Studio, this status monitor, and the integration documentation are ready for review. Production hosting and independent monitoring remain open.",
+      "gates": [
+        "Deploy the monitor beside the website with HTTPS.",
+        "Add an independent external uptime probe and alert owner.",
+        "Protect the internal health feed and document an incident procedure."
+      ]
+    },
+    {
+      "id": 1,
+      "title": "Identity, wallets & chain",
+      "state": "Documented",
+      "description": "Replace demo wallet state with real authorization and devnet transactions.",
+      "gates": [
+        "Implement account ownership and session security.",
+        "Connect real wallet adapters and an authenticated production RPC.",
+        "Test rejected signatures, network mismatch, confirmation, and RPC limits."
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Launch & liquidity",
+      "state": "Planned",
+      "description": "Build one validated launch route with observable chain receipts and reliable market data.",
+      "gates": [
+        "Choose Meteora DBC or an explicitly reviewed alternative route.",
+        "Resolve SDK dependency advisories; validate launch parameters and fee/migration behavior on devnet.",
+        "Handle stale quotes, transaction failure, and indexer delays."
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Billing & workspaces",
+      "state": "Needs portal access",
+      "description": "Connect the self-hosted Paymenter portal to paid, isolated workspaces.",
+      "gates": [
+        "Deploy Paymenter and configure server-side API credentials.",
+        "Reconcile orders, payments, provisioned services, and suspension.",
+        "Authorize terminal sessions only for the correct active service owner."
+      ]
+    },
+    {
+      "id": 4,
+      "title": "AI service gateways",
+      "state": "Needs API access",
+      "description": "Add model providers through a metered backend with project-level budgets.",
+      "gates": [
+        "Provision provider project access and protected server credentials.",
+        "Test quota, streaming cancellation, and request attribution.",
+        "Expose per-connector health without prompts, tokens, or customer data."
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Community & X",
+      "state": "Needs developer access",
+      "description": "Enable scoped, user-approved community actions after X app access is confirmed.",
+      "gates": [
+        "Confirm the developer plan, endpoints, and scopes.",
+        "Implement user OAuth, revocation, and explicit publish consent.",
+        "Show permission/quota failures as connector issues rather than platform outages."
+      ]
+    },
+    {
+      "id": 6,
+      "title": "X payment rail",
+      "state": "Access unconfirmed",
+      "description": "A conditional research track until official X merchant API access is available.",
+      "gates": [
+        "Obtain official merchant eligibility and API reference from X.",
+        "Define settlement, refund, dispute, and reconciliation requirements.",
+        "Validate the authorized payment integration before enabling checkout."
+      ]
+    }
+  ]
+}

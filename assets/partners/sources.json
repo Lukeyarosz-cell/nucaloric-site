@@ -1,0 +1,67 @@
+{
+  "solana": {
+    "file": "solana.svg",
+    "source": "https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/solana.svg"
+  },
+  "openai": {
+    "file": "openai.svg",
+    "source": "https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/openai.svg"
+  },
+  "claude": {
+    "file": "claude.svg",
+    "source": "https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/claude.svg"
+  },
+  "gemini": {
+    "file": "gemini.svg",
+    "source": "https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/googlegemini.svg",
+    "display_file": "gemini-color.svg",
+    "display_source": "https://cdn.jsdelivr.net/npm/@lobehub/icons-static-svg@latest/icons/gemini-color.svg"
+  },
+  "grok": {
+    "file": "grok.svg",
+    "source": "https://cdn.jsdelivr.net/npm/@lobehub/icons-static-svg@latest/icons/grok.svg"
+  },
+  "x": {
+    "file": "x.svg",
+    "source": "https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/x.svg"
+  },
+  "jupiter": {
+    "file": "jupiter.ico",
+    "source": "https://jup.ag/favicon.ico"
+  },
+  "raydium": {
+    "file": "raydium.ico",
+    "source": "https://raydium.io/favicon.ico"
+  },
+  "meteora": {
+    "file": "meteora.svg",
+    "source": "https://www.meteora.ag/icons/v2.svg"
+  },
+  "helius": {
+    "file": "helius.ico",
+    "source": "https://www.helius.dev/favicon.ico"
+  },
+  "birdeye": {
+    "file": "birdeye.png",
+    "source": "https://birdeye.so/favicon.ico"
+  },
+  "phantom": {
+    "file": "phantom.svg",
+    "source": "https://raw.githubusercontent.com/anza-xyz/wallet-adapter/master/packages/wallets/phantom/src/adapter.ts"
+  },
+  "solflare": {
+    "file": "solflare.ico",
+    "source": "https://solflare.com/favicon.ico"
+  },
+  "backpack": {
+    "file": "backpack.ico",
+    "source": "https://backpack.app/favicon.ico"
+  },
+  "display_variants": {
+    "solana": "purple vector",
+    "openai": "green vector",
+    "claude": "orange vector",
+    "x": "light mark for dark surface",
+    "grok": "light mark for dark surface"
+  }
+}
