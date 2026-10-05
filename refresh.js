@@ -105,10 +105,11 @@
   const surfaces=[];let raf=0,lastPaint=0,paused=storage.get('nucMotionPaused',false)===true,pausedTime=0;
   function size(surface){const r=surface.canvas.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,1.5);surface.w=r.width;surface.h=r.height;surface.canvas.width=Math.max(1,Math.round(r.width*d));surface.canvas.height=Math.max(1,Math.round(r.height*d));surface.ctx.setTransform(d,0,0,d,0,0);}
   function paint(surface,time){
-    const {ctx,w,h,canvas}=surface;if(!w||!h)return;ctx.clearRect(0,0,w,h);const gap=w<420?15:20,t=(reduce.matches?0:paused?pausedTime:time)+(Number(canvas.dataset.dotPhase)||0),mode=canvas.dataset.dotField,light=canvas.dataset.dotLight==='true';
+    const {ctx,w,h,canvas}=surface;if(!w||!h)return;ctx.clearRect(0,0,w,h);const gap=canvas.dataset.dotField==='mosaic'?(w<500?10:14):(w<420?15:20),t=(reduce.matches?0:paused?pausedTime:time)+(Number(canvas.dataset.dotPhase)||0),mode=canvas.dataset.dotField,light=canvas.dataset.dotLight==='true';
     for(let y=gap/2;y<h;y+=gap)for(let x=gap/2;x<w;x+=gap){
       const nx=x/w,ny=y/h,phase=Math.sin(nx*8-t*.32)*.065+Math.sin(nx*17+t*.22)*.025;
       let strength;
+      if(mode==='mosaic'){const edge=.27+Math.sin(ny*8+t*.10)*.16+Math.sin(ny*19-t*.08)*.045;const distance=nx-edge;strength=distance<-.09?.95:Math.max(.035,.65-distance*3.8);const noise=(Math.sin(Math.floor(x/gap)*127.1+Math.floor(y/gap)*311.7)*43758.5453)%1;const size=(Math.abs(noise)<strength?gap*.68:gap*.20);ctx.globalAlpha=distance<-.10?.72:Math.max(.10,.50-distance);ctx.fillStyle=distance<-.10?'#f4f1ec':Math.abs(noise)<.13?'#e7b5c4':'#f4f1ec';ctx.fillRect(x-size/2,y-size/2,size,size);continue;}
       if(mode==='horizon')strength=Math.max(0,(ny-.36-phase)/.64);
       else if(mode==='arch'){const target=.55+Math.sin(nx*Math.PI*1.7+t*.16)*.21;strength=Math.exp(-Math.pow((ny-target)/.19,2))*(.3+.7*Math.sin(nx*Math.PI));}
       else if(mode==='signal'){const ridge=.49+Math.sin(nx*8-t*.45)*.19+Math.sin(nx*18+t*.22)*.06;strength=Math.exp(-Math.pow((ny-ridge)/.14,2));}
@@ -124,6 +125,7 @@
   const observer=new IntersectionObserver(entries=>{for(const e of entries){const s=surfaces.find(s=>s.canvas===e.target);if(s)s.visible=e.isIntersecting;}sync();},{rootMargin:'60px'});
   const resize=new ResizeObserver(entries=>{for(const e of entries){const s=surfaces.find(s=>s.canvas===e.target);if(s){size(s);paint(s,performance.now()/1000);}}});
   function mount(canvas){if(!canvas||surfaces.some(s=>s.canvas===canvas))return;const s={canvas,ctx:canvas.getContext('2d'),visible:false,w:0,h:0};surfaces.push(s);size(s);paint(s,0);observer.observe(canvas);resize.observe(canvas);}
-  window.NUC_DOTS={mount,isPaused:()=>paused,setPaused(value){paused=Boolean(value);pausedTime=performance.now()/1000;storage.set('nucMotionPaused',paused);sync();}};document.querySelectorAll('[data-dot-field]').forEach(mount);
+  function unmount(canvas){const i=surfaces.findIndex(s=>s.canvas===canvas);if(i<0)return;observer.unobserve(canvas);resize.unobserve(canvas);surfaces.splice(i,1);sync();}
+  window.NUC_DOTS={mount,unmount,isPaused:()=>paused,setPaused(value){paused=Boolean(value);pausedTime=performance.now()/1000;storage.set('nucMotionPaused',paused);sync();}};document.querySelectorAll('[data-dot-field]').forEach(mount);
   document.addEventListener('visibilitychange',sync);reduce.addEventListener('change',sync);
 })();
