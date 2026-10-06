@@ -39,6 +39,7 @@
   const usd = value => new Intl.NumberFormat(undefined, { style: 'currency', currency: 'USD', notation: value >= 100000 ? 'compact' : 'standard', maximumFractionDigits: 2 }).format(value);
   const node = (tag, className, text) => { const element = document.createElement(tag); if (className) element.className = className; if (text !== undefined) element.textContent = text; return element; };
   let latest = { state: 'loading', visiblePairs: [], saved: [] }, fieldOffset = 0, inspected = null, opener = null;
+  let inspectorPair = null, inspectorCheckedAt = null;
   const field = document.querySelector('[data-field-nodes]'), fieldCount = document.querySelector('[data-field-count]');
   const remix = document.querySelector('[data-field-shuffle]'), inspector = document.querySelector('[data-pool-inspector]');
   const price = value => number(value) === null ? 'Unavailable' : new Intl.NumberFormat(undefined, { style: 'currency', currency: 'USD', maximumFractionDigits: Number(value) < 1 ? 8 : 2, notation: Number(value) >= 100000 ? 'compact' : 'standard' }).format(Number(value));
@@ -72,7 +73,9 @@
     const body = inspector.querySelector('[data-inspector-body]');
     const focus = document.activeElement?.dataset.inspectorAction;
     body.replaceChildren();
-    const pair = latest.state === 'ready' ? latest.visiblePairs.find(pair => pair.pairAddress === inspected) : null;
+    const current = latest.visiblePairs.find(pair => pair.pairAddress === inspected);
+    if (current) { inspectorPair = current; inspectorCheckedAt = latest.checkedAt; }
+    const pair = latest.state === 'ready' && inspectorCheckedAt === latest.checkedAt ? current || inspectorPair : null;
     if (!pair) {
       const title = node('h2', '', 'Observation unavailable'); title.id = 'inspectorTitle';
       body.append(title, node('p', 'inspector-unavailable', 'This pool is no longer in the current view. Close this preview and refresh Discovery for current observations.'));
@@ -94,7 +97,8 @@
       window.NUC_MARKET?.toggleSaved(pair.pairAddress);
       const updated = inspector.querySelector('[data-inspector-action=save]');
       updated?.focus({ preventScroll: true });
-      inspector.querySelector('.inspector-notice').textContent = document.querySelector('#marketStatus').textContent;
+      const feedback = inspector.querySelector('.inspector-notice');
+      if (feedback) feedback.textContent = document.querySelector('#marketStatus').textContent;
     });
     const copy = node('button', '', 'COPY MINT'); copy.type = 'button'; copy.dataset.inspectorAction = 'copy';
     copy.addEventListener('click', async () => {
@@ -107,6 +111,8 @@
   }
   function inspect(pair, button) {
     inspected = pair; opener = { pair, field: button.matches('.field-node') };
+    inspectorPair = latest.visiblePairs.find(record => record.pairAddress === pair) || null;
+    inspectorCheckedAt = latest.checkedAt;
     inspector.showModal(); renderInspector(); inspector.querySelector('[data-inspector-close]').focus();
   }
   results.addEventListener('click', event => { const button = event.target.closest('[data-pool-inspect]'); if (button) inspect(button.dataset.poolInspect, button); });
