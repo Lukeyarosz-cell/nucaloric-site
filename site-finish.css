@@ -1,0 +1,40 @@
+/* Shared finish. Existing page compositions, spacing and artwork stay in place. */
+:root {
+  --site-white: #fff;
+  --site-pink: #ff91bd;
+  --paper: var(--site-white);
+  --white: var(--site-white);
+  --cream: var(--site-white);
+  --pink: var(--site-pink);
+  --pink-2: var(--site-pink);
+  --pink-3: var(--site-pink);
+  --pink-soft: var(--site-pink);
+  --pink-bright: var(--site-pink);
+  --refresh-pink: var(--site-pink);
+}
+
+/* A single clear accent for keyboard navigation and native form controls. */
+:where(button, a, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--site-pink) !important;
+  outline-offset: 3px;
+}
+
+:where(input[type="checkbox"], input[type="radio"], input[type="range"], progress) {
+  accent-color: var(--site-pink);
+}
+
+.modal-card, .wallet-choice {
+  background: var(--site-white) !important;
+  border-color: #d5d5d5 !important;
+}
+
+/* Light panels need a dark edge against the new pure-white surfaces. */
+:where(.modal-card, .pool-inspector, .pulse-panel, .module-picker, .pool-tile:first-child)
+  :where(button, a, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline-color: #111 !important;
+}
+
+/* Retain the established hover behavior with a neutral surface in the catalog. */
+body.registry-page.creative-registry.registry-reworked .registry-catalog .cap-card:hover {
+  background: #171717 !important;
+}
