@@ -24,9 +24,11 @@ $$('[data-transition]').forEach(link=>link.addEventListener('click',e=>{
 
 /* wallet + X Pay prototype interactions */
 const modal=$('#walletModal');
-$$('[data-wallet]').forEach(b=>b.addEventListener('click',()=>{modal?.classList.add('open');modal?.setAttribute('aria-hidden','false');setTimeout(()=>$('button',modal||document)?.focus(),30)}));
-$$('[data-close-modal]').forEach(b=>b.addEventListener('click',()=>{modal?.classList.remove('open');modal?.setAttribute('aria-hidden','true')}));
-$$('.wallet-choice').forEach(b=>b.addEventListener('click',()=>{modal?.classList.remove('open');showToast('Wallet connection is not enabled yet. See the implementation roadmap.')}));
+let walletReturnFocus=null;
+function closeWalletModal(){const wasOpen=modal?.classList.contains('open');modal?.classList.remove('open');modal?.setAttribute('aria-hidden','true');if(wasOpen&&walletReturnFocus?.isConnected)walletReturnFocus.focus({preventScroll:true})}
+$$('[data-wallet]').forEach(b=>b.addEventListener('click',()=>{walletReturnFocus=b.closest('.nav-more')?.querySelector('summary')||b;modal?.classList.add('open');modal?.setAttribute('aria-hidden','false');setTimeout(()=>$('button',modal||document)?.focus(),30)}));
+$$('[data-close-modal]').forEach(b=>b.addEventListener('click',closeWalletModal));
+$$('.wallet-choice').forEach(b=>b.addEventListener('click',()=>{closeWalletModal();showToast('Wallet connection is not enabled yet. See the implementation roadmap.')}));
 $$('[data-xpay]').forEach(b=>b.addEventListener('click',()=>navigateWithTransition('roadmap.html#phase-6')));
 
 /* logo fallback */
@@ -175,8 +177,8 @@ function coinLiquidityNumber(d){return Number(String(d.liq).replace(/[$K,]/g,'')
 /* inject global command + account controls */
 const navActions=$('.nav-actions');
 if(navActions){
-  const command=document.createElement('button');command.className='command-btn';command.innerHTML='<span>SEARCH</span><kbd>⌘ K</kbd>';command.setAttribute('aria-label','Open command palette');navActions.prepend(command);
-  const account=document.createElement('a');account.href='dashboard.html';account.className='account-btn';account.innerHTML='<i></i><span>ACCOUNT</span>';account.setAttribute('aria-label','Open your dashboard');navActions.insertBefore(account,$('.wallet-btn',navActions));
+  const command=document.createElement('button');command.type='button';command.className='command-btn';command.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><span>Search</span><kbd>⌘ K</kbd>';command.setAttribute('aria-label','Open command palette');navActions.prepend(command);
+  const account=document.createElement('a');account.href='dashboard.html';account.className='account-btn';account.innerHTML='<span class="nav-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="3"/><path d="M5 21v-2a7 7 0 0 1 14 0v2"/></svg></span><span class="nav-item-copy"><b>Account</b><small>Dashboard &amp; saved work</small></span><span class="nav-item-arrow" aria-hidden="true">↗</span>';account.setAttribute('aria-label','Open your dashboard');const tools=$('.nav-tools-items',navActions)||navActions;tools.insertBefore(account,$('.wallet-btn',tools));
 }
 
 const scrim=document.createElement('div');scrim.className='drawer-scrim';document.body.appendChild(scrim);
@@ -217,7 +219,7 @@ function getLiveWatchlist(){try{const value=JSON.parse(localStorage.getItem('nuc
 function appendLiveWatchlist(root,limit){for(const pool of getLiveWatchlist().slice(0,limit)){const link=document.createElement('a');link.className=root.id==='dashboardWatchlist'?'dash-watch-item':'drawer-watch-row';link.href='coin.html?pair='+encodeURIComponent(pool.pair);const text=document.createElement('span'),title=document.createElement('b'),label=document.createElement('small'),action=document.createElement('em');title.textContent=pool.name;label.textContent='SOLANA / SAVED LIVE POOL';action.textContent='OPEN ↗';text.append(title,label);link.append(text,action);root.append(link)}}
 function renderAccountWatchlist(){const root=$('#accountWatchlist');if(!root)return;root.replaceChildren();appendLiveWatchlist(root,5);if(!root.children.length){const message=document.createElement('div');message.className='drawer-watch-row';message.textContent='Save a live pool from Explore to follow it here.';root.append(message)}}
 renderAccountWatchlist();
-function updateWalletUI(){const btn=$('.wallet-btn');if(btn){btn.textContent='CONNECT';btn.classList.remove('connected')}const label=$('#accountWalletLabel');if(label)label.textContent='WALLET NOT CONNECTED'}
+function updateWalletUI(){const btn=$('.wallet-btn');if(btn){const text=$('.wallet-label',btn);if(text)text.textContent='Connect';else btn.textContent='CONNECT';btn.classList.remove('connected')}const label=$('#accountWalletLabel');if(label)label.textContent='WALLET NOT CONNECTED'}
 updateWalletUI();addEventListener('nucWalletChange',updateWalletUI);
 
 /* Explore product behavior: watchlist, quick view, compare, sort, compact mode */
@@ -332,7 +334,7 @@ $$('.drawer-close,.modal-close').forEach(b=>b.setAttribute('aria-label','Close p
 [accountDrawer,quickDrawer,capDrawer].forEach((drawer,i)=>{drawer.inert=true;drawer.setAttribute('role','dialog');drawer.setAttribute('aria-modal','true');drawer.setAttribute('aria-label',['Your account','Coin quick view','Capability details'][i])});
 if(modal){modal.setAttribute('role','dialog');modal.setAttribute('aria-label','Choose a demo wallet');modal.setAttribute('aria-modal','true')}
 // The topmost open panel keeps keyboard focus within its visible controls.
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal?.classList.contains('open')){modal.classList.remove('open');modal.setAttribute('aria-hidden','true');$('[data-wallet]')?.focus()}if(e.key!=='Tab')return;const panel=commandOverlay.classList.contains('open')?commandOverlay:modal?.classList.contains('open')?modal:[accountDrawer,quickDrawer,capDrawer].find(el=>el.classList.contains('open'));if(!panel)return;const controls=$$('button,a[href],input,select,textarea,[tabindex="0"]',panel).filter(el=>!el.disabled&&el.getClientRects().length);if(!controls.length)return;const first=controls[0],last=controls.at(-1);if(e.shiftKey&&(document.activeElement===first||!panel.contains(document.activeElement))){e.preventDefault();last.focus()}else if(!e.shiftKey&&(document.activeElement===last||!panel.contains(document.activeElement))){e.preventDefault();first.focus()}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal?.classList.contains('open'))closeWalletModal();if(e.key!=='Tab')return;const panel=commandOverlay.classList.contains('open')?commandOverlay:modal?.classList.contains('open')?modal:[accountDrawer,quickDrawer,capDrawer].find(el=>el.classList.contains('open'));if(!panel)return;const controls=$$('button,a[href],input,select,textarea,[tabindex="0"]',panel).filter(el=>!el.disabled&&el.getClientRects().length);if(!controls.length)return;const first=controls[0],last=controls.at(-1);if(e.shiftKey&&(document.activeElement===first||!panel.contains(document.activeElement))){e.preventDefault();last.focus()}else if(!e.shiftKey&&(document.activeElement===last||!panel.contains(document.activeElement))){e.preventDefault();first.focus()}});
 
 /* Missing external partner images get an intentional typographic fallback. */
 $$('img').filter(img=>/^https?:/.test(img.src)&&!img.hasAttribute('data-fallback')).forEach(img=>{function fallback(){if(!img.isConnected||img.dataset.fallbackDone)return;img.dataset.fallbackDone='true';const label=img.alt||$('strong',img.parentElement)?.textContent||new URL(img.src).hostname.split('.')[0];const mark=document.createElement('span');mark.className='wallet-logo-mark';mark.textContent=label.slice(0,2).toUpperCase();mark.setAttribute('aria-label',label);img.replaceWith(mark)}img.addEventListener('error',fallback);if(img.complete&&!img.naturalWidth)fallback()});
