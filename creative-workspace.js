@@ -3,11 +3,11 @@
   if(!document.body.classList.contains('creative-workspace'))return;
   const reduced=matchMedia('(prefers-reduced-motion:reduce)'),buttons=[...document.querySelectorAll('[data-motion-toggle]')];
   function motionState(){const paused=window.NUC_DOTS?.isPaused() || false;document.body.classList.toggle('motion-paused',paused);buttons.forEach(b=>{b.disabled=reduced.matches;b.setAttribute('aria-pressed',String(paused));b.textContent=reduced.matches?'MOTION REDUCED':paused?'RESUME MOTION ↗':'PAUSE MOTION Ⅱ';});}
-  buttons.forEach(b=>b.addEventListener('click',()=>{window.NUC_DOTS?.setPaused(!window.NUC_DOTS.isPaused());motionState();}));reduced.addEventListener('change',motionState);document.addEventListener('nuc:motionchange',motionState);motionState();
+  buttons.forEach(b=>b.addEventListener('click',()=>{window.NUC_DOTS?.setPaused(!window.NUC_DOTS.isPaused());motionState();}));reduced.addEventListener('change',motionState);motionState();
   document.addEventListener('visibilitychange',()=>document.body.classList.toggle('motion-sleep',document.hidden));
   const observer=new IntersectionObserver(entries=>{for(const e of entries)if(e.isIntersecting){e.target.classList.add('creative-visible');observer.unobserve(e.target);}}, {threshold:.06});
   const watched=new WeakSet(),selector='.creative-hero-copy,.signature-art,.registry-kits button,.registry-group-head,.cap-card,.studio-section-head,.brief-chapter,.brief-preview,.ops-own,.service-row,.roadmap-stage';
-  function observe(root){for(const el of root.querySelectorAll(selector)){if(watched.has(el))continue;watched.add(el);el.dataset.creativeReveal='';if(!(window.gsap&&window.ScrollTrigger))observer.observe(el);}}
+  function observe(root){for(const el of root.querySelectorAll(selector)){if(watched.has(el))continue;watched.add(el);el.dataset.creativeReveal='';observer.observe(el);}}
   document.body.classList.add('creative-reveal-ready');observe(document);
   // Asynchronous service observations get the same entrance as the static pages.
   const dynamic=document.querySelector('#serviceRows') || document.querySelector('#roadmapStages');
