@@ -9,3 +9,5 @@ Working features: read-only Solana pool search and pool details via DEX Screener
 Projects and watchlists are stored in the current browser. Export/import project backups to move work between devices. Backend wallet connections, token launches, Paymenter purchases, workspace provisioning, AI execution, and X payments remain unconfigured.
 
 [DEX Screener API documentation](https://docs.dexscreener.com/api/reference).
+
+Calm refresh (October 6): local GSAP and anime.js animations, a gentler homepage, project starting paths, a saved/exportable checklist, native FAQ disclosures, persistent motion preferences, and two-row mobile navigation.

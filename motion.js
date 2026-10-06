@@ -8,7 +8,7 @@
       reveal.unobserve(entry.target);
     }
   }, { threshold: .18 });
-  document.querySelectorAll('[data-motion-reveal]').forEach(el => reveal.observe(el));
+  if (!(window.gsap && window.ScrollTrigger)) document.querySelectorAll('[data-motion-reveal]').forEach(el => reveal.observe(el));
 
   const video = document.querySelector('#possibilitiesVisual');
   if (video) {
@@ -21,7 +21,7 @@
       button.setAttribute('aria-label', video.paused ? 'Play the decorative visual' : 'Pause the decorative visual');
     }
     function sync() {
-      if (visible && !document.hidden && !userPaused && (!reduce.matches || userStarted)) {
+      if (visible && !document.hidden && !window.NUC_DOTS?.isPaused() && !userPaused && (!reduce.matches || userStarted)) {
         video.play().then(label).catch(label);
       } else { video.pause(); label(); }
     }
@@ -34,6 +34,7 @@
     video.addEventListener('play', label);
     video.addEventListener('pause', label);
     document.addEventListener('visibilitychange', sync);
+    document.addEventListener('nuc:motionchange', sync);
     reduce.addEventListener('change', () => { userStarted = false; sync(); });
     label();
   }
@@ -75,7 +76,7 @@
     }
     function play() {
       stop(); played = true; automatic = false;
-      if (reduce.matches) { setStep(2); return; }
+      if (reduce.matches || window.NUC_DOTS?.isPaused()) { setStep(2); return; }
       setStep(0); automatic = true;
       // Restart the CSS pointer once, inside the illustrative preview only.
       void demo.offsetWidth;
@@ -106,6 +107,7 @@
       else if (visible && !played && !reduce.matches) play();
     });
     reduce.addEventListener('change', settle);
+    document.addEventListener('nuc:motionchange', settle);
     // Aim at the first tile at every breakpoint, using transform-only motion.
     const body = demo.querySelector('.motion-demo-body');
     const target = demo.querySelector('.motion-demo-tool');

@@ -4,7 +4,7 @@ const toast=$('#toast');
 function showToast(msg){if(!toast)return;toast.textContent=msg;toast.classList.add('show');clearTimeout(window.__tt);window.__tt=setTimeout(()=>toast.classList.remove('show'),2400)}
 
 /* restrained reveal */
-const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}}),{threshold:.1});$$('.reveal').forEach(el=>io.observe(el));
+const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}}),{threshold:.1});if(!(window.gsap&&window.ScrollTrigger))$$('.reveal').forEach(el=>io.observe(el));
 
 /* shift-in / shift-out transition */
 const transition=$('.page-transition');
@@ -17,7 +17,7 @@ try{
 }catch(e){}
 $$('[data-transition]').forEach(link=>link.addEventListener('click',e=>{
   const href=link.getAttribute('href');
-  if(link.matches('.coin-card')||!href||href.startsWith('#')||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;
+  if(link.matches('.coin-card')||!href||href.startsWith('#')||link.target==='_blank'||link.hasAttribute('download')||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;
   e.preventDefault();
   navigateWithTransition(href);
 }));
@@ -41,7 +41,7 @@ if(heroCanvas){
   const ctx=heroCanvas.getContext('2d');let w=0,h=0,raf=0;const phase=1.74;const heroReduce=matchMedia('(prefers-reduced-motion:reduce)');let heroVisible=false;
   function size(){({w,h}=fitCanvas(heroCanvas,ctx))}
   function draw(){
-    const t=heroReduce.matches?0:performance.now()/1000;ctx.clearRect(0,0,w,h);
+    const t=heroReduce.matches||window.NUC_DOTS?.isPaused()?0:performance.now()/1000;ctx.clearRect(0,0,w,h);
     const gap=w<700?23:28;const cols=Math.ceil(w/gap)+3;const rows=Math.ceil(h/gap)+3;
     for(let c=-1;c<cols;c++){
       const x=c*gap+gap*.5;const centerBias=Math.pow(Math.abs(x/w-.5)*2,1.3);const waveA=Math.sin(x*.009+t*.07+phase)*h*.052;const waveB=Math.sin(x*.019-t*.045+1.1)*h*.018;const sideLift=centerBias*h*.095;const boundary=h*.69-waveA-waveB-sideLift;
@@ -54,10 +54,10 @@ if(heroCanvas){
         ctx.globalAlpha=alpha;ctx.fillStyle=fill;ctx.beginPath();ctx.arc(x,y,radius,0,Math.PI*2);ctx.fill();
       }
     }
-    ctx.globalAlpha=1;if(heroVisible&&!heroReduce.matches&&!document.hidden)raf=requestAnimationFrame(draw);
+    ctx.globalAlpha=1;if(heroVisible&&!heroReduce.matches&&!window.NUC_DOTS?.isPaused()&&!document.hidden)raf=requestAnimationFrame(draw);
   }
   function restartHero(){cancelAnimationFrame(raf);if(!document.hidden&&(heroVisible||heroReduce.matches))draw()}
-  size();draw();addEventListener('resize',()=>{size();restartHero()},{passive:true});document.addEventListener('visibilitychange',restartHero);heroReduce.addEventListener('change',restartHero);new IntersectionObserver(entries=>{heroVisible=entries[0].isIntersecting;restartHero()}).observe(heroCanvas);
+  size();draw();addEventListener('resize',()=>{size();restartHero()},{passive:true});document.addEventListener('visibilitychange',restartHero);heroReduce.addEventListener('change',restartHero);document.addEventListener('nuc:motionchange',restartHero);new IntersectionObserver(entries=>{heroVisible=entries[0].isIntersecting;restartHero()}).observe(heroCanvas);
 }
 
 /* little allocation matrix */
@@ -208,7 +208,7 @@ function renderCommands(q=''){
 let commandReturnFocus=null;
 function openCommand(){commandReturnFocus=document.activeElement;commandOverlay.classList.add('open');$('#commandSearch').setAttribute('aria-expanded','true');renderCommands('');setTimeout(()=>$('#commandSearch')?.focus(),20)}
 function closeCommand(){const wasOpen=commandOverlay.classList.contains('open');commandOverlay.classList.remove('open');$('#commandSearch').setAttribute('aria-expanded','false');if(wasOpen&&commandReturnFocus?.isConnected)commandReturnFocus.focus({preventScroll:true})}
-function navigateWithTransition(href){closeCommand();closeDrawers();if(!href)return;const url=new URL(href,location.href);if(href.startsWith('#')||(url.pathname===location.pathname&&url.search===location.search&&url.hash)){location.href=url.href;return}if(matchMedia('(prefers-reduced-motion:reduce)').matches||!transition){location.href=url.href;return}if(transition.classList.contains('enter'))return;transition.classList.remove('exit');transition.classList.add('enter');const label=document.querySelector('[data-transition-label]');if(label)label.textContent=({ 'index.html':'MAKE SOMETHING REAL.', 'registry.html':'FIND YOUR NEXT CAPABILITY.', 'studio.html':'GIVE YOUR IDEA A SHAPE.', 'launchpad.html':'BUILD THE NEXT CHAPTER.', 'hosting.html':'A HOME FOR YOUR PROJECT.' })[url.pathname.split('/').pop()]||'KEEP BUILDING.';if(url.origin===location.origin){const preload=document.createElement('link');preload.rel='prefetch';preload.href=url.href;document.head.appendChild(preload)}setTimeout(()=>{try{sessionStorage.setItem('nucTransition','1')}catch(e){}location.href=url.href},560)}
+function navigateWithTransition(href){closeCommand();closeDrawers();if(!href)return;const url=new URL(href,location.href);if(href.startsWith('#')||(url.pathname===location.pathname&&url.search===location.search&&url.hash)){location.href=url.href;return}if(window.NUC_MOTION){window.NUC_MOTION.navigate(url.href);return}if(matchMedia('(prefers-reduced-motion:reduce)').matches||!transition){location.href=url.href;return}if(transition.classList.contains('enter'))return;transition.classList.remove('exit');transition.classList.add('enter');const label=document.querySelector('[data-transition-label]');if(label)label.textContent=({ 'index.html':'MAKE SOMETHING REAL.', 'registry.html':'FIND YOUR NEXT CAPABILITY.', 'studio.html':'GIVE YOUR IDEA A SHAPE.', 'launchpad.html':'BUILD THE NEXT CHAPTER.', 'hosting.html':'A HOME FOR YOUR PROJECT.' })[url.pathname.split('/').pop()]||'KEEP BUILDING.';if(url.origin===location.origin){const preload=document.createElement('link');preload.rel='prefetch';preload.href=url.href;document.head.appendChild(preload)}setTimeout(()=>{try{sessionStorage.setItem('nucTransition','1')}catch(e){}location.href=url.href},560)}
 $('.command-btn')?.addEventListener('click',openCommand);commandOverlay.addEventListener('click',e=>{if(e.target===commandOverlay)closeCommand()});
 $('#commandSearch')?.addEventListener('input',e=>renderCommands(e.target.value));
 document.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();commandOverlay.classList.contains('open')?closeCommand():openCommand()}if(e.key==='Escape'){closeCommand();closeDrawers()}});
