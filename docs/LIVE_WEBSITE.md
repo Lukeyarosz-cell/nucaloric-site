@@ -1,6 +1,6 @@
 # Live website
 
-The full application is now publicly accessible over HTTPS. GitHub account pages route to the live application; the static frontend remains available as a preview. See [Public application access](PUBLIC_HOSTING.md) for current addresses, recovery and domain requirements.
+The full application is now publicly accessible over HTTPS. GitHub pages route to the live application; the static frontend remains available as a preview. See [Public application access](PUBLIC_HOSTING.md) for current addresses, recovery and domain requirements.
 
 Published October 5, 2026 on GitHub Pages.
 
@@ -14,7 +14,7 @@ GitHub Pages publishes the root of the `main` branch automatically. HTTPS is enf
 
 ## Runtime limits
 
-GitHub Pages hosts the entry point and static preview. Account pages open the public HTTPS application backed by the main Pi and Distiller. Native sign-in, free website allocation, terminal commands, hosted website publishing and local coin AI work through that live origin. Paid credits and provider integrations still require their merchant/OAuth/API configuration. The live application also serves the Node status and fleet APIs.
+GitHub Pages hosts the entry point and static preview. Pages open the public HTTPS application backed by the main Pi and Distiller. Native sign-in, free website allocation, terminal commands, hosted website publishing and local coin AI work through that live origin. Paid credits and provider integrations still require their merchant/OAuth/API configuration. The live application also serves the Node status and fleet APIs.
 
 ## Published flow map and discovery / October 5
 

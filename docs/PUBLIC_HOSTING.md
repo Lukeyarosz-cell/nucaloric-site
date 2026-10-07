@@ -6,7 +6,7 @@ Current application: https://adjacent-passage-southeast-mega.trycloudflare.com
 
 Current hosted website gateway: https://charlie-rna-belts-engaged.trycloudflare.com
 
-GitHub Pages is the public entry point and static preview. Its account, dashboard, services and AI pages open the live application. Add `?preview=1` to an account page to inspect the static preview. Project plans stored in a browser belong to that origin; export/import the project library to move those local plans between the preview and the live application. Native accounts and private AI workspaces are shared backend records.
+GitHub Pages is the public entry point and static preview. Its pages open the full live application by default. Add `?preview=1` to any page to inspect the static preview. Project plans stored in a browser belong to that origin; export/import the project library to move those local plans between the preview and the live application. Native accounts and private AI workspaces are shared backend records.
 
 The website gateway uses a separate hostname and listener from the account portal. It forwards only GET/HEAD requests to configured main/Distiller static website slots; it does not forward cookies or identity headers or expose billing/AI APIs. Generated website links use this public gateway. Use relative asset paths inside hosted sites. Public routes update shortly after allocation changes.
 
