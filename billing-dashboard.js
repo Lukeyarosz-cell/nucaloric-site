@@ -9,10 +9,10 @@
       const {workspaces}=await window.NUC_BILLING.request('workspaces');
       const workspace=workspaces.find(w=>w.billingStatus==='active');if(!workspace)return;
       name.textContent=workspace.project;
-      document.getElementById('workspacePlanBadge').textContent='FREE ENROLLED';
-      document.getElementById('dashboardWorkspaceNote').textContent=workspace.machineStatus==='awaiting-pairing'?'Saved in your account · Awaiting machine pairing.':'Saved in your account · Awaiting a configured server.';
+      document.getElementById('workspacePlanBadge').textContent=workspace.server?.status==='running'?'FREE SERVER / RUNNING':workspace.server?'FREE SERVER / '+workspace.server.status.toUpperCase():'FREE ENROLLED';
+      document.getElementById('dashboardWorkspaceNote').textContent=workspace.server?`Pi website slot ${workspace.server.slot} · ${workspace.server.status}.`:workspace.machineStatus==='awaiting-pairing'?'Saved in your account · Awaiting machine pairing.':'Saved in your account · Awaiting a configured server.';
       document.getElementById('dashboardWorkload').textContent={web:'Website or app',dev:'Developer tools',model:'Self-hosted model'}[workspace.plan.workload];
-      document.getElementById('dashboardCompute').textContent=workspace.plan.source==='own'?(workspace.plan.hardware==='pi'?'Your Raspberry Pi':'Your Linux PC'):'Compute plan · hardware pending';
+      document.getElementById('dashboardCompute').textContent=workspace.server?`${workspace.server.memoryMB} MB RAM · ${workspace.server.cpu} CPU`:workspace.plan.source==='own'?(workspace.plan.hardware==='pi'?'Your Raspberry Pi':'Your Linux PC'):'Compute plan · hardware pending';
     }catch{/* The account page offers explicit refresh and connection feedback. */}
   });
 })();

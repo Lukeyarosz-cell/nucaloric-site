@@ -2,7 +2,12 @@
 (() => {
  const KEY='nucProjectLibrary',kits=['creator','agent','community','custom'],workloads=['web','dev','model'];
  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
- const uuid=()=>crypto.randomUUID();
+ const uuid=()=>{
+  if(typeof crypto.randomUUID==='function')return crypto.randomUUID();
+  const bytes=crypto.getRandomValues(new Uint8Array(16));bytes[6]=(bytes[6]&15)|64;bytes[8]=(bytes[8]&63)|128;
+  const hex=Array.from(bytes,b=>b.toString(16).padStart(2,'0')).join('');
+  return [hex.slice(0,8),hex.slice(8,12),hex.slice(12,16),hex.slice(16,20),hex.slice(20)].join('-');
+ };
  function text(value,max,required=false){if(typeof value!=='string'||value.length>max||(required&&!value.trim()))throw Error('A project contains an invalid or oversized field.');return value;}
  function normalizeDraft(value){
   if(value?.version!==1||!value.fields||!kits.includes(value.kit))throw Error('Project format is unsupported.');

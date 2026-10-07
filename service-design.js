@@ -18,6 +18,14 @@
    s.compute=['AWAITING SETUP','Connect the hosting backend','Server provisioning is managed by the NUCALORIC backend. Billing enrollment does not create or start a machine.','hosting.html#workspaceBuilder','PLAN THE MACHINE'];
    s.access=['AWAITING SETUP','Machine access','An active billing record is separate from a paired machine or provisioned server. Remote control is not connected yet.','billing.html','VIEW WORKSPACES'];
   }
+  if(detail.provisioner?.connected){
+   const s=payment.server;
+   s.status='FREE PI WEBSITE SLOTS / CONNECTED';
+   s.hub=['AVAILABLE NOW','Create a free website server','Sign in to allocate a small static website on the Pi. Five slots total; no payment is due.','billing.html?source=paymenter&workload=web','CREATE A WEBSITE'];
+   s.server=['32 MB / 0.25 CPU','Small static website','This Pi offers static website containers. Apps, game servers and AI runtimes need a different server configuration.','billing.html?source=paymenter&workload=web','OPEN BILLING'];
+   s.compute=['FIVE SLOTS TOTAL','Allocated by NUCALORIC','The website backend creates the container and enforces its memory/CPU limits. Billing shows the actual server state.','billing.html','VIEW SERVERS'];
+   s.access=['START / STOP / PUBLISH','Manage your website','Open your website, start or stop its server, publish an HTML page or remove it to free a slot. These Pi URLs are currently available on the local network.','billing.html','MANAGE SERVERS'];
+  }
   document.querySelectorAll('[data-ribbon-flow="payment"] [data-flow-id="hub"]').forEach(button=>button.click());
  });
  document.querySelectorAll('[data-price-label]').forEach(el => {

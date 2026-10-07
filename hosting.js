@@ -73,6 +73,12 @@
       el('hostCheckoutNote').textContent = 'Review specifications, availability, and the final price in Paymenter before paying. Your plan stays in this browser.';
     }
     const billing = window.NUC_BILLING?.state;
+    if(billing?.externalUrl){
+      const destination=new URL(billing.externalUrl);
+      for(const key of ['project','source','workload','compute','hardware'])destination.searchParams.set(key,p[key]);
+      link.href=destination.href;link.setAttribute('aria-disabled','false');link.textContent='OPEN PI BILLING ↗';
+      el('hostCheckoutNote').textContent='Billing and server allocation run on the Raspberry Pi. Continue there with this project plan.';
+    }
     const free = billing?.catalog?.[p.source === 'own' ? 'basic' : p.workload === 'model' ? 'ai' : 'server'];
     if (billing?.connected && free?.planType === 'free') {
       link.href = 'billing.html'; link.setAttribute('aria-disabled', 'false');
@@ -80,6 +86,11 @@
       el('hostPrice').textContent = 'Free enrollment';
       el('hostCheckoutNote').textContent = 'Create a free billing record in your account. No payment is due. Hardware and deployment are configured separately.';
       el('hostAccessNote').textContent = p.source === 'own' ? 'Enrollment is available. Machine pairing and remote access await your hardware.' : 'Enrollment is available. Server provisioning and remote access await the hosting backend.';
+      if(billing.provisioner?.connected&&p.source==='paymenter'&&p.workload==='web'&&p.compute==='cpu'){
+        link.textContent='CREATE FREE WEBSITE SERVER ↗';
+        el('hostCheckoutNote').textContent='Allocate a small static website on the Pi: 32 MB RAM and 0.25 CPU, subject to the five-slot limit. No payment is due.';
+        el('hostAccessNote').textContent='Manage start/stop and publish an HTML page from Billing. This template has no app runtime or remote terminal.';
+      }
     }
   }
   function valid() {
@@ -103,6 +114,7 @@
   });
   el('hostCheckout').addEventListener('click', e => {
     const p=plan(), billing=window.NUC_BILLING?.state;
+    if(billing?.externalUrl){if(!valid())e.preventDefault();return;}
     const free=billing?.catalog?.[p.source==='own'?'basic':p.workload==='model'?'ai':'server'];
     if(billing?.connected && free?.planType==='free') {
       if(!valid()){e.preventDefault();return;}
