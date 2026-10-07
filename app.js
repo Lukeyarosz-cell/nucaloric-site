@@ -22,14 +22,14 @@ $$('[data-transition]').forEach(link=>link.addEventListener('click',e=>{
   navigateWithTransition(href);
 }));
 
-/* wallet + X Pay prototype interactions */
+/* Wallet selector and X Pay access. Wallet client owns provider consent. */
 const modal=$('#walletModal');
 let walletReturnFocus=null;
 function closeWalletModal(){const wasOpen=modal?.classList.contains('open');modal?.classList.remove('open');modal?.setAttribute('aria-hidden','true');if(wasOpen&&walletReturnFocus?.isConnected)walletReturnFocus.focus({preventScroll:true})}
 $$('[data-wallet]').forEach(b=>b.addEventListener('click',()=>{walletReturnFocus=b.closest('.nav-more')?.querySelector('summary')||b;modal?.classList.add('open');modal?.setAttribute('aria-hidden','false');setTimeout(()=>$('button',modal||document)?.focus(),30)}));
 $$('[data-close-modal]').forEach(b=>b.addEventListener('click',closeWalletModal));
-$$('.wallet-choice').forEach(b=>b.addEventListener('click',()=>{closeWalletModal();showToast('Wallet connection is not enabled yet. See the implementation roadmap.')}));
-$$('[data-xpay]').forEach(b=>b.addEventListener('click',()=>navigateWithTransition('roadmap.html#phase-6')));
+
+$$('[data-xpay]').forEach(b=>b.addEventListener('click',()=>navigateWithTransition('dashboard.html#creatorPayouts')));
 
 /* logo fallback */
 $$('img[data-fallback]').forEach(img=>{function fallback(){img.style.display='none';const p=img.parentElement;if(p&&!p.querySelector('.logo-fallback')){const mark=document.createElement('span');mark.className='logo-fallback';mark.textContent=img.dataset.fallback;mark.setAttribute('aria-label',img.alt||img.dataset.fallback);p.prepend(mark)}}img.addEventListener('error',fallback);if(img.complete&&!img.naturalWidth)fallback()});

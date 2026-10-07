@@ -4,7 +4,7 @@
   const el=id=>document.getElementById(id),form=el('billingForm');
   let requestKey=null,lastPayload=null;
   const notice=message=>{el('billingNotice').textContent=message;};
-  function plan(){return {version:1,project:el('billingProject').value.trim(),source:el('billingSource').value,hardware:el('billingHardware').value,workload:el('billingWorkload').value,compute:el('billingCompute').value,repository:el('billingRepository').value.trim(),tokenMint:el('billingMint').value.trim(),access:el('billingAccess').value,endpoint:el('billingEndpoint').value.trim()};}
+  function plan(){return {version:1,project:el('billingProject').value.trim(),source:el('billingSource').value,hardware:el('billingHardware').value,workload:el('billingWorkload').value,compute:el('billingCompute').value,repository:el('billingRepository').value.trim(),tokenMint:el('billingMint').value.trim(),access:el('billingAccess').value,endpoint:el('billingEndpoint').value.trim(),nodeId:el('billingNode')?.value||'auto'};}
   function preset(value){
     const values=value==='own'?{source:'own',workload:'web',compute:'cpu',hardware:'pi'}:value==='model'?{source:'paymenter',workload:'model',compute:'gpu',hardware:'pi'}:{source:'paymenter',workload:'web',compute:'cpu',hardware:'pi'};
     for(const [key,id] of Object.entries({source:'billingSource',workload:'billingWorkload',compute:'billingCompute',hardware:'billingHardware'}))el(id).value=values[key];update();
@@ -12,12 +12,12 @@
   function update(){
     const capacity=client.state.provisioner;
     if(el('billingSlotsCount'))el('billingSlotsCount').textContent=capacity?.connected?`${capacity.available} / ${capacity.limit}`:'—';
-    if(el('billingSlotsNote'))el('billingSlotsNote').textContent=capacity?.connected?'Slots available across the Pi':'Connect to the workspace site';
+    if(el('billingSlotsNote'))el('billingSlotsNote').textContent=capacity?.connected?'Slots available across your server nodes':'Connect to the workspace site';
     if(!form)return;
     const p=plan(),product=client.state.catalog[p.source==='own'?'basic':p.workload==='model'?'ai':'server'],hosted=capacity?.connected&&p.source==='paymenter'&&p.workload==='web'&&p.compute==='cpu';
     el('billingProduct').textContent=product?.name||'Free website plan';el('billingPrice').textContent=product?.priceLabel||'—';el('billingSubmit').disabled=!client.state.user||!product||(hosted&&capacity.available===0);
-    el('billingSubmit').textContent=hosted&&capacity.available===0?'All Pi slots are allocated':hosted?'Create free website server ↗':'Save free workspace plan ↗';
-    el('billingAcknowledgement').textContent=hosted?'Create a small website server using an available Pi slot. No payment is due.':'Save this plan to my account. This does not pair my machine or allocate model compute.';
+    el('billingSubmit').textContent=hosted&&capacity.available===0?'All website slots are allocated':hosted?'Create free website server ↗':'Save free workspace plan ↗';
+    el('billingAcknowledgement').textContent=hosted?'Create a small website server using an available server slot. No payment is due.':'Save this plan to my account. This does not pair my machine or allocate model compute.';
     el('billingCapacity').textContent=hosted?'32 MB RAM · 0.25 CPU · HTML, CSS & JavaScript':p.source==='own'?'Your machine · setup planning · pairing pending':p.workload==='model'?'Model planning only · compute is not provided':'Workspace plan only · no app runtime is provided';
     el('billingEnrollmentDescription').textContent=hosted?'A small home for your website. Give it a name and start building.':p.source==='own'?'Keep your own-hardware plan with your account.':'Keep your workload plan with your account. Server capacity is separate.';
     const choice=p.source==='own'?'own':p.workload==='model'?'model':p.workload==='web'&&p.compute==='cpu'?'website':'custom';
@@ -31,7 +31,7 @@
     window.NUC_SERVICE_RECORDS.render(el('billingWorkspaces'),data.workspaces,{notify:notice,reload:loadWorkspaces,onCancel});
   }
   if(form){
-    try{const saved=JSON.parse(localStorage.getItem('nucHostingPlan')||'null');if(saved?.version===1)for(const [key,id] of Object.entries({project:'billingProject',source:'billingSource',hardware:'billingHardware',workload:'billingWorkload',compute:'billingCompute',repository:'billingRepository',tokenMint:'billingMint',access:'billingAccess',endpoint:'billingEndpoint'}))if(typeof saved[key]==='string')el(id).value=saved[key];}catch{}
+    try{const saved=JSON.parse(localStorage.getItem('nucHostingPlan')||'null');if(saved?.version===1)for(const [key,id] of Object.entries({project:'billingProject',source:'billingSource',hardware:'billingHardware',workload:'billingWorkload',compute:'billingCompute',repository:'billingRepository',tokenMint:'billingMint',access:'billingAccess',endpoint:'billingEndpoint',nodeId:'billingNode'}))if(typeof saved[key]==='string')el(id).value=saved[key];}catch{}
     const query=new URLSearchParams(location.search);
     for(const [key,values,id] of [['source',['own','paymenter'],'billingSource'],['workload',['web','dev','model'],'billingWorkload'],['compute',['cpu','gpu'],'billingCompute'],['hardware',['pi','pc'],'billingHardware']])if(values.includes(query.get(key)))el(id).value=query.get(key);
     if(query.get('project')?.trim()&&query.get('project').length<=60)el('billingProject').value=query.get('project');

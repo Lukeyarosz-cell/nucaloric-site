@@ -1,0 +1,19 @@
+{
+  "name": "nucaloric-wallet-client",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "build": "esbuild src/wallet-client.js --bundle --format=iife --platform=browser --target=es2022 --minify --outfile=../../wallet-client.js"
+  },
+  "dependencies": {
+    "@wallet-standard/app": "1.1.1",
+    "@solana/web3.js": "1.99.0",
+    "buffer": "6.0.3"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2"
+  },
+  "overrides": {
+    "jayson": "5.0.0"
+  }
+}
