@@ -14,9 +14,13 @@
     el('dashboardWorkload').textContent={web:'Website or app',dev:'Developer tools',model:'Self-hosted model'}[workspace.plan.workload];
     el('dashboardCompute').textContent=workspace.server?`${workspace.server.memoryMB} MB RAM · ${workspace.server.cpu} CPU`:workspace.plan.source==='own'?(workspace.plan.hardware==='pi'?'Your Raspberry Pi':'Your Linux PC'):'Compute plan · hardware pending';
   }
-  function append(text){
+  function append(text,kind='output'){
     const clean=String(text).replace(/\x1b\[[0-?]*[ -/]*[@-~]/g,'').replace(/[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]/g,'').replace(/\r\n/g,'\n');
-    output.textContent=(output.textContent+clean).slice(-100000);output.scrollTop=output.scrollHeight;
+    const entry=document.createElement('span');entry.className='cli-entry cli-entry--'+kind;entry.textContent=clean;output.append(entry);
+    let excess=output.textContent.length-100000;
+    while(excess>0&&output.firstChild){const first=output.firstChild,length=first.textContent.length;if(length<=excess){first.remove();excess-=length;}else{first.textContent=first.textContent.slice(excess);excess=0;}}
+    while(output.childNodes.length>200)output.firstChild.remove();
+    output.scrollTop=output.scrollHeight;
   }
   function choose(id){
     const prior=selected?.id;selected=rows.find(w=>w.id===id)||null;
@@ -24,7 +28,7 @@
     panel.classList.toggle('is-connected',ready);el('cliConsole').hidden=!ready;input.disabled=!ready||busy;el('cliRun').disabled=!ready||busy;
     el('cliConnection').textContent=ready?'CONNECTED':selected?'STOPPED':'LOCKED';el('cliAccessStatus').textContent=ready?'Ready':selected?'Stopped':'Locked';
     showWorkspace(selected||rows[0]);
-    if(prior!==selected?.id){output.textContent='';history=[];historyIndex=0;input.value='';el('cliNotice').textContent='';if(ready)append('Connected to '+selected.project+' · website container\nWorking directory: /usr/share/nginx/html\n\n');}
+    if(prior!==selected?.id){output.textContent='';history=[];historyIndex=0;input.value='';el('cliNotice').textContent='';if(ready)append('Connected to '+selected.project+'.\nType a command to begin.\n\n','note');}
     el('cliServerName').textContent=selected?.project||'';
     const copy=panel.querySelector('.cli-unlock-copy p'),link=panel.querySelector('.cli-unlock-copy a');
     copy.textContent=selected?'Start your website server in Billing, then refresh this page to connect.':'Create a free website server in Billing to use its command line.';link.textContent=selected?'MANAGE SERVER ↗':'CREATE A SERVER ↗';
@@ -43,13 +47,13 @@
   });
   el('cliCommandForm').addEventListener('submit',async event=>{
     event.preventDefault();const command=input.value.trim();if(busy||!selected?.canUseTerminal||!command)return;
-    const id=selected.id;busy=true;input.disabled=true;el('cliRun').disabled=true;select.disabled=true;el('cliRefresh').disabled=true;
-    history.push(command);history=history.slice(-50);historyIndex=history.length;append('$ '+command+'\n');input.value='';el('cliNotice').textContent='Running…';
+    const id=selected.id;busy=true;panel.classList.add('is-running');input.disabled=true;el('cliRun').disabled=true;select.disabled=true;el('cliRefresh').disabled=true;
+    history.push(command);history=history.slice(-50);historyIndex=history.length;append('$ '+command+'\n','command');input.value='';el('cliNotice').textContent='Running…';
     try{
       const result=await client.request('workspaces/'+id+'/server/terminal',{method:'POST',body:JSON.stringify({command})});append(result.output||'');append('\n');
       el('cliNotice').textContent=result.truncated?'Output limited to 64 KB.':result.exitCode===null?'Output returned; the process is still finishing.':result.exitCode===137?'Command ended at its time or memory limit.':result.exitCode?'Exited with code '+result.exitCode+'.':'Command finished.';
-    }catch(e){append(e.message+'\n');el('cliNotice').textContent=e.message;try{await refresh();}catch{choose(null);}}
-    finally{busy=false;select.disabled=false;el('cliRefresh').disabled=false;input.disabled=!selected?.canUseTerminal;el('cliRun').disabled=input.disabled;if(!input.disabled)input.focus();}
+    }catch(e){append(e.message+'\n','error');el('cliNotice').textContent=e.message;try{await refresh();}catch{choose(null);}}
+    finally{busy=false;panel.classList.remove('is-running');select.disabled=false;el('cliRefresh').disabled=false;input.disabled=!selected?.canUseTerminal;el('cliRun').disabled=input.disabled;if(!input.disabled)input.focus();}
   });
   client.ready.then(async state=>{
     if(state.externalUrl){const url=new URL(state.externalUrl);url.pathname='/dashboard.html';account.href=url.href;account.textContent='OPEN PI ACCOUNT ↗';panel.querySelector('.cli-unlock-copy a').href=url.href;panel.querySelector('.cli-unlock-copy a').textContent='OPEN PI COMMAND LINE ↗';panel.querySelector('.cli-unlock-copy p').textContent='Your server and command line run on the Raspberry Pi. Continue to your account there.';return;}

@@ -1,18 +1,53 @@
-/* The existing account card becomes a live container console. */
+/* NUCALORIC shell: black, white, and the site's exact pink. */
+.cli-workspace{--terminal-pink:var(--site-pink,#ff91bd);--terminal-white:var(--site-white,#fff);background:#000;border:1px solid rgb(255 145 189 / 24%);border-radius:16px;box-shadow:0 18px 60px rgb(0 0 0 / 25%);position:relative;isolation:isolate}
+.cli-workspace::before{content:"";position:absolute;inset:0 0 auto;height:2px;background:linear-gradient(90deg,var(--terminal-pink),rgb(255 145 189 / 10%) 85%);z-index:2;pointer-events:none}
 .cli-workspace [hidden]{display:none!important}
-.cli-header-controls{display:flex;align-items:center;gap:10px;min-width:0}
-#cliServerSelect{max-width:175px;min-width:0;background:#151515;color:#ff91bd;border:1px solid #383038;border-radius:6px;padding:7px;font:10px var(--mono)}
+.cli-workspace .cli-header{padding:18px 20px;gap:14px;background:rgb(255 255 255 / 3%);border-bottom:1px solid rgb(255 255 255 / 9%);color:var(--terminal-white);font:500 9px var(--mono);letter-spacing:.055em}
+.cli-window-title{display:flex;align-items:center;gap:13px;min-width:0;white-space:nowrap}
+.cli-window-dots{display:flex;gap:5px;flex-shrink:0}
+.cli-window-dots i{width:6px;height:6px;border-radius:50%;background:var(--terminal-pink)}
+.cli-window-dots i:nth-child(2){background:rgb(255 255 255 / 70%)}
+.cli-window-dots i:nth-child(3){background:transparent;border:1px solid rgb(255 255 255 / 35%)}
+.cli-header-controls{display:flex;align-items:center;gap:9px;min-width:0}
+.cli-workspace #cliServerSelect{max-width:145px;min-width:0;background:#000;color:var(--terminal-white);border:1px solid rgb(255 255 255 / 15%);border-radius:5px;padding:7px 8px;font:10px var(--mono);text-overflow:ellipsis}
+.cli-workspace .cli-lock-indicator{display:inline-flex;align-items:center;gap:6px;font:8px var(--mono);letter-spacing:.045em;border:1px solid rgb(255 255 255 / 15%);background:transparent;color:rgb(255 255 255 / 55%);padding:7px 8px;white-space:nowrap}
+.cli-lock-indicator::before{content:"";width:4px;height:4px;border-radius:50%;background:currentColor}
+.cli-workspace.is-connected .cli-lock-indicator{color:var(--terminal-pink);border-color:rgb(255 145 189 / 25%);background:rgb(255 145 189 / 5%)}
 .cli-workspace.is-connected .cli-preview,.cli-workspace.is-connected .cli-unlock-overlay{display:none}
-.cli-console{padding:22px;min-width:0}
-.cli-console-tools{display:flex;align-items:center;gap:12px;font:10px var(--mono);color:#b5a4af}
-#cliServerName{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.cli-console-tools button{background:transparent;color:#ff91bd;border:0;padding:8px 0;font:9px var(--mono);cursor:pointer}
-.cli-output{height:225px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;font:11px/1.8 var(--mono);color:#eddce6;margin:14px 0 16px;scrollbar-width:thin}
-.cli-command-form{display:flex;align-items:center;gap:10px;border:1px solid #49333e;border-radius:7px;background:#171216;padding:10px 12px;color:#ff91bd}
-.cli-command-form:focus-within{border-color:#ff91bd}
-.cli-command-form input{flex:1;min-width:0;width:100%;border:0;outline:none;background:transparent;color:#fff;font:12px var(--mono)}
-.cli-command-form button{flex-shrink:0;background:#ff91bd;color:#151015;border:0;border-radius:4px;padding:9px 11px;font:600 9px var(--mono);cursor:pointer}
+.cli-console{padding:0 22px 18px;min-width:0;background:radial-gradient(ellipse at 100% 0%,rgb(255 145 189 / 6%),transparent 55%),#000}
+.cli-console-tools{display:flex;align-items:center;gap:9px;min-width:0;min-height:48px;border-bottom:1px solid rgb(255 255 255 / 8%);font:10px var(--mono);color:var(--terminal-white)}
+.cli-session-name{display:flex;align-items:center;gap:9px;flex:1;min-width:0}
+.cli-session-symbol{color:var(--terminal-pink);font-weight:600;font-size:13px}
+#cliServerName{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cli-console-tools button{display:inline-flex;align-items:center;gap:4px;flex-shrink:0;background:transparent;color:rgb(255 255 255 / 60%);border:0;border-radius:4px;padding:8px 3px;font:9px var(--mono);cursor:pointer;transition:color .15s}
+.cli-console-tools button:hover{color:var(--terminal-pink)}
+.cli-console-tools svg{width:12px;height:12px}
+.cli-terminal-banner{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:25px 0 11px}
+.cli-terminal-wordmark{width:113px;height:15px;background:var(--terminal-pink);mask:url('assets/nucaloric-wordmark.svg') left center/contain no-repeat;-webkit-mask:url('assets/nucaloric-wordmark.svg') left center/contain no-repeat}
+.cli-shell-tag{color:rgb(255 255 255 / 50%);font:8px var(--mono);letter-spacing:.09em}
+.cli-directory{display:flex;gap:8px;font:10px var(--mono);color:rgb(255 255 255 / 50%);min-width:0}
+.cli-directory span:first-child{color:var(--terminal-pink)}
+.cli-directory span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cli-output{height:218px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;font:12px/1.85 var(--mono);color:var(--terminal-white);margin:20px 0 18px;scrollbar-width:thin;scrollbar-color:rgb(255 145 189 / 35%) #000;tab-size:4}
+.cli-entry--command{color:var(--terminal-pink);font-weight:600}
+.cli-entry--note{color:rgb(255 255 255 / 50%)}
+.cli-entry--error{color:var(--terminal-pink)}
+.cli-workspace .cli-command-form{display:flex;align-items:center;gap:10px;border:1px solid rgb(255 145 189 / 35%);border-radius:8px;background:rgb(255 145 189 / 4%);padding:10px 12px;transition:border-color .15s,box-shadow .15s}
+.cli-workspace .cli-command-form:focus-within{border-color:var(--terminal-pink);box-shadow:0 0 0 2px rgb(255 145 189 / 10%)}
+.cli-prompt{display:flex;align-items:center;gap:8px;flex-shrink:0;font:11px var(--mono);color:rgb(255 255 255 / 65%)}
+.cli-prompt b{font-size:14px;color:var(--terminal-pink)}
+.cli-workspace .cli-command-form input{flex:1;min-width:0;width:100%;border:0;outline:none;background:transparent;color:var(--terminal-white);caret-color:var(--terminal-pink);font:12px var(--mono);padding:6px 0}
+.cli-workspace .cli-command-form input:focus-visible{outline:none!important}
+.cli-command-form input::placeholder{color:rgb(255 255 255 / 50%)}
+.cli-workspace .cli-command-form button{display:flex;align-items:center;gap:8px;flex-shrink:0;background:var(--terminal-pink);color:#000;border:1px solid var(--terminal-pink);border-radius:5px;padding:9px 11px;font:600 10px var(--mono);cursor:pointer;transition:background .15s,border-color .15s}
+.cli-workspace .cli-command-form button:hover:not(:disabled){background:var(--terminal-white);border-color:var(--terminal-white)}
 .cli-command-form button:disabled,.cli-console-tools button:disabled{opacity:.4;cursor:wait}
-.cli-shell-note,.cli-shell-notice{font:10px/1.7 var(--mono);color:#ac98a4;margin:12px 0 0}
-.cli-shell-notice{color:#ff91bd;min-height:17px}
-@media(max-width:760px){.cli-header{flex-wrap:wrap;gap:12px;padding:18px}.cli-header-controls{width:100%;justify-content:space-between}#cliServerSelect{max-width:220px}.cli-console{padding:18px}.cli-output{height:230px}}
+.cli-terminal-footer{display:flex;justify-content:space-between;gap:12px;padding-top:12px;color:rgb(255 255 255 / 50%);font:9px var(--mono)}
+.cli-shell-note,.cli-shell-notice{font:9px/1.7 var(--mono);margin:10px 0 0;color:rgb(255 255 255 / 50%)}
+.cli-shell-notice{color:var(--terminal-pink);min-height:15px}
+.cli-shell-notice:empty{display:none}
+.cli-workspace.is-running .cli-command-form{border-color:var(--terminal-pink)}
+.cli-workspace .cli-unlock-overlay{background:rgb(0 0 0 / 90%)}
+@media(max-width:1100px) and (min-width:761px){.cli-workspace .cli-header{flex-wrap:wrap}.cli-header-controls{width:100%;justify-content:space-between}.cli-workspace #cliServerSelect{max-width:240px}}
+@media(max-width:760px){.cli-workspace .cli-header{flex-wrap:wrap;gap:14px;padding:18px}.cli-header-controls{width:100%;justify-content:space-between}.cli-workspace #cliServerSelect{max-width:min(220px,65%)}.cli-console{padding:0 17px 18px}.cli-output{height:230px;font-size:11px}.cli-prompt{gap:5px}.cli-prompt span{display:none}.cli-workspace .cli-command-form{gap:8px;padding:8px 10px}.cli-workspace .cli-command-form input{font-size:11px}.cli-terminal-footer{font-size:8px}.cli-console-tools button{font-size:8px}}
+@media(prefers-reduced-motion:reduce){.cli-console-tools button,.cli-workspace .cli-command-form,.cli-workspace .cli-command-form button{transition:none}}
