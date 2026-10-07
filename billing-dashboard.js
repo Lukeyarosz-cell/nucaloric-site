@@ -5,6 +5,10 @@
   const el=id=>document.getElementById(id),select=el('cliServerSelect'),input=el('cliCommand'),output=el('cliOutput');
   const account=document.createElement('a');account.className='product-primary';account.href='billing.html';account.textContent='ACCOUNT & BILLING ↗';account.style.marginTop='12px';card.append(account);
   const requestedServer=new URLSearchParams(location.search).get('server');
+  const activity=window.NUC_WORK_ACTIVITY('cliActivity',panel.querySelector('.cli-gated-body'),el('cliConsole'));
+  panel.querySelector('.cli-unlock-copy p').textContent='Sign in to create or manage a Free website server. Its command line appears here when the server is running.';
+  panel.querySelector('.cli-unlock-copy a').textContent='OPEN SERVER ACCOUNT ↗';
+  let refreshing=null;
   let aiCost=0;let rows=[],selected=null,busy=false,history=[],historyIndex=0,cwd='/usr/share/nginx/html',aiCoin=null,aiModels=[],attachments=[],compact=false;
   const controls=document.createElement('div');controls.className='cli-ai-controls';controls.hidden=true;controls.innerHTML='<label>MODEL <select id=cliAiModel aria-label="Terminal AI model"></select></label><label>CONTEXT <select id=cliAiContext aria-label="Terminal AI context"><option value=2048>2048 tokens</option><option value=1024>1024 tokens</option></select></label>';el('cliConsole').insertBefore(controls,el('cliOutput'));
   function showWorkspace(workspace){
@@ -35,14 +39,24 @@
     const copy=panel.querySelector('.cli-unlock-copy p'),link=panel.querySelector('.cli-unlock-copy a');
     copy.textContent=selected?'Start your website server in Billing, then refresh this page to connect.':'Create a free website server in Billing to use its command line.';link.textContent=selected?'MANAGE SERVER ↗':'CREATE A SERVER ↗';
   }
-  async function refresh(){
+  async function readServers(){
     const data=await client.request('workspaces');rows=data.workspaces.filter(w=>w.billingStatus==='active');const servers=rows.filter(w=>w.server&&w.canManageServer);
     const previous=selected?.id;select.replaceChildren();for(const w of servers){const option=document.createElement('option');option.value=w.id;option.textContent=w.project+' · '+w.server.status;select.append(option);}
     select.hidden=!servers.length;const id=servers.find(w=>w.id===previous)?.id||servers.find(w=>w.id===requestedServer)?.id||servers.find(w=>w.canUseTerminal)?.id||servers[0]?.id;
     select.value=id||'';choose(id);if(!servers.length)showWorkspace(rows[0]);
   }
+  function refresh(){
+    if(refreshing)return refreshing;
+    if(busy)return Promise.reject(Error('Wait for the current command before refreshing your server.'));
+    activity.set('connecting','Checking your server','Reading your owned workspaces from the Main Pi.');input.disabled=true;el('cliRun').disabled=true;select.disabled=true;
+    panel.setAttribute('aria-busy','true');el('cliConnection').textContent='CONNECTING';
+    refreshing=readServers().then(()=>{activity.set('idle');}).catch(error=>{
+      activity.set('error','Server status unavailable',error.message);el('cliConnection').textContent='UNAVAILABLE';throw error;
+    }).finally(()=>{refreshing=null;panel.setAttribute('aria-busy','false');select.disabled=false;input.disabled=!selected?.canUseTerminal;el('cliRun').disabled=input.disabled;});
+    return refreshing;
+  }
   select.addEventListener('change',()=>choose(select.value));
-  el('cliClear').addEventListener('click',()=>{output.textContent='';el('cliNotice').textContent='';input.focus();});
+  el('cliClear').addEventListener('click',()=>{output.textContent='';el('cliNotice').textContent='';if(!busy&&!refreshing)activity.set('idle');input.focus();});
   el('cliRefresh').addEventListener('click',async()=>{el('cliRefresh').disabled=true;try{await refresh();el('cliNotice').textContent='Server status refreshed.';}catch(e){el('cliNotice').textContent=e.message;}finally{el('cliRefresh').disabled=false;}});
   const quote=value=>"'"+value.replace(/'/g,"'\\''")+"'";
   const api=(path,data)=>client.request(path,data===undefined?{}:{method:'POST',body:JSON.stringify(data)});
@@ -64,8 +78,8 @@
     if(!['ArrowUp','ArrowDown'].includes(event.key)||!history.length)return;event.preventDefault();historyIndex=Math.max(0,Math.min(history.length,historyIndex+(event.key==='ArrowUp'?-1:1)));input.value=history[historyIndex]||'';
   });
   el('cliCommandForm').addEventListener('submit',async event=>{
-    event.preventDefault();const command=input.value.trim();if(busy||!selected?.canUseTerminal||!command)return;
-    const id=selected.id;busy=true;panel.classList.add('is-running');input.disabled=true;el('cliRun').disabled=true;select.disabled=true;el('cliRefresh').disabled=true;
+    event.preventDefault();const command=input.value.trim();if(busy||refreshing||!selected?.canUseTerminal||!command)return;
+    const id=selected.id;busy=true;activity.set('server','Waiting for your server',selected.server.nodeName+' · running your command');panel.setAttribute('aria-busy','true');panel.classList.add('is-running');input.disabled=true;el('cliRun').disabled=true;select.disabled=true;el('cliRefresh').disabled=true;el('cliAiModel').disabled=true;el('cliAiContext').disabled=true;
     history.push(command);history=history.slice(-50);historyIndex=history.length;append('nucaloric:'+cwd+' $ '+command+'\n','command');input.value='';el('cliNotice').textContent='Running…';
     try{
       if(command==='clear'){output.textContent='';}
@@ -84,14 +98,14 @@
         else {await api('files/'+encodeURIComponent(match[2])+'/delete',{});attachments=attachments.filter(n=>n!==match[2]);append('Removed '+match[2]+'.\n','note');}
       }
       else if(command==='/ai'||command.startsWith('/ai ')){
-        await setupAI();const rest=command.slice(3).trim();
+        activity.set('ai-setup','Connecting to local AI','Checking models and private context.');await setupAI();const rest=command.slice(3).trim();
         if(!rest)append('Choose your model and context above. Then /ai <question>.\nShared worker limits: 20 messages/hour, one pending job per account. Chat: 192 tokens; code: 384; reasoning: 768 total. Reasoning can take up to three minutes.\nContext and storage are bounded. /compact context reduces the next prompt without deleting saved data.\n','note');
         else if(/^model (tiny|small|reasoning|code)$/.test(rest)){el('cliAiModel').value='nucaloric:'+rest.split(' ')[1];if(!el('cliAiModel').value)throw Error('That model is unavailable.');append('Selected '+el('cliAiModel').value+'.\n','note');}
         else if(/^context (1024|2048)$/.test(rest)){el('cliAiContext').value=rest.split(' ')[1];compact=el('cliAiContext').value==='1024';append('Context budget: '+el('cliAiContext').value+' tokens.\n','note');}
         else if(rest.startsWith('attach ')){attachments=rest.slice(7).split(',').map(n=>n.trim()).filter(Boolean);if(attachments.length>3)throw Error('Attach at most three owned files.');for(const n of attachments)await fileApi(n);append('Attached: '+attachments.join(', ')+'.\n','note');}
         else if(rest==='detach'){attachments=[];append('Files detached.\n','note');}
         else {
-          const coinId=aiCoin.id;await api('ai/coins/'+coinId+'/chat',{requestKey:client.uuid(),model:el('cliAiModel').value,message:rest,contextTokens:Number(el('cliAiContext').value),compact:compact||el('cliAiContext').value==='1024',files:attachments});el('cliNotice').textContent='Local AI is answering…';
+          activity.set('ai-queued','Sending to the Distiller',el('cliAiModel').selectedOptions[0]?.textContent||'Local model');const coinId=aiCoin.id;await api('ai/coins/'+coinId+'/chat',{requestKey:client.uuid(),model:el('cliAiModel').value,message:rest,contextTokens:Number(el('cliAiContext').value),compact:compact||el('cliAiContext').value==='1024',files:attachments});el('cliNotice').textContent='Local AI is answering…';activity.set('ai-waiting','Waiting for local AI','Queued or generating on Distiller · '+el('cliAiModel').selectedOptions[0]?.textContent);
           const deadline=Date.now()+((aiModels.find(m=>m.id===el('cliAiModel').value)?.timeoutSeconds||90)+25)*1000;let d;while(Date.now()<deadline){await new Promise(resolve=>setTimeout(resolve,3000));d=await api('ai/coins/'+coinId);if(!d.coin.pendingJob)break;}
           if(d?.coin.pendingJob)throw Error('The reply is still running. Open Coin AI to check it.');if(d?.coin.lastError)throw Error(d.coin.lastError);const reply=[...d.messages].reverse().find(m=>m.role==='assistant');if(!reply)throw Error('No reply available yet.');append('\n'+el('cliAiModel').value+' > '+reply.content+'\n\n','ai');
         }
@@ -103,10 +117,10 @@
         append(result.output||'');append('\n');el('cliNotice').textContent=result.truncated?'Output limited to 64 KB.':result.exitCode?'Exited with code '+result.exitCode+'.':'Ready.';
       }
       if(command.startsWith('/'))el('cliNotice').textContent='Ready.';
-    }catch(e){append(e.message+'\n','error');el('cliNotice').textContent=e.message;}
-    finally{busy=false;panel.classList.remove('is-running');select.disabled=false;el('cliRefresh').disabled=false;input.disabled=!selected?.canUseTerminal;el('cliRun').disabled=input.disabled;if(!input.disabled)input.focus({preventScroll:true});}
+    }catch(e){activity.set('error','Request could not finish',e.message);append(e.message+'\n','error');el('cliNotice').textContent=e.message;}
+    finally{if(el('cliActivity').dataset.phase!=='error')activity.set('idle');panel.setAttribute('aria-busy','false');busy=false;panel.classList.remove('is-running');select.disabled=false;el('cliRefresh').disabled=false;el('cliAiModel').disabled=false;el('cliAiContext').disabled=false;input.disabled=!selected?.canUseTerminal;el('cliRun').disabled=input.disabled;if(!input.disabled&&!document.querySelector('#deskManager')?.open)input.focus({preventScroll:true});}
   });
-  window.NUC_DEV_RUNTIME={list:()=>structuredClone(rows),selected:()=>selected?.id||null,select:id=>{if(!rows.some(w=>w.id===id&&w.canManageServer&&w.server))throw Error('Choose your provisioned website.');select.value=id;choose(id);},refresh};
+  window.NUC_DEV_RUNTIME={list:()=>structuredClone(rows),selected:()=>selected?.id||null,select:id=>{if(busy||refreshing)throw Error('Wait for your current server request to finish before changing workspace.');if(!rows.some(w=>w.id===id&&w.canManageServer&&w.server))throw Error('Choose your provisioned website.');select.value=id;choose(id);},refresh};
   client.ready.then(async state=>{
     if(state.externalUrl){const url=new URL(state.externalUrl);url.pathname='/dashboard.html';account.href=url.href;account.textContent='OPEN PI ACCOUNT ↗';panel.querySelector('.cli-unlock-copy a').href=url.href;panel.querySelector('.cli-unlock-copy a').textContent='OPEN PI COMMAND LINE ↗';panel.querySelector('.cli-unlock-copy p').textContent='Your server and command line run on the Raspberry Pi. Continue to your account there.';return;}
     if(!state.connected||!state.user)return;
