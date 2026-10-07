@@ -24,7 +24,7 @@
    s.hub=['AVAILABLE NOW','Create a free website server','Sign in to allocate a small static website on the Pi. Five slots total; no payment is due.','billing.html?source=paymenter&workload=web','CREATE A WEBSITE'];
    s.server=['32 MB / 0.25 CPU','Small static website','This Pi offers static website containers. Apps, game servers and AI runtimes need a different server configuration.','billing.html?source=paymenter&workload=web','OPEN BILLING'];
    s.compute=['FIVE SLOTS TOTAL','Allocated by NUCALORIC','The website backend creates the container and enforces its memory/CPU limits. Billing shows the actual server state.','billing.html','VIEW SERVERS'];
-   s.access=['START / STOP / PUBLISH','Manage your website','Open your website, start or stop its server, publish an HTML page or remove it to free a slot. These Pi URLs are currently available on the local network.','billing.html','MANAGE SERVERS'];
+   s.access=['COMMAND LINE / WEBSITE','Manage your website','Use the Account command line inside your website container. Start/stop, HTML publication and removal are available in Billing. These Pi URLs currently work on the local network.','billing.html','MANAGE SERVERS'];
   }
   document.querySelectorAll('[data-ribbon-flow="payment"] [data-flow-id="hub"]').forEach(button=>button.click());
  });

@@ -89,7 +89,7 @@
       if(billing.provisioner?.connected&&p.source==='paymenter'&&p.workload==='web'&&p.compute==='cpu'){
         link.textContent='CREATE FREE WEBSITE SERVER ↗';
         el('hostCheckoutNote').textContent='Allocate a small static website on the Pi: 32 MB RAM and 0.25 CPU, subject to the five-slot limit. No payment is due.';
-        el('hostAccessNote').textContent='Manage start/stop and publish an HTML page from Billing. This template has no app runtime or remote terminal.';
+        el('hostAccessNote').textContent='Manage start/stop and publish an HTML page from Billing. Use the Account command line for container shell commands. This template serves static websites.';
       }
     }
   }

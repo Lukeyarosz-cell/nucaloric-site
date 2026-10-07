@@ -1,0 +1,18 @@
+/* The existing account card becomes a live container console. */
+.cli-workspace [hidden]{display:none!important}
+.cli-header-controls{display:flex;align-items:center;gap:10px;min-width:0}
+#cliServerSelect{max-width:175px;min-width:0;background:#151515;color:#ff91bd;border:1px solid #383038;border-radius:6px;padding:7px;font:10px var(--mono)}
+.cli-workspace.is-connected .cli-preview,.cli-workspace.is-connected .cli-unlock-overlay{display:none}
+.cli-console{padding:22px;min-width:0}
+.cli-console-tools{display:flex;align-items:center;gap:12px;font:10px var(--mono);color:#b5a4af}
+#cliServerName{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cli-console-tools button{background:transparent;color:#ff91bd;border:0;padding:8px 0;font:9px var(--mono);cursor:pointer}
+.cli-output{height:225px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;font:11px/1.8 var(--mono);color:#eddce6;margin:14px 0 16px;scrollbar-width:thin}
+.cli-command-form{display:flex;align-items:center;gap:10px;border:1px solid #49333e;border-radius:7px;background:#171216;padding:10px 12px;color:#ff91bd}
+.cli-command-form:focus-within{border-color:#ff91bd}
+.cli-command-form input{flex:1;min-width:0;width:100%;border:0;outline:none;background:transparent;color:#fff;font:12px var(--mono)}
+.cli-command-form button{flex-shrink:0;background:#ff91bd;color:#151015;border:0;border-radius:4px;padding:9px 11px;font:600 9px var(--mono);cursor:pointer}
+.cli-command-form button:disabled,.cli-console-tools button:disabled{opacity:.4;cursor:wait}
+.cli-shell-note,.cli-shell-notice{font:10px/1.7 var(--mono);color:#ac98a4;margin:12px 0 0}
+.cli-shell-notice{color:#ff91bd;min-height:17px}
+@media(max-width:760px){.cli-header{flex-wrap:wrap;gap:12px;padding:18px}.cli-header-controls{width:100%;justify-content:space-between}#cliServerSelect{max-width:220px}.cli-console{padding:18px}.cli-output{height:230px}}
