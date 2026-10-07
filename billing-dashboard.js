@@ -31,7 +31,7 @@
     el('cliConnection').textContent=ready?'CONNECTED':selected?'STOPPED':'LOCKED';el('cliAccessStatus').textContent=ready?'Ready':selected?'Stopped':'Locked';
     showWorkspace(selected||rows[0]);
     if(prior!==selected?.id){output.textContent='';history=[];historyIndex=0;input.value='';el('cliNotice').textContent='';if(ready){cwd='/usr/share/nginx/html';const art=document.createElement('span');art.className='cli-login-art';art.setAttribute('aria-label','NUCALORIC');output.append(art);append('Welcome '+(client.state.user?.name||'builder')+' · '+selected.project+'\n\nStarter commands: pwd · ls -lah · cat index.html\nAI: /ai · /ai your question · /compact context\nFiles: /files · /files put notes.md your notes\nType help for all commands.\n\n','note');}}
-    el('cliServerName').textContent=selected?.project||'';
+    el('cliServerName').textContent=selected?.project||'';window.dispatchEvent(new CustomEvent('nuc-runtime-change',{detail:{selectedId:selected?.id||null}}));
     const copy=panel.querySelector('.cli-unlock-copy p'),link=panel.querySelector('.cli-unlock-copy a');
     copy.textContent=selected?'Start your website server in Billing, then refresh this page to connect.':'Create a free website server in Billing to use its command line.';link.textContent=selected?'MANAGE SERVER ↗':'CREATE A SERVER ↗';
   }
@@ -106,6 +106,7 @@
     }catch(e){append(e.message+'\n','error');el('cliNotice').textContent=e.message;}
     finally{busy=false;panel.classList.remove('is-running');select.disabled=false;el('cliRefresh').disabled=false;input.disabled=!selected?.canUseTerminal;el('cliRun').disabled=input.disabled;if(!input.disabled)input.focus({preventScroll:true});}
   });
+  window.NUC_DEV_RUNTIME={list:()=>structuredClone(rows),selected:()=>selected?.id||null,select:id=>{if(!rows.some(w=>w.id===id&&w.canManageServer&&w.server))throw Error('Choose your provisioned website.');select.value=id;choose(id);},refresh};
   client.ready.then(async state=>{
     if(state.externalUrl){const url=new URL(state.externalUrl);url.pathname='/dashboard.html';account.href=url.href;account.textContent='OPEN PI ACCOUNT ↗';panel.querySelector('.cli-unlock-copy a').href=url.href;panel.querySelector('.cli-unlock-copy a').textContent='OPEN PI COMMAND LINE ↗';panel.querySelector('.cli-unlock-copy p').textContent='Your server and command line run on the Raspberry Pi. Continue to your account there.';return;}
     if(!state.connected||!state.user)return;

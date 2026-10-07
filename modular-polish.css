@@ -1,0 +1,14 @@
+/* Shared surface and interaction rhythm; existing artwork and page structure stay intact. */
+body:not(.creator-desk) :is(.creative-kit,.project-record,.workspace-panel,.studio-signature-card,.workspace-glass-stage,.integration-card,.control-panel,.score-panel,.hosting-terminal,.service-record,.services-record,.price-glass){border-radius:18px;border-color:#ffffff17;background-color:#121213;box-shadow:0 12px 32px #00000012;transition:border-color .2s,box-shadow .2s,background-color .2s}
+body:not(.creator-desk) :is(.creative-kit,.project-record,.workspace-panel,.studio-signature-card,.workspace-glass-stage,.integration-card,.control-panel,.score-panel,.hosting-terminal,.service-record,.services-record,.price-glass):focus-within{border-color:#ff91bd75;box-shadow:0 0 0 2px #ff91bd10}
+body:not(.creator-desk) :is(.creative-kit-grid,.project-library-grid,.glass-choice-grid,.services-record-grid){gap:16px}
+body:not(.creator-desk) :is(.studio-section,.hosting-section,.working-section){scroll-margin-top:94px}
+body:not(.creator-desk) :is(.studio-section,.hosting-section,.working-section)>:is(.section-heading,.section-head,.module-heading){padding-bottom:18px;border-bottom:1px solid #ffffff12;margin-bottom:20px}
+body :is(button,.button,.btn,[role="button"]){-webkit-tap-highlight-color:transparent}
+body :is(button,.button,.btn,[role="button"]):focus-visible{outline:2px solid #ff91bd;outline-offset:3px}
+body :is(button,.button,.btn,[role="button"]):active:not(:disabled){translate:0 1px}
+body:not(.creator-desk) details>summary{transition:color .18s,background-color .18s}
+body:not(.creator-desk) details[open]>summary{color:#ffb4d0}
+@media(hover:hover){body:not(.creator-desk) :is(.creative-kit,.project-record,.workspace-glass-stage,.integration-card,.control-panel,.score-panel,.price-glass):hover{border-color:#ffffff38;box-shadow:0 16px 36px #00000022}}
+@media(max-width:600px){body:not(.creator-desk) :is(.creative-kit-grid,.project-library-grid,.glass-choice-grid,.services-record-grid){gap:10px}}
+@media(prefers-reduced-motion:reduce){body :is(button,.button,.btn,[role="button"]):active:not(:disabled){translate:none}body:not(.creator-desk) :is(.creative-kit,.project-record,.workspace-panel,.studio-signature-card,.workspace-glass-stage,.integration-card,.control-panel,.score-panel,.hosting-terminal,.service-record,.services-record,.price-glass,details>summary){transition:none}}
