@@ -49,7 +49,7 @@
     field.replaceChildren();
     const pairs = latest.state === 'ready' ? latest.visiblePairs : [];
     if (!pairs.length) {
-      field.append(node('p', 'field-placeholder', latest.state === 'loading' ? 'Gathering current observations.' : latest.state === 'error' ? 'The field is taking a break. Retry the feed below.' : 'No pools in this view. Try another search.'));
+      field.append(node('p', 'field-placeholder', latest.state === 'loading' ? 'Gathering current observations.' : latest.state === 'error' ? 'Pool observations are unavailable. Retry the feed below.' : 'No pools in this view. Try another search.'));
       fieldCount.textContent = latest.state === 'loading' ? 'READING…' : latest.state === 'error' ? 'FEED UNAVAILABLE' : '0 POOLS';
       remix.disabled = true;
       return;
@@ -60,7 +60,11 @@
       const pair = pairs[(fieldOffset + i) % pairs.length], button = node('button', 'field-node');
       button.type = 'button'; button.dataset.fieldPair = pair.pairAddress;
       button.setAttribute('aria-label', `Quick look at ${pair.baseToken.name}`);
-      button.append(node('span', '', pair.baseToken.symbol), node('small', '', number(pair.priceChange?.h24) === null ? '—' : change(pair.priceChange.h24)));
+      const identity=node('span','field-pool-identity');
+      identity.append(node('b','',pair.baseToken.symbol),node('small','',pair.baseToken.name));
+      const performance=node('span','field-pool-change',number(pair.priceChange?.h24)===null?'—':change(pair.priceChange.h24));
+      performance.dataset.direction=number(pair.priceChange?.h24)===null?'unknown':Number(pair.priceChange.h24)>=0?'up':'down';
+      button.append(node('span','field-pool-number',String(i+1).padStart(2,'0')),identity,performance,node('span','field-pool-arrow','↗'));
       button.addEventListener('click', () => inspect(pair.pairAddress, button));
       field.append(button);
     }

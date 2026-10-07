@@ -4,6 +4,7 @@
   const card=name.closest('.account-project-card'),panel=document.querySelector('.cli-workspace');
   const el=id=>document.getElementById(id),select=el('cliServerSelect'),input=el('cliCommand'),output=el('cliOutput');
   const account=document.createElement('a');account.className='product-primary';account.href='billing.html';account.textContent='ACCOUNT & BILLING ↗';account.style.marginTop='12px';card.append(account);
+  const requestedServer=new URLSearchParams(location.search).get('server');
   let rows=[],selected=null,busy=false,history=[],historyIndex=0;
   function showWorkspace(workspace){
     if(!workspace)return;
@@ -36,7 +37,7 @@
   async function refresh(){
     const data=await client.request('workspaces');rows=data.workspaces.filter(w=>w.billingStatus==='active');const servers=rows.filter(w=>w.server&&w.canManageServer);
     const previous=selected?.id;select.replaceChildren();for(const w of servers){const option=document.createElement('option');option.value=w.id;option.textContent=w.project+' · '+w.server.status;select.append(option);}
-    select.hidden=!servers.length;const id=servers.find(w=>w.id===previous)?.id||servers.find(w=>w.canUseTerminal)?.id||servers[0]?.id;
+    select.hidden=!servers.length;const id=servers.find(w=>w.id===previous)?.id||servers.find(w=>w.id===requestedServer)?.id||servers.find(w=>w.canUseTerminal)?.id||servers[0]?.id;
     select.value=id||'';choose(id);if(!servers.length)showWorkspace(rows[0]);
   }
   select.addEventListener('change',()=>choose(select.value));

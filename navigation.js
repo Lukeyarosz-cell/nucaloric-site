@@ -15,6 +15,7 @@
   billing.innerHTML = '<span class="nav-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="8" r="3"/><path d="M5 21v-3a7 7 0 0 1 14 0v3"/></svg></span><span class="nav-item-copy"><b>Billing</b><small>Account &amp; workspace enrollment</small></span><span class="nav-item-arrow" aria-hidden="true">↗</span>';
   if(location.pathname.endsWith('/billing.html'))billing.setAttribute('aria-current','page');
   panel.querySelector('.nav-tools-items')?.append(billing);
+  const services=document.createElement('a');services.href='services.html';services.setAttribute('data-transition','');services.innerHTML='<span class="nav-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="4" y="4" width="16" height="6" rx="2"/><rect x="4" y="14" width="16" height="6" rx="2"/><path d="M8 7h.01M8 17h.01M13 7h4M13 17h4"/></svg></span><span class="nav-item-copy"><b>Services</b><small>Your servers &amp; workspace plans</small></span><span class="nav-item-arrow" aria-hidden="true">↗</span>';if(location.pathname.endsWith('/services.html'))services.setAttribute('aria-current','page');panel.querySelector('.nav-tools-items')?.append(services);
   const items = () => [...panel.querySelectorAll('a[href], button:not(:disabled)')];
 
   function close(returnFocus = false) {

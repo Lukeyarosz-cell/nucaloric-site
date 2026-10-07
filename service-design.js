@@ -7,9 +7,9 @@
   for(const [key,product] of Object.entries(detail.catalog)){
    if(product.planType!=='free')continue;
    const label=document.querySelector(`[data-price-label="${key}"]`);
-   if(label){label.textContent='Free';const note=label.parentElement.querySelector('span');if(note)note.textContent='Workspace enrollment';}
+   if(label){label.textContent='Free';const note=label.parentElement.querySelector('span');if(note)note.textContent=key==='server'?'Static website hosting':key==='ai'?'Planning only':'Setup planner';}
    const cta=document.querySelector(`[data-plan-link="${key}"]`);
-   if(cta)cta.firstChild.textContent='Plan & enroll free';
+   if(cta&&key==='server'){cta.firstChild.textContent='Create a free website';cta.href='billing.html?source=paymenter&workload=web&compute=cpu#billingCreate';}
   }
   for(const key of ['server','ai']){
    const s=payment[key];
@@ -20,7 +20,8 @@
   }
   if(detail.provisioner?.connected){
    const s=payment.server;
-   s.status='FREE PI WEBSITE SLOTS / CONNECTED';
+   s.status=`FREE PI WEBSITE / ${detail.provisioner.available} OF ${detail.provisioner.limit} SLOTS AVAILABLE`;s.hubTitle='Paymenter';s.hubNote='Free account & service';s.titles={invoice:'Free service',compute:'Website server',access:'Your workspace'};s.notes={invoice:'No card required',compute:'32 MB / 0.25 CPU',access:'Website & command line'};
+   const availability=document.querySelector('.pricing-availability');if(availability)availability.textContent=`Free website hosting is connected. ${detail.provisioner.available} of ${detail.provisioner.limit} Pi slots are available. Own-hardware and model options remain planning tools.`;
    s.hub=['AVAILABLE NOW','Create a free website server','Sign in to allocate a small static website on the Pi. Five slots total; no payment is due.','billing.html?source=paymenter&workload=web','CREATE A WEBSITE'];
    s.server=['32 MB / 0.25 CPU','Small static website','This Pi offers static website containers. Apps, game servers and AI runtimes need a different server configuration.','billing.html?source=paymenter&workload=web','OPEN BILLING'];
    s.compute=['FIVE SLOTS TOTAL','Allocated by NUCALORIC','The website backend creates the container and enforces its memory/CPU limits. Billing shows the actual server state.','billing.html','VIEW SERVERS'];
@@ -45,13 +46,13 @@
  };
  const payment = {
   server: {
-   hubTitle: 'Paymenter', hubNote: 'Checkout & billing', status: 'MANAGED CHECKOUT / PLANNED', titles: { invoice: 'Invoice', compute: 'Provisioning', access: 'Service access' }, notes: { invoice: 'Confirm payment', compute: 'Create the service', access: 'After provisioning' },
-   hub: ['PLANNED', 'Checkout through Paymenter', 'Review the product and final price in Paymenter before paying. Managed checkout is not connected yet.', 'hosting.html?source=paymenter&compute=cpu#workspaceBuilder', 'PLAN A SERVER'],
+   hubTitle: 'Paymenter', hubNote: 'Free account & service', status: 'FREE WEBSITE PLAN / CONNECT YOUR ACCOUNT', titles: { invoice: 'Free service', compute: 'Website server', access: 'Your workspace' }, notes: { invoice: 'No card required', compute: '32 MB / 0.25 CPU', access: 'Website & command line' },
+   hub: ['FREE PLAN','Start with your account','Create a free website through the connected workspace site. No card or payment is required. Public access needs the Pi HTTPS connection.','billing.html?source=paymenter&workload=web&compute=cpu#billingCreate','OPEN BILLING'],
    own: null,
-   server: ['PLANNED', 'Choose a server', 'Plan CPU compute for your app, API or scripts. A configured Paymenter product will provide the actual price and specifications.', 'hosting.html?source=paymenter&compute=cpu&workload=web#workspaceBuilder', 'PLAN A SERVER'],
-   invoice: ['PLANNED', 'Payment confirmation', 'The payment gateway processes the payment. The billing service must confirm it before moving the order forward.', 'https://paymenter.org/docs/guides/gateways/', 'PAYMENTER GATEWAYS'],
-   compute: ['PLANNED', 'Provision the server', 'A server extension creates the service. A paid invoice and a ready server are separate milestones.', 'https://paymenter.org/development/extensions/server', 'SERVER EXTENSIONS'],
-   access: ['PLANNED', 'Open your service', 'Access follows successful provisioning and an ownership check. Saving a plan here does not create a server or subscription.', 'hosting.html#workspaceBuilder', 'OPEN WORKSPACE PLANNER']
+   server: ['FREE WEBSITE','A small home for your website','The Pi provides five static website slots with 32 MB RAM and 0.25 CPU each. App runtimes and AI compute are separate.','billing.html?source=paymenter&compute=cpu&workload=web#billingCreate','CREATE A WEBSITE'],
+   invoice: ['NO PAYMENT DUE', 'Your Free service record', 'Paymenter saves a zero-cost order and service. This Free plan needs no invoice, card or payment gateway.', 'billing.html', 'OPEN BILLING'],
+   compute: ['PI WEBSITE HOSTING', 'Allocate a website slot', 'The connected workspace site allocates one of five Pi website containers. Billing shows available capacity before creation.', 'billing.html?source=paymenter&workload=web&compute=cpu#billingCreate', 'CREATE A WEBSITE'],
+   access: ['YOUR ACCOUNT', 'Build and manage your website', 'Use Services to publish HTML and start or stop your server. Its command line is available in Account while the server is running. Public access awaits the Pi HTTPS connection.', 'services.html', 'YOUR SERVICES']
   },
   own: {
    hubTitle: 'Your local setup', hubNote: 'No checkout needed', status: 'LOCAL PLANNING / AVAILABLE', titles: { invoice: 'Plan export', compute: 'Your machine', access: 'Device access' }, notes: { invoice: 'No platform checkout', compute: 'Your Pi or Linux PC', access: 'Pairing planned' },
