@@ -21,8 +21,8 @@
   }
   const ready = (async () => {
     try {
-      // GitHub Pages stays in the unconnected state until a backend is deployed.
-      if(location.hostname.endsWith('.github.io'))return state;
+      // Private sessions belong to the live origin; never share account cookies through GitHub.
+      if(location.hostname.endsWith('.github.io')){const live=await window.NUC_LIVE_SITE?.ready;if(live?.origin)state.externalUrl=new URL('/billing.html',live.origin).href;return state;}
       const response=await fetch('/api/billing/config',{cache:'no-store'});
       if (!response.ok || !response.headers.get('content-type')?.includes('application/json')) return state;
       const config=await response.json();
