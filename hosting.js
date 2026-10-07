@@ -72,6 +72,15 @@
       el('hostPrice').textContent = checkout.product.priceLabel;
       el('hostCheckoutNote').textContent = 'Review specifications, availability, and the final price in Paymenter before paying. Your plan stays in this browser.';
     }
+    const billing = window.NUC_BILLING?.state;
+    const free = billing?.catalog?.[p.source === 'own' ? 'basic' : p.workload === 'model' ? 'ai' : 'server'];
+    if (billing?.connected && free?.planType === 'free') {
+      link.href = 'billing.html'; link.setAttribute('aria-disabled', 'false');
+      link.textContent = 'ENROLL FREE WORKSPACE ↗';
+      el('hostPrice').textContent = 'Free enrollment';
+      el('hostCheckoutNote').textContent = 'Create a free billing record in your account. No payment is due. Hardware and deployment are configured separately.';
+      el('hostAccessNote').textContent = p.source === 'own' ? 'Enrollment is available. Machine pairing and remote access await your hardware.' : 'Enrollment is available. Server provisioning and remote access await the hosting backend.';
+    }
   }
   function valid() {
     el('hostProject').setCustomValidity(el('hostProject').value.trim() ? '' : 'Enter a project name.');
@@ -92,7 +101,15 @@
     try { localStorage.setItem(key, JSON.stringify(plan())); feedback(plan().source==='own'?'Own-hardware plan saved in this browser. Your machine has not been paired.':'Workspace plan saved in this browser. No server has been purchased.'); }
     catch { feedback('Browser storage is unavailable. Export your plan to keep a copy.'); }
   });
-  el('hostCheckout').addEventListener('click', e => { if (!checkoutFor(plan()) || !valid()) e.preventDefault(); });
+  el('hostCheckout').addEventListener('click', e => {
+    const p=plan(), billing=window.NUC_BILLING?.state;
+    const free=billing?.catalog?.[p.source==='own'?'basic':p.workload==='model'?'ai':'server'];
+    if(billing?.connected && free?.planType==='free') {
+      if(!valid()){e.preventDefault();return;}
+      try{localStorage.setItem(key,JSON.stringify(p));}catch{e.preventDefault();feedback('Browser storage is unavailable. Enter your project details in Billing.');location.href='billing.html';}
+    } else if (!checkoutFor(p) || !valid()) e.preventDefault();
+  });
+  window.addEventListener('nuc-billing-ready',update);
   el('hostExport').addEventListener('click', () => { if (!valid()) return; download(`${slug(plan().project)}-workspace.json`, JSON.stringify(plan(), null, 2), 'application/json'); feedback('Workspace plan exported.'); });
   el('hostScriptDownload').addEventListener('click', () => { if (!valid()) return; download(`${slug(plan().project)}-setup.sh`, script(plan()), 'text/x-shellscript'); feedback(plan().source==='own'?'Setup script downloaded. Run it locally on your own Linux machine.':'Setup script downloaded. Run it in your provisioned workspace.'); });
   try {

@@ -2,6 +2,24 @@
 (() => {
  const svgNS = 'http://www.w3.org/2000/svg';
  const checkoutConfig = window.NUC_HOSTING_CONFIG;
+ window.addEventListener('nuc-billing-ready',({detail})=>{
+  if(!detail.connected)return;
+  for(const [key,product] of Object.entries(detail.catalog)){
+   if(product.planType!=='free')continue;
+   const label=document.querySelector(`[data-price-label="${key}"]`);
+   if(label){label.textContent='Free';const note=label.parentElement.querySelector('span');if(note)note.textContent='Workspace enrollment';}
+   const cta=document.querySelector(`[data-plan-link="${key}"]`);
+   if(cta)cta.firstChild.textContent='Plan & enroll free';
+  }
+  for(const key of ['server','ai']){
+   const s=payment[key];
+   s.status='FREE ENROLLMENT / CONNECTED';s.hub=['AVAILABLE NOW','Free workspace enrollment','Sign in and enroll this workspace with Paymenter. No payment is due. Machine capacity and remote access await setup.','billing.html?source=paymenter&workload='+(key==='ai'?'model':'web'),'OPEN BILLING'];
+   s.invoice=['NO PAYMENT DUE','A Free product plan','The free enrollment creates an order and service record without an invoice or payment gateway. Paid plans can use a gateway later.','billing.html','YOUR BILLING'];
+   s.compute=['AWAITING SETUP','Connect the hosting backend','Server provisioning is managed by the NUCALORIC backend. Billing enrollment does not create or start a machine.','hosting.html#workspaceBuilder','PLAN THE MACHINE'];
+   s.access=['AWAITING SETUP','Machine access','An active billing record is separate from a paired machine or provisioned server. Remote control is not connected yet.','billing.html','VIEW WORKSPACES'];
+  }
+  document.querySelectorAll('[data-ribbon-flow="payment"] [data-flow-id="hub"]').forEach(button=>button.click());
+ });
  document.querySelectorAll('[data-price-label]').forEach(el => {
   const product = checkoutConfig?.products?.[el.dataset.priceLabel === 'server' ? 'cpu' : 'gpu'];
   if (el.dataset.priceLabel === 'basic' || typeof product?.priceLabel !== 'string' || !product.priceLabel.trim()) return;
