@@ -107,7 +107,11 @@
       feedback('Saved workspace plan restored.');
     }
   } catch { /* Ignore invalid or inaccessible local drafts. */ }
-  const requestedWorkload = new URLSearchParams(location.search).get('workload');
+  const requested = new URLSearchParams(location.search);
+  const requestedWorkload = requested.get('workload');
   if (Object.hasOwn(workloads, requestedWorkload)) form.elements.workload.value = requestedWorkload;
+  if (['own', 'paymenter'].includes(requested.get('source'))) form.elements.source.value = requested.get('source');
+  if (['pi', 'pc'].includes(requested.get('hardware'))) el('hostHardware').value = requested.get('hardware');
+  if (['cpu', 'gpu'].includes(requested.get('compute'))) el('hostCompute').value = requested.get('compute');
   update();
 })();

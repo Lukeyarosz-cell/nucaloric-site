@@ -4,6 +4,12 @@
   if (!disclosure) return;
   const trigger = disclosure.querySelector('summary');
   const panel = disclosure.querySelector('.nav-more-panel');
+  const pricing = document.createElement('a');
+  pricing.href = 'pricing.html';
+  pricing.setAttribute('data-transition', '');
+  pricing.innerHTML = '<span class="nav-item-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span><span class="nav-item-copy"><b>Pricing</b><small>Hardware, servers &amp; AI</small></span><span class="nav-item-arrow" aria-hidden="true">↗</span>';
+  if (location.pathname.endsWith('/pricing.html')) pricing.setAttribute('aria-current', 'page');
+  panel.querySelector('.nav-tools-items')?.prepend(pricing);
   const items = () => [...panel.querySelectorAll('a[href], button:not(:disabled)')];
 
   function close(returnFocus = false) {

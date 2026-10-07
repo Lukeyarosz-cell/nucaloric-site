@@ -198,6 +198,7 @@ const commands=[
   ['PAGE','Implementation roadmap','API access, integration dependencies and acceptance gates','roadmap.html'],
   ['PAGE','Project Studio','Creative project kits, capability shortlist, evidence, and exportable briefs','studio.html'],
   ['PAGE','Project hosting','Paymenter hosting, developer workspaces, CLI and self-hosted models','hosting.html'],
+  ['PAGE','Pricing & services','Own hardware, Raspberry Pi, Paymenter servers and AI compute plans','pricing.html'],
   ['PAGE','Explore coins','Market browser, watchlist and compare','explorer.html'],['PAGE','Build a coin','Guided genesis builder with AI recommendations','launchpad.html'],['PAGE','Personal dashboard','Holdings, rewards, watchlist and launches','dashboard.html'],['PAGE','Capability registry','49 example capabilities, project kits, and a useful toolset','registry.html'],['PAGE','Rewards','Missions, referrals and X Pay rewards','rewards.html'],['PAGE','AI optimizer','Allocation and launch structure model','optimizer.html'],['PAGE','Ecosystem','Wallets, X Pay, routing and integrations','ecosystem.html'],
   ...tokenOrder.map(k=>['COIN',coinData[k].name,`${coinData[k].ticker} · AI ${coinData[k].score} · ${coinData[k].holders} holders`,`coin.html?coin=${k}`]),
   ['CAPABILITY','Treasury','14 live tools · reserve, swaps, perps, buybacks','registry.html#treasury'],['CAPABILITY','Mind','Public reasoning, memory, missions and strategy','registry.html#mind'],['CAPABILITY','Rewards','Airdrops, recurring rewards, jackpots and vesting','registry.html#rewards']
