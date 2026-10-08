@@ -79,6 +79,7 @@
       link.href=destination.href;link.setAttribute('aria-disabled','false');link.textContent='OPEN PI BILLING ↗';
       el('hostCheckoutNote').textContent='Billing and server allocation run on the Raspberry Pi. Continue there with this project plan.';
     }
+    if(billing?.connected&&p.source==='paymenter'&&p.workload==='web'&&p.compute==='cpu'&&billing.provisioner?.connected){link.href='billing.html#billingCreate';link.setAttribute('aria-disabled','false');link.textContent='CHOOSE MONTHLY SERVER ↗';el('hostPrice').textContent='$1.50 Basic / $2 Full per month';el('hostCheckoutNote').textContent='Prepaid monthly Pi / Distiller slot. Connect a wallet and approve crypto payment in Billing. Higher AI costs $0.50 per 1,000 processed tokens.';el('hostAccessNote').textContent='CLI, shell scripting and website hosting. Full adds GitHub deployment and workspace tools. Shared small models are free; higher-model usage is separate.';}
     const free = billing?.catalog?.[p.source === 'own' ? 'basic' : p.workload === 'model' ? 'ai' : 'server'];
     if (billing?.connected && free?.planType === 'free') {
       link.href = 'billing.html'; link.setAttribute('aria-disabled', 'false');
@@ -116,7 +117,7 @@
     const p=plan(), billing=window.NUC_BILLING?.state;
     if(billing?.externalUrl){if(!valid())e.preventDefault();return;}
     const free=billing?.catalog?.[p.source==='own'?'basic':p.workload==='model'?'ai':'server'];
-    if(billing?.connected && free?.planType==='free') {
+    if(billing?.connected && (free?.planType==='free'||p.source==='paymenter'&&p.workload==='web'&&p.compute==='cpu'&&billing.provisioner?.connected)) {
       if(!valid()){e.preventDefault();return;}
       try{localStorage.setItem(key,JSON.stringify(p));}catch{e.preventDefault();feedback('Browser storage is unavailable. Enter your project details in Billing.');location.href='billing.html';}
     } else if (!checkoutFor(p) || !valid()) e.preventDefault();

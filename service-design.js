@@ -11,22 +11,14 @@
    const cta=document.querySelector(`[data-plan-link="${key}"]`);
    if(cta&&key==='server'){cta.firstChild.textContent='Create a free website';cta.href='billing.html?source=paymenter&workload=web&compute=cpu#billingCreate';}
   }
-  for(const key of ['server','ai']){
-   const s=payment[key];
-   s.status='FREE ENROLLMENT / CONNECTED';s.hub=['AVAILABLE NOW','Free workspace enrollment','Sign in and enroll this workspace with Paymenter. No payment is due. Machine capacity and remote access await setup.','billing.html?source=paymenter&workload='+(key==='ai'?'model':'web'),'OPEN BILLING'];
-   s.invoice=['NO PAYMENT DUE','A Free product plan','The free enrollment creates an order and service record without an invoice or payment gateway. Paid plans can use a gateway later.','billing.html','YOUR BILLING'];
-   s.compute=['AWAITING SETUP','Connect the hosting backend','Server provisioning is managed by the NUCALORIC backend. Billing enrollment does not create or start a machine.','hosting.html#workspaceBuilder','PLAN THE MACHINE'];
-   s.access=['AWAITING SETUP','Machine access','An active billing record is separate from a paired machine or provisioned server. Remote control is not connected yet.','billing.html','VIEW WORKSPACES'];
-  }
-  if(detail.provisioner?.connected){
-   const s=payment.server;
-   s.status=`FREE PI WEBSITE / ${detail.provisioner.available} OF ${detail.provisioner.limit} SLOTS AVAILABLE`;s.hubTitle='Paymenter';s.hubNote='Free account & service';s.titles={invoice:'Free service',compute:'Website server',access:'Your workspace'};s.notes={invoice:'No card required',compute:'32 MB / 0.25 CPU',access:'Website & command line'};
-   const availability=document.querySelector('.pricing-availability');if(availability)availability.textContent=`Free website hosting is connected. ${detail.provisioner.available} of ${detail.provisioner.limit} Pi slots are available. Own-hardware and model options remain planning tools.`;
-   s.hub=['AVAILABLE NOW','Create a free website server','Sign in to allocate a small static website on the Pi. Five slots total; no payment is due.','billing.html?source=paymenter&workload=web','CREATE A WEBSITE'];
-   s.server=['32 MB / 0.25 CPU','Small static website','This Pi offers static website containers. Apps, game servers and AI runtimes need a different server configuration.','billing.html?source=paymenter&workload=web','OPEN BILLING'];
-   s.compute=['FIVE SLOTS TOTAL','Allocated by NUCALORIC','The website backend creates the container and enforces its memory/CPU limits. Billing shows the actual server state.','billing.html','VIEW SERVERS'];
-   s.access=['COMMAND LINE / WEBSITE','Manage your website','Use the Account command line inside your website container. Start/stop, HTML publication and removal are available in Billing. These Pi URLs currently work on the local network.','billing.html','MANAGE SERVERS'];
-  }
+  const s=payment.server;s.status='PREPAID MONTHLY / CONNECTED';s.hubNote='Wallet credits & services';s.titles={invoice:'Paid month',compute:'Pi / Distiller',access:'CLI & website'};s.notes={invoice:'$1.50 Basic / $2 Full',compute:'32 MB / 0.25 CPU',access:'Verified wallet payment'};
+  s.hub=['MONTHLY SERVERS','Choose your workspace','Basic is $1.50/month; Full is $2/month. Crypto funds your server balance; allocation follows confirmation.','billing.html','OPEN BILLING'];
+  s.invoice=['PREPAID MONTH','Your paid service record','Confirmed transfers add account credits. Purchasing or renewing a server records a paid monthly invoice and term. Each transfer requires wallet approval.','billing.html','YOUR BILLING'];
+  s.compute=['SHARED LOCAL CAPACITY','Allocate a website slot','A confirmed purchase allocates an available Main Pi or Distiller website container. If allocation is unavailable, funded credits stay in your account.','billing.html','VIEW SERVERS'];
+  s.access=['CLI / SCRIPTING / WEBSITE','Manage your server','Use your dashboard terminal, publish files, and manage your server. Paid access ends with the prepaid term; renew manually in Services.','services.html','YOUR SERVICES'];
+  const a=payment.ai;a.status='LOCAL AI / TOKEN CREDITS';a.hub=['FREE + METERED','Local models for your coin','Tiny and Small are free. Reasoning and Code cost $0.50 per 1,000 processed tokens, including input/context and output.','dashboard.html#coinAI','OPEN LOCAL AI'];
+  a.invoice=['TOKEN USAGE','Pay for processed tokens','Unused reservations and failed jobs are refunded. Your account shows actual input and output usage.','dashboard.html#credits','VIEW CREDITS'];
+  const availability=document.querySelector('.pricing-availability');if(availability&&detail.provisioner?.connected)availability.textContent=`${detail.provisioner.available} of ${detail.provisioner.limit} website slots are available across the Pi and Distiller. Basic $1.50/month; Full $2/month; high AI $0.50/1,000 credits.`;
   document.querySelectorAll('[data-ribbon-flow="payment"] [data-flow-id="hub"]').forEach(button=>button.click());
  });
  document.querySelectorAll('[data-price-label]').forEach(el => {
@@ -46,11 +38,11 @@
  };
  const payment = {
   server: {
-   hubTitle: 'Paymenter', hubNote: 'Free account & service', status: 'FREE WEBSITE PLAN / CONNECT YOUR ACCOUNT', titles: { invoice: 'Free service', compute: 'Website server', access: 'Your workspace' }, notes: { invoice: 'No card required', compute: '32 MB / 0.25 CPU', access: 'Website & command line' },
-   hub: ['FREE PLAN','Start with your account','Create a free website through the connected workspace site. No card or payment is required. Public access needs the Pi HTTPS connection.','billing.html?source=paymenter&workload=web&compute=cpu#billingCreate','OPEN BILLING'],
+   hubTitle: 'Paymenter', hubNote: 'Wallet credits & service', status: 'MONTHLY WEBSITE / CONNECT YOUR ACCOUNT', titles: { invoice: 'Free service', compute: 'Website server', access: 'Your workspace' }, notes: { invoice: 'No card required', compute: '32 MB / 0.25 CPU', access: 'Website & command line' },
+   hub: ['FREE PLAN','Start with your account','Choose a $1.50 Basic or $2 Full prepaid monthly server through the live workspace. Wallet approval and blockchain confirmation fund your balance.','billing.html?source=paymenter&workload=web&compute=cpu#billingCreate','OPEN BILLING'],
    own: null,
-   server: ['FREE WEBSITE','A small home for your website','The Pi provides five static website slots with 32 MB RAM and 0.25 CPU each. App runtimes and AI compute are separate.','billing.html?source=paymenter&compute=cpu&workload=web#billingCreate','CREATE A WEBSITE'],
-   invoice: ['NO PAYMENT DUE', 'Your Free service record', 'Paymenter saves a zero-cost order and service. This Free plan needs no invoice, card or payment gateway.', 'billing.html', 'OPEN BILLING'],
+   server: ['MONTHLY WEBSITE','A small home for your website','The Pi provides five static website slots with 32 MB RAM and 0.25 CPU each. App runtimes and AI compute are separate.','billing.html?source=paymenter&compute=cpu&workload=web#billingCreate','CREATE A WEBSITE'],
+   invoice: ['WALLET CREDIT PAYMENT', 'Your paid monthly service record', 'Verified crypto funds your account balance. A server purchase saves its order, paid invoice and monthly service term.', 'billing.html', 'OPEN BILLING'],
    compute: ['PI WEBSITE HOSTING', 'Allocate a website slot', 'The connected workspace site allocates one of five Pi website containers. Billing shows available capacity before creation.', 'billing.html?source=paymenter&workload=web&compute=cpu#billingCreate', 'CREATE A WEBSITE'],
    access: ['YOUR ACCOUNT', 'Build and manage your website', 'Use Services to publish HTML and start or stop your server. Its command line is available in Account while the server is running. Public access awaits the Pi HTTPS connection.', 'services.html', 'YOUR SERVICES']
   },
