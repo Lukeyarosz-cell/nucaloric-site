@@ -195,3 +195,5 @@ body.creator-desk #cliActivity{display:none!important}
 @media(max-width:600px){body.creator-desk .desk-cards .desk-empty{padding:14px;min-height:0}body.creator-desk .desk-cards .desk-empty strong{font-size:18px}body.creator-desk .desk-cards .desk-empty p{font-size:12px;line-height:1.5;margin:7px 0}body.creator-desk .desk-cards .desk-empty a{font-size:12px;margin-top:0;padding:8px 0}body.creator-desk .desk-canvas:has(#aiGate:not([hidden])){height:auto;min-height:460px}body.creator-desk .desk-canvas:has(#aiGate:not([hidden])) .ai-gate{min-height:220px}}
 #cliLiveTerminal.is-command-running::after{content:'';position:absolute;top:4px;left:0;width:18px;height:2px;background:#ff91bd;animation:terminal-signal 1.5s ease-in-out infinite}
 @media(prefers-reduced-motion:reduce){#cliLiveTerminal.is-command-running::after{animation:none}}
+
+body.creator-desk .cli-console :is(.cli-terminal-footer,.cli-shell-note,.cli-shell-notice){display:none!important}

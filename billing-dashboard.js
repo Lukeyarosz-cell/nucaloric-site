@@ -9,7 +9,7 @@
   panel.querySelector('.cli-unlock-copy p').textContent='Sign in to create or manage your website server. Its command line appears here when the server is running.';
   panel.querySelector('.cli-unlock-copy a').textContent='OPEN SERVER ACCOUNT ↗';
   let refreshing=null;
-  let aiCost=0;let rows=[],selected=null,busy=false,history=[],historyIndex=0,cwd='/usr/share/nginx/html',aiCoin=null,aiModels=[],attachments=[],compact=false;
+  let aiExplained=false;let aiCost=0;let rows=[],selected=null,busy=false,history=[],historyIndex=0,cwd='/usr/share/nginx/html',aiCoin=null,aiModels=[],attachments=[],compact=false;
   const controls=document.createElement('div');controls.className='cli-ai-controls';controls.hidden=true;controls.innerHTML='<label>MODEL <select id=cliAiModel aria-label="Terminal AI model"></select></label><label>CONTEXT <select id=cliAiContext aria-label="Terminal AI context"><option value=2048>2048 tokens</option><option value=1024>1024 tokens</option></select></label>';el('cliConsole').insertBefore(controls,el('cliOutput'));
   function showWorkspace(workspace){
     if(!workspace)return;
@@ -69,7 +69,7 @@
       if(!aiCoin){aiCoin=(await api('ai/coins',{name:(selected.project+' developer').slice(0,60),ticker:'DEV',story:'Developer workspace for '+selected.project+'. Help with NUCALORIC, useful project planning and website code.',builders:40,community:30})).coin;await window.NUC_COIN_WORKSPACES?.refresh(aiCoin.id);}
     }
     const before=el('cliAiModel').value;el('cliAiModel').replaceChildren();for(const m of aiModels){const o=document.createElement('option');o.value=m.id;o.textContent=m.name+(['nucaloric:reasoning','nucaloric:code'].includes(m.id)?' · high credits':' · free');el('cliAiModel').append(o);}if(aiModels.some(m=>m.id===before))el('cliAiModel').value=before;
-    controls.hidden=false;append('Tiny + Small: free. Reasoning + Code: 1 high credit per processed input/context + output token. $0.50 / 1,000 credits. Unused reservations and failed requests are refunded.\n','note');return aiCoin;
+    controls.hidden=false;if(!aiExplained){aiExplained=true;append('Tiny + Small: free. Reasoning + Code: 1 high credit per processed input/context + output token. $0.50 / 1,000 credits. Unused reservations and failed requests are refunded.\n','note');}return aiCoin;
   }
   function help(){append('NUCALORIC commands\n  pwd, ls -lah, cat index.html, cd /tmp, whoami, df -h\n  clear                 clear this terminal\n  /wallet               connect and link a Solana wallet\n  /github               open your creator connections\n  /credits              show AI and server balances\n  /server stats         inspect your container usage\n  /server logs          read your container logs\n  /ai                   choose model and context\n  /ai model tiny|small|reasoning|code  switch local model\n  /ai context 1024|2048 choose context budget\n  /ai <question>        chat in this terminal\n  /ai attach notes.md   include up to three private files\n  /ai detach            remove file attachments\n  /compact context      use 1024 tokens and shorter recent history\n  /files                list your private account files\n  /files pull name      copy an owned website file into AI storage\n  /files read name      read an owned text file\n  /files put name text  save a text file on the main USB drive\n  /files rm name        remove an owned text file\n\nLimits: one AI job per account, 20 messages/hour. Chat: 192 tokens; code: 384; reasoning: 768 total + bounded final answer.\nFiles: 20 files/account, 20,000 characters/file. Interactive shell: 5-minute idle limit, 1-hour maximum session. Website root is read-only; /tmp is writable.\nContext compaction reduces prompt size; saved files and history stay intact.\nCtrl+L clear · ↑/↓ history · Tab complete commands.\n\n','note');}
   input.addEventListener('keydown',event=>{
@@ -81,7 +81,7 @@
   el('cliCommandForm').addEventListener('submit',async event=>{
     event.preventDefault();const command=input.value.trim();if(busy||refreshing||!selected?.canUseTerminal||!command)return;
     const id=selected.id;busy=true;activity.set('server','Waiting for your server',selected.server.nodeName+' · running your command');panel.setAttribute('aria-busy','true');panel.classList.add('is-running');input.disabled=true;el('cliRun').disabled=true;select.disabled=true;el('cliRefresh').disabled=true;el('cliAiModel').disabled=true;el('cliAiContext').disabled=true;
-    history.push(command);history=history.slice(-50);historyIndex=history.length;append('nucaloric:'+cwd+' $ '+command+'\n','command');input.value='';el('cliNotice').textContent='Running…';
+    history.push(command);history=history.slice(-50);historyIndex=history.length;if(!window.NUC_TERMINAL)append('nucaloric:'+cwd+' $ '+command+'\n','command');input.value='';el('cliNotice').textContent='Running…';
     try{
       if(command==='clear'){output.textContent='';}
       else if(command==='help'||command==='/help')help();

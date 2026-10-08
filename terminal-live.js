@@ -33,7 +33,7 @@
   aiBusy=true;status.textContent=command.startsWith('/ai')?'Connecting to local AI…':'Running workspace command…';host.classList.add('is-ai-waiting');
   if(!window.NUC_TERMINAL_COMMAND?.run(command)){write('A workspace request is already running.\n');}
   while(window.NUC_TERMINAL_COMMAND?.busy())await new Promise(r=>setTimeout(r,100));
-  aiBusy=false;host.classList.remove('is-ai-waiting');send('\r');
+  aiBusy=false;host.classList.remove('is-ai-waiting');if(selected)status.textContent=selected.server.nodeName+' · /bin/sh';send('\r');
  }
  terminal.onData(data=>{
   if(!session){return;}if(aiBusy){if(data==='\x03')write('AI request continues on the worker. Open Chat to check its result.\n');return;}
