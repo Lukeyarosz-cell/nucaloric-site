@@ -5,7 +5,7 @@
  window.addEventListener('nuc-billing-ready',({detail})=>{
   if(!detail.connected)return;
   for(const [key,product] of Object.entries(detail.catalog)){
-   if(product.planType!=='free')continue;
+   if(key!=='basic'||product.planType!=='free')continue;
    const label=document.querySelector(`[data-price-label="${key}"]`);
    if(label){label.textContent='Free';const note=label.parentElement.querySelector('span');if(note)note.textContent=key==='server'?'Static website hosting':key==='ai'?'Planning only':'Setup planner';}
    const cta=document.querySelector(`[data-plan-link="${key}"]`);
@@ -38,13 +38,13 @@
  };
  const payment = {
   server: {
-   hubTitle: 'Paymenter', hubNote: 'Wallet credits & service', status: 'MONTHLY WEBSITE / CONNECT YOUR ACCOUNT', titles: { invoice: 'Free service', compute: 'Website server', access: 'Your workspace' }, notes: { invoice: 'No card required', compute: '32 MB / 0.25 CPU', access: 'Website & command line' },
-   hub: ['FREE PLAN','Start with your account','Choose a $1.50 Basic or $2 Full prepaid monthly server through the live workspace. Wallet approval and blockchain confirmation fund your balance.','billing.html?source=paymenter&workload=web&compute=cpu#billingCreate','OPEN BILLING'],
+   hubTitle: 'Paymenter', hubNote: 'Wallet credits & service', status: 'MONTHLY WEBSITE / CONNECT YOUR ACCOUNT', titles: { invoice: 'Paid month', compute: 'Pi / Distiller', access: 'CLI & website' }, notes: { invoice: 'No card required', compute: '32 MB / 0.25 CPU', access: 'Website & command line' },
+   hub: ['MONTHLY SERVERS','Start with your account','Choose a $1.50 Basic or $2 Full prepaid monthly server through the live workspace. Wallet approval and blockchain confirmation fund your balance.','billing.html?source=paymenter&workload=web&compute=cpu#billingCreate','OPEN BILLING'],
    own: null,
    server: ['MONTHLY WEBSITE','A small home for your website','The Pi provides five static website slots with 32 MB RAM and 0.25 CPU each. App runtimes and AI compute are separate.','billing.html?source=paymenter&compute=cpu&workload=web#billingCreate','CREATE A WEBSITE'],
    invoice: ['WALLET CREDIT PAYMENT', 'Your paid monthly service record', 'Verified crypto funds your account balance. A server purchase saves its order, paid invoice and monthly service term.', 'billing.html', 'OPEN BILLING'],
    compute: ['PI WEBSITE HOSTING', 'Allocate a website slot', 'The connected workspace site allocates one of five Pi website containers. Billing shows available capacity before creation.', 'billing.html?source=paymenter&workload=web&compute=cpu#billingCreate', 'CREATE A WEBSITE'],
-   access: ['YOUR ACCOUNT', 'Build and manage your website', 'Use Services to publish HTML and start or stop your server. Its command line is available in Account while the server is running. Public access awaits the Pi HTTPS connection.', 'services.html', 'YOUR SERVICES']
+   access: ['YOUR ACCOUNT', 'Build and manage your website', 'Use Services to publish HTML and start or stop your server. Its command line is available in Account while the server is running. Access follows a confirmed prepaid purchase.', 'services.html', 'YOUR SERVICES']
   },
   own: {
    hubTitle: 'Your local setup', hubNote: 'No checkout needed', status: 'LOCAL PLANNING / AVAILABLE', titles: { invoice: 'Plan export', compute: 'Your machine', access: 'Device access' }, notes: { invoice: 'No platform checkout', compute: 'Your Pi or Linux PC', access: 'Pairing planned' },
@@ -55,8 +55,8 @@
    access: ['PLANNED', 'Connect the machine', 'Planning works now. Device enrollment and remote workspace access are a later step; your machine is not paired by exporting a plan.', 'roadmap.html#phase-3', 'VIEW HARDWARE ROADMAP']
   },
   ai: {
-   hubTitle: 'Model workspace', hubNote: 'Compute & runtime', status: 'AI BILLING / PLANNED', titles: { invoice: 'Invoice', compute: 'Model runtime', access: 'Private endpoint' }, notes: { invoice: 'Configured product price', compute: 'Model-ready hardware', access: 'Private model endpoint' },
-   hub: ['PLANNED', 'Plan model compute', 'Select CPU or GPU after reviewing your model’s memory needs. Managed AI billing and deployment are not connected yet.', 'hosting.html?source=paymenter&compute=gpu&workload=model#workspaceBuilder', 'PLAN AI COMPUTE'],
+   hubTitle: 'Local AI', hubNote: 'Free + metered tokens', status: 'LOCAL AI / TOKEN CREDITS', titles: { invoice: 'Invoice', compute: 'Model runtime', access: 'Private endpoint' }, notes: { invoice: 'Configured product price', compute: 'Model-ready hardware', access: 'Private model endpoint' },
+   hub: ['FREE + METERED', 'Models for your coin', 'Tiny and Small use the free shared allowance. Reasoning and Code cost $0.50 per 1,000 processed tokens; input, context and output count.', 'dashboard.html#coinAI', 'OPEN LOCAL AI'],
    ai: ['PLANNED', 'Size the model workspace', 'Plan compute for a self-hosted model. An AI provider subscription is separate from hosting your own model.', 'hosting.html?source=paymenter&compute=gpu&workload=model#workspaceBuilder', 'PLAN AI COMPUTE'],
    invoice: ['PLANNED', 'Review the hosting price', 'A configured product will define the compute price. Model API subscriptions or usage fees are not included unless explicitly listed.', 'hosting.html?source=paymenter&compute=gpu&workload=model#workspaceBuilder', 'REVIEW COMPUTE PLAN'],
    compute: ['PLANNED', 'Prepare the runtime', 'Verify memory, drivers and model compatibility on the actual machine before installing the inference runtime.', 'hosting.html?source=paymenter&compute=gpu&workload=model#workspaceBuilder', 'PLAN THE RUNTIME'],
