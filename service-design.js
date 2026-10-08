@@ -9,7 +9,7 @@
    const label=document.querySelector(`[data-price-label="${key}"]`);
    if(label){label.textContent='Free';const note=label.parentElement.querySelector('span');if(note)note.textContent=key==='server'?'Static website hosting':key==='ai'?'Planning only':'Setup planner';}
    const cta=document.querySelector(`[data-plan-link="${key}"]`);
-   if(cta&&key==='server'){cta.firstChild.textContent='Create a free website';cta.href='billing.html?source=paymenter&workload=web&compute=cpu#billingCreate';}
+   if(cta&&key==='server'){cta.firstChild.textContent='Choose a monthly server';cta.href='billing.html?source=paymenter&workload=web&compute=cpu#billingCreate';}
   }
   const s=payment.server;s.status='PREPAID MONTHLY / CONNECTED';s.hubNote='Wallet credits & services';s.titles={invoice:'Paid month',compute:'Pi / Distiller',access:'CLI & website'};s.notes={invoice:'$1.50 Basic / $2 Full',compute:'32 MB / 0.25 CPU',access:'Verified wallet payment'};
   s.hub=['MONTHLY SERVERS','Choose your workspace','Basic is $1.50/month; Full is $2/month. Crypto funds your server balance; allocation follows confirmation.','billing.html','OPEN BILLING'];

@@ -88,7 +88,7 @@
       el('hostCheckoutNote').textContent = 'Create a free billing record in your account. No payment is due. Hardware and deployment are configured separately.';
       el('hostAccessNote').textContent = p.source === 'own' ? 'Enrollment is available. Machine pairing and remote access await your hardware.' : 'Enrollment is available. Server provisioning and remote access await the hosting backend.';
       if(billing.provisioner?.connected&&p.source==='paymenter'&&p.workload==='web'&&p.compute==='cpu'){
-        link.textContent='CREATE FREE WEBSITE SERVER ↗';
+        link.textContent='CHOOSE MONTHLY SERVER ↗';
         el('hostCheckoutNote').textContent='Allocate a small static website on the Pi: 32 MB RAM and 0.25 CPU, subject to the five-slot limit. No payment is due.';
         el('hostAccessNote').textContent='Manage start/stop and publish an HTML page from Billing. Use the Account command line for container shell commands. This template serves static websites.';
       }

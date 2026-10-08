@@ -1,0 +1,2 @@
+GSAP 3.15.0 core, Flip, ScrollTrigger and DrawSVGPlugin are distributed with original copyright headers. Official source: https://github.com/greensock/GSAP. Standard No Charge license: https://gsap.com/standard-license. Copyright 2008–2026 GreenSock. This website uses GSAP for interface animation.
+xterm.js and FitAddon are MIT licensed; original licenses accompany the browser distributions. Versions and integrity are recorded in docs/EXPERIENCE_REBUILD.md.
