@@ -1,6 +1,5 @@
 {
-  "version": 2,
+  "version": 1,
   "origin": "https://lyric-providence-euro-vertex.trycloudflare.com",
-  "websitesOrigin": "https://rss-flooring-futures-maui.trycloudflare.com",
-  "gateway": "cm5"
+  "websitesOrigin": "https://rss-flooring-futures-maui.trycloudflare.com"
 }
