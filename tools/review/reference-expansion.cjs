@@ -11,9 +11,9 @@ const check=(name,passed)=>{checks.push({name,passed:!!passed});assert.ok(passed
  const c=await makeContext(),p=await c.newPage(),go=name=>p.goto(base+'/'+name+'.html');
  await p.goto(base+'/tools.html?preview=1');await p.waitForFunction(()=>NUC_TOOL_LIBRARY.state.mode==='device');
  check('marketplace starts at its own entrance',await p.locator('#toolsEntry').isVisible()&&!await p.locator('#toolbox').isVisible());
- await p.locator('#toolsEnter').click();await p.waitForFunction(()=>document.querySelectorAll('.tool-card').length===25);
+ await p.locator('#toolsEnter').click();await p.waitForFunction(()=>document.querySelectorAll('.tool-card').length===29);
  check('Toolbox entrance keeps the explicit preview preference',await p.evaluate(()=>new URLSearchParams(location.search).get('preview')==='1'));
- check('catalog contains all 25 existing integrations',await p.locator('.tool-card').count()===25&&await p.locator('#toolSearch').evaluate(e=>e===document.activeElement));
+ check('catalog contains 25 integrations and four server apps',await p.locator('.tool-card').count()===29&&await p.locator('#toolSearch').evaluate(e=>e===document.activeElement));
  await p.locator('#toolSearch').fill('Docker');check('tool search narrows the catalog',await p.locator('.tool-card').count()===1&&await p.locator('.tool-card h3').innerText()==='Docker');
  await p.locator('.tool-more').click();check('tool details open an accessible modal',await p.locator('#toolDetail').evaluate(e=>e.open)&&await p.locator('#toolDetailTitle').innerText()==='Docker');
  await p.locator('[data-tool-action]').click();await p.waitForFunction(()=>NUC_TOOL_LIBRARY.state.apps.length===1);

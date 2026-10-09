@@ -2,6 +2,90 @@
   "version": 1,
   "apps": [
     {
+      "id": "notes",
+      "name": "Notes",
+      "category": "Server apps",
+      "logo": "assets/apps/notes.svg",
+      "summary": "Write, save and export a note. A quiet page on your server.",
+      "type": "Server app",
+      "accent": "#a8d6ff",
+      "setupLabel": "Preview app",
+      "setupPath": "assets/apps/notes/index.html",
+      "setupUrl": null,
+      "installable": true,
+      "bytes": 4554,
+      "version": "1.0.0",
+      "availability": "Install on server",
+      "implementation": [
+        "Installs a small Notes web app at /apps/notes/.",
+        "Runs inside your existing website server, using no additional server slot.",
+        "Your edits stay in browser storage. Export text to keep or share a copy."
+      ]
+    },
+    {
+      "id": "task-board",
+      "name": "Task Board",
+      "category": "Server apps",
+      "logo": "assets/apps/task-board.svg",
+      "summary": "Turn an idea into tasks. Move work from to do to done.",
+      "type": "Server app",
+      "accent": "#a8d6ff",
+      "setupLabel": "Preview app",
+      "setupPath": "assets/apps/task-board/index.html",
+      "setupUrl": null,
+      "installable": true,
+      "bytes": 5615,
+      "version": "1.0.0",
+      "availability": "Install on server",
+      "implementation": [
+        "Installs a three-column task board at /apps/task-board/.",
+        "Shares the server you select; its actual files count toward your disk allowance.",
+        "Tasks stay in this browser. Export the board as JSON for a portable copy."
+      ]
+    },
+    {
+      "id": "json-studio",
+      "name": "JSON Studio",
+      "category": "Server apps",
+      "logo": "assets/apps/json-studio.svg",
+      "summary": "Validate, format and export JSON right in your browser.",
+      "type": "Server app",
+      "accent": "#a8d6ff",
+      "setupLabel": "Preview app",
+      "setupPath": "assets/apps/json-studio/index.html",
+      "setupUrl": null,
+      "installable": true,
+      "bytes": 4819,
+      "version": "1.0.0",
+      "availability": "Install on server",
+      "implementation": [
+        "Installs a browser-based data editor at /apps/json-studio/.",
+        "Validates JSON locally; no document is sent to a provider or API.",
+        "Uses only its small app files on the server. Your document stays in this browser."
+      ]
+    },
+    {
+      "id": "pixel-canvas",
+      "name": "Pixel Canvas",
+      "category": "Server apps",
+      "logo": "assets/apps/pixel-canvas.svg",
+      "summary": "Draw in our pink, white and blue. Export your own pixel art.",
+      "type": "Server app",
+      "accent": "#a8d6ff",
+      "setupLabel": "Preview app",
+      "setupPath": "assets/apps/pixel-canvas/index.html",
+      "setupUrl": null,
+      "installable": true,
+      "bytes": 5962,
+      "version": "1.0.0",
+      "availability": "Install on server",
+      "implementation": [
+        "Installs a 16 \u00d7 16 drawing app at /apps/pixel-canvas/.",
+        "Paint with NUCALORIC colors using a mouse, touch or keyboard.",
+        "Exports a 512 \u00d7 512 PNG. Your drawing stays in this browser."
+      ]
+    },
+    {
       "id": "solana",
       "name": "Solana",
       "category": "Onchain",
@@ -11,7 +95,14 @@
       "setupPath": null,
       "setupLabel": "Read setup guide",
       "type": "Integration",
-      "accent": "#ffaccb"
+      "accent": "#ffaccb",
+      "implementation": [
+        "Read chain state, simulate transactions, and confirm user-signed transactions.",
+        "Public RPC can be read without an account; production RPC capacity must be provisioned.",
+        "A devnet transaction is simulated, approved in a real wallet, submitted, and confirmed; commitment, retries, and RPC limits are handled."
+      ],
+      "availability": "Connection guide",
+      "installable": false
     },
     {
       "id": "helius",
@@ -23,7 +114,14 @@
       "setupPath": null,
       "setupLabel": "Read setup guide",
       "type": "Integration",
-      "accent": "#ffaccb"
+      "accent": "#ffaccb",
+      "implementation": [
+        "Production RPC and indexed chain data for launch and market workflows.",
+        "Create an account and provision an RPC endpoint or API key under the chosen plan.",
+        "Authenticated RPC reads, quota handling, and independent health checks work; endpoint secrets stay on the server."
+      ],
+      "availability": "Connection guide",
+      "installable": false
     },
     {
       "id": "phantom",
@@ -35,7 +133,14 @@
       "setupPath": "dashboard.html#deskConnections",
       "setupLabel": "Open workspace setup",
       "type": "Integration",
-      "accent": "#ffaccb"
+      "accent": "#ffaccb",
+      "implementation": [
+        "Wallet connection and user-approved Solana transaction signing.",
+        "A compatible wallet and explicit user connection/signing consent.",
+        "Real connect, rejection, disconnect, network mismatch, and signing flows pass on devnet."
+      ],
+      "availability": "Built-in",
+      "installable": false
     },
     {
       "id": "solflare",
@@ -47,7 +152,14 @@
       "setupPath": "dashboard.html#deskConnections",
       "setupLabel": "Open workspace setup",
       "type": "Integration",
-      "accent": "#ffaccb"
+      "accent": "#ffaccb",
+      "implementation": [
+        "An additional Solana wallet option.",
+        "Use the official wallet integration documentation and user signing consent.",
+        "Wallet detection, connection, cancellation, and devnet signing work on supported devices."
+      ],
+      "availability": "Built-in",
+      "installable": false
     },
     {
       "id": "backpack",
@@ -59,7 +171,14 @@
       "setupPath": "dashboard.html#deskConnections",
       "setupLabel": "Open workspace setup",
       "type": "Integration",
-      "accent": "#ffaccb"
+      "accent": "#ffaccb",
+      "implementation": [
+        "An additional wallet option for project creators.",
+        "Use the wallet provider integration and user connection/signing consent.",
+        "Provider availability, rejection, disconnect, and devnet transaction signing pass."
+      ],
+      "availability": "Built-in",
+      "installable": false
     },
     {
       "id": "meteora",
@@ -71,7 +190,14 @@
       "setupPath": null,
       "setupLabel": "Read setup guide",
       "type": "Integration",
-      "accent": "#ffaccb"
+      "accent": "#ffaccb",
+      "implementation": [
+        "Dynamic Bonding Curve launch configuration and a planned liquidity migration path.",
+        "Official SDKs are public; chain operations require RPC capacity, a wallet, and transaction fees.",
+        "Devnet create/swap/migrate tests pass with validated parameters and explicit signing; fee and migration behavior are documented."
+      ],
+      "availability": "Connection guide",
+      "installable": false
     },
     {
       "id": "jupiter",
@@ -83,7 +209,14 @@
       "setupPath": "dashboard.html#deskJupiter",
       "setupLabel": "Open workspace setup",
       "type": "Integration",
-      "accent": "#ffaccb"
+      "accent": "#ffaccb",
+      "implementation": [
+        "Price discovery and a reviewed swap-routing integration.",
+        "Create a developer-platform key and confirm the API family, plan, and quotas.",
+        "Quotes are fresh, token mints verified, slippage bounded, and signed execution confirmed on chain."
+      ],
+      "availability": "Connection guide",
+      "installable": false
     },
     {
       "id": "raydium",
@@ -95,7 +228,14 @@
       "setupPath": null,
       "setupLabel": "Read setup guide",
       "type": "Integration",
-      "accent": "#ffaccb"
+      "accent": "#ffaccb",
+      "implementation": [
+        "Alternative launch and liquidity research; route selection remains a design decision.",
+        "Review official SDK/program references; transactions require wallet signing and RPC.",
+        "One explicit launch route is chosen; program/configuration and fee behavior are verified in integration tests."
+      ],
+      "availability": "Connection guide",
+      "installable": false
     },
     {
       "id": "birdeye",
@@ -107,7 +247,14 @@
       "setupPath": null,
       "setupLabel": "Read setup guide",
       "type": "Integration",
-      "accent": "#ffaccb"
+      "accent": "#ffaccb",
+      "implementation": [
+        "Token market data and freshness checks for discovery.",
+        "Confirm endpoint access and API-key requirements with the developer portal; several deep documentation links were unavailable during this review.",
+        "Authorized reads, timestamp validation, rate limits, and unavailable-data UI work."
+      ],
+      "availability": "Connection guide",
+      "installable": false
     },
     {
       "id": "paymenter",
@@ -119,7 +266,14 @@
       "setupPath": "billing.html",
       "setupLabel": "Open workspace setup",
       "type": "Integration",
-      "accent": "#a5c3ff"
+      "accent": "#a5c3ff",
+      "implementation": [
+        "Orders, invoices, and service state for paid developer workspaces.",
+        "Deploy your own Paymenter portal; API reference requires v1.2.0+ and a server-side bearer token.",
+        "Checkout, paid-order reconciliation, provisioning, suspension, and user ownership checks pass before terminal access is enabled."
+      ],
+      "availability": "Connection guide",
+      "installable": false
     },
     {
       "id": "openai",
@@ -131,7 +285,14 @@
       "setupPath": null,
       "setupLabel": "Read setup guide",
       "type": "Integration",
-      "accent": "#b4d7ff"
+      "accent": "#b4d7ff",
+      "implementation": [
+        "A planned Responses/Realtime gateway for project assistants.",
+        "Create project access and store an API credential on the backend with usage controls.",
+        "Server-side authentication, budgets, streaming errors, cancellation, and tenant boundaries are tested."
+      ],
+      "availability": "Connection guide",
+      "installable": false
     },
     {
       "id": "claude",
@@ -143,19 +304,33 @@
       "setupPath": null,
       "setupLabel": "Read setup guide",
       "type": "Integration",
-      "accent": "#b4d7ff"
+      "accent": "#b4d7ff",
+      "implementation": [
+        "A planned Claude model gateway.",
+        "Provision Anthropic API access and keep credentials on the backend.",
+        "Authenticated requests, quota handling, streaming interruption, and tenant metering pass."
+      ],
+      "availability": "Connection guide",
+      "installable": false
     },
     {
       "id": "gemini",
       "name": "Gemini",
       "category": "Intelligence",
       "logo": "assets/partners/gemini-color.svg",
-      "summary": "Google’s models for your next idea.",
+      "summary": "Google\u2019s models for your next idea.",
       "setupUrl": "https://ai.google.dev/gemini-api/docs/api-key",
       "setupPath": null,
       "setupLabel": "Read setup guide",
       "type": "Integration",
-      "accent": "#b4d7ff"
+      "accent": "#b4d7ff",
+      "implementation": [
+        "A planned Gemini model gateway.",
+        "Create the appropriate project/API key and review available quotas.",
+        "Server-side access, supported models, quota handling, and tenant metering pass."
+      ],
+      "availability": "Connection guide",
+      "installable": false
     },
     {
       "id": "grok",
@@ -167,7 +342,14 @@
       "setupPath": null,
       "setupLabel": "Read setup guide",
       "type": "Integration",
-      "accent": "#b4d7ff"
+      "accent": "#b4d7ff",
+      "implementation": [
+        "A planned Grok model gateway.",
+        "Provision xAI API access; it is separate from X social developer credentials.",
+        "Authorized server-side calls, streaming failure handling, and budget controls pass."
+      ],
+      "availability": "Connection guide",
+      "installable": false
     },
     {
       "id": "x-social",
@@ -179,7 +361,14 @@
       "setupPath": null,
       "setupLabel": "Read setup guide",
       "type": "Integration",
-      "accent": "#e7b794"
+      "accent": "#e7b794",
+      "implementation": [
+        "User-authorized community publishing and project updates.",
+        "Approved developer app and an access plan; OAuth mode and scopes depend on the endpoint.",
+        "PKCE/user authorization, required scopes, revocation, quotas, and explicit publish consent work."
+      ],
+      "availability": "Connection guide",
+      "installable": false
     },
     {
       "id": "x-money",
@@ -191,7 +380,14 @@
       "setupPath": null,
       "setupLabel": "Read setup guide",
       "type": "Integration",
-      "accent": "#e7b794"
+      "accent": "#e7b794",
+      "implementation": [
+        "Conditional future payment rail; not enabled and not interchangeable with independent xMoney products.",
+        "Public merchant API access has not been established from official documentation reviewed.",
+        "Obtain official merchant eligibility and API documentation first; then review settlement, refunds, and reconciliation."
+      ],
+      "availability": "Connection guide",
+      "installable": false
     },
     {
       "id": "github",
@@ -203,7 +399,14 @@
       "setupPath": "dashboard.html#deskConnections",
       "setupLabel": "Open workspace setup",
       "type": "Integration",
-      "accent": "#c6ded1"
+      "accent": "#c6ded1",
+      "implementation": [
+        "Source archive today; planned repository evidence and developer workflow connections.",
+        "GitHub CLI is already authorized for this project archive; an in-product integration needs its own authorization.",
+        "App/user scopes, project ownership, private repository access, and webhook signature checks are implemented."
+      ],
+      "availability": "Built-in",
+      "installable": false
     },
     {
       "id": "cloudflare",
@@ -215,7 +418,14 @@
       "setupPath": null,
       "setupLabel": "Read setup guide",
       "type": "Integration",
-      "accent": "#a5c3ff"
+      "accent": "#a5c3ff",
+      "implementation": [
+        "Planned DNS, protected tunnels, edge delivery and storage options for developer projects.",
+        "Account, domain and an owner-configured Tunnel/Access policy; credentials remain on the machine or backend.",
+        "Verify domain ownership, access policy, tunnel health and revocation before attaching a project."
+      ],
+      "availability": "Connection guide",
+      "installable": false
     },
     {
       "id": "docker",
@@ -227,7 +437,14 @@
       "setupPath": null,
       "setupLabel": "Read setup guide",
       "type": "Integration",
-      "accent": "#a5c3ff"
+      "accent": "#a5c3ff",
+      "implementation": [
+        "Planned isolated app containers on a personal PC, Raspberry Pi or managed server.",
+        "An owner-managed Linux machine and a supported container engine installation.",
+        "Review image architecture, resource limits, non-root permissions, persistent data and restart behavior."
+      ],
+      "availability": "Built-in",
+      "installable": false
     },
     {
       "id": "tailscale",
@@ -239,7 +456,14 @@
       "setupPath": null,
       "setupLabel": "Read setup guide",
       "type": "Integration",
-      "accent": "#a5c3ff"
+      "accent": "#a5c3ff",
+      "implementation": [
+        "Planned private network access to a developer-owned machine.",
+        "An owner-controlled tailnet, enrolled devices and reviewed access policies.",
+        "Verify device ownership, least-privilege policy, service reachability and device removal."
+      ],
+      "availability": "Connection guide",
+      "installable": false
     },
     {
       "id": "raspberrypi",
@@ -251,7 +475,14 @@
       "setupPath": null,
       "setupLabel": "Read setup guide",
       "type": "Integration",
-      "accent": "#a5c3ff"
+      "accent": "#a5c3ff",
+      "implementation": [
+        "Planned lightweight ARM workspace on your own hardware.",
+        "A developer-owned Raspberry Pi, compatible OS, storage and network connection.",
+        "Verify OS/ARM compatibility, resources, explicit enrollment and device heartbeat; a brand status page cannot establish your hardware uptime."
+      ],
+      "availability": "Built-in",
+      "installable": false
     },
     {
       "id": "supabase",
@@ -263,7 +494,14 @@
       "setupPath": null,
       "setupLabel": "Read setup guide",
       "type": "Integration",
-      "accent": "#c6ded1"
+      "accent": "#c6ded1",
+      "implementation": [
+        "Planned project identity, database, storage and application data.",
+        "A project with reviewed authentication, database policies and server-side credentials.",
+        "Test row-level policies, tenant boundaries, backups and key handling before storing project data."
+      ],
+      "availability": "Connection guide",
+      "installable": false
     },
     {
       "id": "vercel",
@@ -275,7 +513,14 @@
       "setupPath": null,
       "setupLabel": "Read setup guide",
       "type": "Integration",
-      "accent": "#c6ded1"
+      "accent": "#c6ded1",
+      "implementation": [
+        "Planned app deployment with project previews and build evidence.",
+        "An authorized project, repository connection and reviewed build configuration.",
+        "Check repository ownership, build results, environment separation and rollback."
+      ],
+      "availability": "Connection guide",
+      "installable": false
     },
     {
       "id": "netlify",
@@ -287,7 +532,14 @@
       "setupPath": null,
       "setupLabel": "Read setup guide",
       "type": "Integration",
-      "accent": "#c6ded1"
+      "accent": "#c6ded1",
+      "implementation": [
+        "Planned website delivery and deployment previews.",
+        "An authorized site, repository connection and reviewed deployment settings.",
+        "Check repository ownership, deployment evidence, environment settings and rollback."
+      ],
+      "availability": "Connection guide",
+      "installable": false
     },
     {
       "id": "postgresql",
@@ -299,7 +551,14 @@
       "setupPath": null,
       "setupLabel": "Read setup guide",
       "type": "Integration",
-      "accent": "#c6ded1"
+      "accent": "#c6ded1",
+      "implementation": [
+        "Planned durable project data on managed or developer-owned infrastructure.",
+        "An owner-managed database with a restricted application role and tested backups.",
+        "Test access isolation, migrations, backups and recovery; local database health needs an owner-specific probe."
+      ],
+      "availability": "Connection guide",
+      "installable": false
     }
   ]
 }

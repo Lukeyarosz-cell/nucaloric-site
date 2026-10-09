@@ -28,7 +28,7 @@
   let host=document.querySelector('#deskTools');const dashboard=!!host;
   if(!host&&document.querySelector('[data-billing-workspace],[data-services-workspace]')){host=element('section','account-app-library');const main=document.querySelector('main .wrap')||document.querySelector('main');main?.append(host);}
   if(!host)return;
-  const module=element('section','workspace-app-library');host.append(module);const title=element('h3','','Your app library.'),copy=element('p','app-library-copy','Add the tools you want to use. Set them up when you’re ready.'),link=element('a','app-library-link','Find a few good tools ↗');link.href='tools.html?library=1';module.append(title,copy,link);
+  const module=element('section','workspace-app-library');host.append(module);const title=element('h3','','Saved tools.'),copy=element('p','app-library-copy','Keep useful apps and connection guides close to your work.'),link=element('a','app-library-link','Find a few good tools ↗');link.href='tools.html?library=1';module.append(title,copy,link);
   const list=element('div','workspace-app-list'),notice=element('p','app-library-status');notice.setAttribute('role','status');module.append(list,notice);
   function render(){list.replaceChildren();if(state.mode==='loading'){notice.textContent='Reading your app library…';return;}if(state.error){notice.textContent=state.error;return;}notice.textContent=state.mode==='account'?'Saved with your account.':'Saved on this device. Sign in to keep an account library.';
    if(!state.apps.length){list.append(element('p','app-library-empty','Your next useful tool belongs here.'));return;}
