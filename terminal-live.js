@@ -1,7 +1,8 @@
 /* Real Docker PTY: ordered input, acknowledged output and terminal escape sequences. */
 (()=>{
  const el=id=>document.getElementById(id),consoleEl=el('cliConsole');if(!consoleEl||!window.Terminal)return;
- const terminal=new Terminal({fontFamily:'"NUCMono", "SFMono-Regular", Consolas, monospace',fontSize:13,lineHeight:1.35,cursorBlink:true,scrollback:2000,convertEol:false,theme:{background:'#090909',foreground:'#f1e8ed',cursor:'#ff91bd',selectionBackground:'#ff91bd40',black:'#090909',red:'#fb809e',green:'#b1d9b8',yellow:'#e6d3a8',blue:'#a3bfd8',magenta:'#ff91bd',cyan:'#b1d8da',white:'#eee5eb',brightBlack:'#999099'}}),fit=new FitAddon.FitAddon();
+ const ambient=document.body.classList.contains('atelier-dashboard');
+ const terminal=new Terminal({allowTransparency:ambient,fontFamily:'"NUCMono", "SFMono-Regular", Consolas, monospace',fontSize:13,lineHeight:1.35,cursorBlink:true,scrollback:2000,convertEol:false,theme:{background:ambient?'#090909c2':'#090909',foreground:'#f1e8ed',cursor:'#ff91bd',selectionBackground:'#ff91bd40',black:'#090909',red:'#fb809e',green:'#b1d9b8',yellow:'#e6d3a8',blue:'#a3bfd8',magenta:'#ff91bd',cyan:'#b1d8da',white:'#eee5eb',brightBlack:'#999099'}}),fit=new FitAddon.FitAddon();
  terminal.loadAddon(fit);const host=document.createElement('div');host.id='cliLiveTerminal';host.setAttribute('aria-label','Interactive server terminal');consoleEl.insertBefore(host,el('cliOutput'));terminal.open(host);
  const controls=document.createElement('div');controls.className='terminal-session-tools';controls.innerHTML='<span id="terminalSessionState" role="status">Choose a running server</span><button type="button" id="terminalReconnect">Reconnect</button><button type="button" id="terminalHelp">Commands</button>';host.before(controls);
  let selected=null,session=null,cursor=0,seq=0,generation=0,queue='',timer=0,inflight=false,resizing=false,localLine=null,prompt=false,line='',lastTail='',aiBusy=false,lastRequest=0;

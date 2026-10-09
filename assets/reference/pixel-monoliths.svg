@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 560" fill="none">
+<defs><pattern id="fine" width="5" height="5" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".85" fill="#17171a"/></pattern><pattern id="dense" width="4" height="4" patternUnits="userSpaceOnUse"><path d="M0 0h2v2H0zM2 2h2v2H2z" fill="#111114"/></pattern><pattern id="light" width="7" height="7" patternUnits="userSpaceOnUse"><rect width="2" height="2" fill="#16161a"/></pattern></defs>
+<g stroke="#17171a" stroke-width=".6">
+<path d="m150 159 90-52 70 40-90 53Z" fill="#252528"/><path d="m150 159 70 41v278l-70-40Z" fill="url(#fine)"/><path d="m220 200 90-53v278l-90 53Z" fill="url(#dense)"/>
+<path d="m270 94 90-52 70 40-90 53Z" fill="url(#dense)"/><path d="m270 94 70 41v279l-70-40Z" fill="url(#light)"/><path d="m340 135 90-53v279l-90 53Z" fill="url(#fine)"/>
+<path d="m370 191 90-52 70 40-90 53Z" fill="#252528"/><path d="m370 191 70 41v251l-70-40Z" fill="url(#fine)"/><path d="m440 232 90-53v251l-90 53Z" fill="url(#dense)"/>
+<path d="m490 249 80-47 55 32-80 46Z" fill="url(#dense)"/><path d="m490 249 55 31v239l-55-32Z" fill="url(#light)"/><path d="m545 280 80-46v239l-80 46Z" fill="url(#fine)"/>
+</g><g fill="#17171a"><rect x="110" y="309" width="4" height="4"/><rect x="130" y="375" width="3" height="3"/><rect x="249" y="427" width="4" height="4"/><rect x="300" y="470" width="2" height="2"/><rect x="344" y="425" width="4" height="4"/><rect x="385" y="470" width="2" height="2"/><rect x="422" y="516" width="3" height="3"/><rect x="506" y="544" width="4" height="4"/><rect x="206" y="490" width="2" height="2"/></g>
+</svg>
