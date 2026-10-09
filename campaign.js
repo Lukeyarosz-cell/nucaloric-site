@@ -9,6 +9,7 @@
     const paused = reduce.matches || userPaused;
     document.body.classList.toggle('campaign-motion-paused', paused);
     document.body.classList.toggle('motion-paused', paused);
+    window.dispatchEvent(new Event('nuc:motion-change'));
     motionButtons.forEach(button => {
       button.textContent = reduce.matches ? 'Motion reduced' : userPaused ? 'Resume motion ↗' : 'Pause motion Ⅱ';
       button.disabled = reduce.matches;

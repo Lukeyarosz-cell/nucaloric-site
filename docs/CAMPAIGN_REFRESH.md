@@ -2,6 +2,8 @@
 
 October 8, 2026. Inspired by the approved v20 brand film.
 
+Visual direction subsequently revised at the founder's request: see [Pixel and glass refinement](PIXEL_GLASS_RETURN.md). The rose page backgrounds and broad typography changes described below are historical; the white-blue finish and functional project/film flow remain.
+
 The homepage now starts with a thought and leads into a project brief, a toolset and a workspace. Large Instrument Sans type, rose studio lighting, sharply defined product cards and a white-to-blue brand finish carry the film’s visual direction into the site. Studio, Hosting, Registry, pricing, Explore and the creator dashboard share the same typography and treatment. Shared navigation, footers and motion controls tie the remaining tool pages together.
 
 ## Working interactions

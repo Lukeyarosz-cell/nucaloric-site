@@ -1,20 +1,20 @@
 /* The Make It Real film, translated into a useful, responsive product surface. */
 @font-face{font-family:Instrument;src:url('assets/campaign/InstrumentSans.ttf') format('truetype');font-weight:400 700;font-style:normal;font-display:swap}
 :root{--campaign-ink:#080a0e;--campaign-pink:#ff91bd;--campaign-paper:#f4f1ef;--campaign-line:rgba(255,255,255,.15);--campaign-ease:cubic-bezier(.22,1,.36,1)}
-body.campaign-site{font-family:Instrument,Arial,sans-serif;background:#080a0e;color:#f4f1ef}
+body.campaign-site{font-family:var(--sans);background:#080809;color:#f4f1ef}
 .campaign-site :where(button,input,textarea,select){font-family:inherit}
 .campaign-site :where(a,button,input,textarea,select):focus-visible{outline:2px solid #ff91bd;outline-offset:5px}
 .campaign-site .nav-shell{position:sticky;top:0;z-index:100;background:rgba(8,10,14,.84);backdrop-filter:blur(24px);padding:12px 0}
 .campaign-site .site-nav{border-color:rgba(255,255,255,.13);background:rgba(17,19,24,.7);box-shadow:none;border-radius:14px}
 .campaign-site .nav-tab{font-size:11px;letter-spacing:.025em;border-radius:7px;transition:background .2s,color .2s}
 .campaign-site .nav-tab.active{background:#efb6cb;color:#101016}
-.campaign-site .brand-mark{filter:grayscale(1) brightness(1.6)}
+
 .campaign-site .footer{background:#080a0e;border-color:var(--campaign-line)}
 .campaign-site .footer-inner{padding-top:40px;padding-bottom:40px}
 .campaign-site .footer-inner p{max-width:380px;color:#a7a6ad;font-size:13px;line-height:1.6}
 .campaign-site .workspace-strip{margin-top:18px!important;margin-bottom:22px!important}
 .campaign-site .footer{padding-bottom:28px!important}
-.campaign-site :where(h1,h2,h3,h4){font-family:Instrument,Arial,sans-serif;letter-spacing:-.055em;font-weight:600}
+
 .campaign-site :where(p){text-wrap:pretty}
 .campaign-site .noise{opacity:.025;pointer-events:none}
 .campaign-wrap{width:min(1280px,calc(100% - 80px));margin-inline:auto}
@@ -210,80 +210,6 @@ body.campaign-site{font-family:Instrument,Arial,sans-serif;background:#080a0e;co
 .campaign-film-dialog video{width:100%;display:block;border-radius:7px;aspect-ratio:16/9;background:#050505}
 .campaign-film-dialog>p{display:flex;align-items:center;justify-content:space-between;gap:20px;font:9px monospace;color:#b99bb0;margin:17px 0 0}
 body.campaign-film-open{overflow:hidden}
-/* A shared visual language for the working pages; control IDs and data stay intact. */
-.campaign-site :where(.creative-hero,.hosting-hero){background:#151018 url('assets/campaign/rose-poster.webp') center/cover!important;border:1px solid #ffffff18!important;border-radius:16px!important;overflow:hidden;position:relative;margin-inline:24px!important}
-.campaign-site :where(.creative-hero,.hosting-hero)>.wrap{position:relative;z-index:1}
-.campaign-site :where(.creative-hero,.hosting-hero)>.campaign-atmosphere{opacity:.65}
-.campaign-site :where(.creative-hero,.hosting-hero) :where(h1){font-size:clamp(48px,6.4vw,92px)!important;line-height:.95!important;letter-spacing:-.065em!important;font-weight:600!important;max-width:650px}
-.campaign-site .creative-hero-grid{gap:64px!important}
-.campaign-site .creative-hero-copy>p{font-size:17px!important;line-height:1.65!important;color:#c8b7c7!important;max-width:480px}
-.campaign-site .creative-hero-links{gap:24px!important}
-.campaign-site .signature-art{background:none!important;border:0!important;box-shadow:none!important;min-height:310px!important}
-.campaign-site .signature-art>.signature-caption,.campaign-site .signature-corner{display:none}
-.campaign-site .workspace-glass-stage{padding:0!important;border:0!important;background:none!important;box-shadow:none!important;backdrop-filter:none!important;transform:none!important}
-.campaign-site .studio-signature-card{padding:32px!important;border-radius:13px!important;background:linear-gradient(130deg,#302231,#12121a)!important;border:1px solid #a480a877!important;box-shadow:0 24px 80px #0004,0 0 0 6px #ffffff03!important;transform:rotate(2deg)!important}
-.campaign-site .studio-signature-name{font-size:38px!important;line-height:1.02!important;letter-spacing:-.055em!important;margin-block:32px!important}
-.campaign-site .studio-signature-top{border-color:#ffffff20!important}
-.campaign-site .studio-signature-rule{height:1px!important;background:#d9a7c3!important}
-.campaign-site .hosting-deck{font-size:26px!important;line-height:1.25!important;color:#edbacf!important;letter-spacing:-.03em}
-.campaign-site .hosting-copy{font-size:16px!important;line-height:1.65!important;color:#c9b5c6!important;max-width:490px}
-.campaign-site .hosting-hero .motion-demo{background:linear-gradient(135deg,#271f2d,#10121a)!important;border:1px solid #98799a66!important;box-shadow:0 24px 80px #0004,0 0 0 6px #ffffff03!important;border-radius:12px!important;transform:rotate(1deg)}
-.campaign-site .hosting-hero-grid{gap:60px!important}
-.campaign-hero-motion{position:absolute;right:28px;top:22px;z-index:2;color:#d3b8ca;font:9px monospace}
-.campaign-site .motion-demo-body h2{font-size:34px!important;letter-spacing:-.05em}
-.campaign-site .motion-demo-tool{box-shadow:none!important;border-radius:9px!important}
-.campaign-site :where(.hosting-section,.studio-section,.working-section){padding-top:75px;padding-bottom:75px}
-.campaign-site :where(.studio-section-head,.hosting-section-head) h2{font-size:clamp(35px,4vw,56px)!important;letter-spacing:-.055em!important;line-height:1.05!important}
-.campaign-site .brief-chapter{background:#14141d!important;border:1px solid #ffffff16!important;box-shadow:none!important;border-radius:12px!important}
-.campaign-site .brief-preview{background:linear-gradient(145deg,#25202c,#12121c)!important;border:1px solid #9e739455!important;box-shadow:none!important;border-radius:12px!important}
-.campaign-site .project-record{background:#15151e!important;border-color:#ffffff1b!important;box-shadow:none!important;border-radius:12px!important}
-.campaign-site .registry-group{border-color:#ffffff19!important;background:#10121a!important;border-radius:12px!important}
-.campaign-site .cap-card{background:#171620!important;border-color:#ffffff18!important;box-shadow:none!important;border-radius:10px!important;transition:transform .3s var(--campaign-ease),border-color .2s!important}
-.campaign-site .cap-card:hover{border-color:#ef9ecb66!important;transform:translateY(-3px)}
-.campaign-registry-art{padding:32px;border:1px solid #a480a855;background:linear-gradient(135deg,#302431,#10121a);border-radius:12px;transform:rotate(2deg);box-shadow:0 24px 80px #0004}
-.campaign-registry-art>span{font:9px monospace;color:#c599b4}
-.campaign-registry-art>strong{display:block;font-size:43px;line-height:1.03;letter-spacing:-.055em;font-weight:500;margin:27px 0}
-.campaign-registry-art>div{display:flex;gap:10px;flex-wrap:wrap}
-.campaign-registry-art>div>span{border:1px solid #ffffff25;padding:10px 13px;border-radius:6px;font-size:12px;color:#d6bfce}
-.campaign-registry-art>p{font:8px/1.6 monospace;color:#a689a0;border-top:1px solid #ffffff22;margin:30px 0 0;padding-top:18px}
-.campaign-site .pricing-intro{position:relative;background:#e0e3ec url('assets/campaign/pearl-poster.webp') center/cover;color:#14121b;border-radius:14px;padding:48px!important;margin-top:24px!important;margin-bottom:36px!important}
-.campaign-site .pricing-intro h1{font-size:clamp(60px,8vw,112px)!important;line-height:1!important;color:#14121b!important}
-.campaign-site .pricing-intro :where(.kicker,p,a){color:#514658!important}
-.campaign-site .pricing-title-dot{color:#996682}
-.campaign-site .pricing-plan{background:linear-gradient(140deg,#211c28,#12131c)!important;border:1px solid #ffffff20!important;border-radius:12px!important;box-shadow:none!important}
-.campaign-site .pricing-plan.featured{border-color:#c58eaf!important}
-.campaign-site .pricing-plan h2{font-size:32px!important;letter-spacing:-.05em}
-.campaign-site .pricing-plan-price{font-family:Instrument,Arial,sans-serif!important}
-.campaign-site .pricing-intro{display:block!important;text-align:left!important;min-height:0!important}
-.campaign-site .pricing-intro h1{margin:34px 0 22px!important;position:static!important;transform:none!important}
-.campaign-site .pricing-intro>p{font-size:17px!important;line-height:1.5!important;margin:0!important;max-width:600px!important}
-.campaign-site .price-stage{padding:0!important;border:1px solid #ffffff20!important;border-radius:12px!important;box-shadow:none!important;overflow:hidden}
-.campaign-site .price-backdrop{display:none!important}
-.campaign-site .price-glass{background:none!important;border:0!important;border-radius:0!important;box-shadow:none!important;backdrop-filter:none!important;padding:32px!important;inset:auto!important;margin:0!important;transform:none!important}
-.campaign-site .price-stage-basic{background:#f3edef!important;color:#18131c!important}
-.campaign-site .price-stage-server{background:linear-gradient(135deg,#262030,#12131c)!important;color:#f5edf5!important}
-.campaign-site .price-stage-ai{background:#eeb7ce!important;color:#221522!important}
-.campaign-site .price-stage :where(h2,.price-amount strong){color:inherit!important;letter-spacing:-.055em!important;font-family:Instrument,Arial,sans-serif!important}
-.campaign-site .price-stage :where(p,.price-index,.price-amount>span,.price-provider,li){color:inherit!important;opacity:.8}
-.campaign-site .price-stage h2{font-size:32px!important;line-height:1.05!important}
-.campaign-site .price-stage .price-amount strong{font-size:50px!important;font-weight:600!important}
-.campaign-site .price-stage .price-cta{background:#18131f!important;color:#f7eff7!important;border:0!important;border-radius:7px!important;box-shadow:none!important}
-.campaign-site .price-stage-server .price-cta{background:#eeb7ce!important;color:#18131f!important}
-.campaign-site .price-glass:before,.campaign-site .price-glass:after,.campaign-site :where(.creative-hero,.hosting-hero)>canvas{display:none!important}
-.campaign-site .explore-poster{background:#211523 url('assets/campaign/rose-poster.webp') center/cover!important;border:1px solid #ffffff20!important;box-shadow:none!important;min-height:350px!important;border-radius:12px!important}
-.campaign-site .explore-poster h1{font-size:clamp(64px,7vw,100px)!important;letter-spacing:-.07em!important;color:#f5edf5!important}
-.campaign-site .explore-poster .poster-bottom p{font-size:17px!important;line-height:1.5!important;color:#d1b7cb!important}
-.campaign-site :where(.pool-shortlist,.discovery-panel){border-radius:12px!important}
-.campaign-site .pool-shortlist{background:linear-gradient(135deg,#25202c,#12121a)!important;box-shadow:none!important;border-color:#ffffff20!important}
-.campaign-site .coin-card{box-shadow:none!important;border-color:#ffffff19!important;border-radius:10px!important}
-.campaign-site .account-heading{padding:38px!important;border-radius:13px;background:#211523 url('assets/campaign/rose-poster.webp') center/cover;border:1px solid #ffffff18;margin-top:20px!important}
-.campaign-site .account-heading h1{font-size:clamp(40px,5vw,66px)!important;line-height:1!important;letter-spacing:-.065em!important}
-.campaign-site .account-heading p{font-size:16px!important;color:#d2c0cf!important}
-.campaign-site .desk-shell{border-color:#665167!important;background:#0f1118!important;box-shadow:0 20px 60px #0003!important}
-.campaign-site .desk-rail{background:#17141e!important;border-color:#ffffff13!important}
-.campaign-site .desk-rail-button[aria-selected=true],.campaign-site .desk-rail-button.is-active{background:#eeb2c9!important;color:#15121a!important}
-.campaign-site .desk-conversation{background:radial-gradient(ellipse at 50% 0,#2c20321a,#11121b 70%)!important}
-.campaign-site :where(.account-ai-workspace,.ai-panel,.portfolio-card){box-shadow:none!important}
 .campaign-page-finish{padding:48px 0;background:#e2e5eb url('assets/campaign/pearl-poster.webp') center/cover;text-align:center;margin-top:60px}
 .campaign-page-finish>div{width:min(1280px,calc(100% - 80px));margin:auto;display:flex;align-items:center;justify-content:space-between;gap:24px}
 .campaign-page-finish img{width:min(420px,45%);height:auto}

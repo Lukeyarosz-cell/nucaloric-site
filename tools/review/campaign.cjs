@@ -9,20 +9,20 @@ const output=process.env.REVIEW_OUTPUT||path.resolve(__dirname,'../../docs/campa
  const check=(name,value)=>{checks.push({name,passed:!!value});assert.ok(value,name);console.log('PASS',name);};
  fs.mkdirSync(output,{recursive:true});
  try{
-  await page.goto(base+'/index.html');await page.waitForFunction(()=>!document.querySelector('[data-campaign-ambient]').paused);
+  await page.goto(base+'/index.html');await page.waitForFunction(()=>window.NUC_DOTS&&document.querySelector('#heroWave').width>0);
   check('hero uses the approved brand lettering and idea entry',await page.locator('#campaignIdeaForm').count()===1&&await page.locator('.campaign-final-wordmark').getAttribute('src')==='assets/nucaloric-wordmark.svg');
   check('film is not requested during initial page load',await page.locator('#campaignFilm source').getAttribute('src')===null);
-  check('ambient visual is silent',await page.locator('[data-campaign-ambient]').first().evaluate(v=>v.muted));
-  await page.locator('[data-campaign-motion]').click();check('motion pause stops the video and uses its poster',await page.locator('[data-campaign-ambient]').first().evaluate(v=>v.paused)&&await page.locator('body').evaluate(e=>e.classList.contains('campaign-motion-paused')));
+  check('retained white-blue ambient visuals are silent',await page.locator('[data-campaign-ambient]').evaluateAll(videos=>videos.every(v=>v.muted)));
+  await page.locator('[data-campaign-motion]').click();check('motion pause stops the shared pixel renderer',await page.evaluate(()=>window.NUC_DOTS.isPaused())&&await page.locator('body').evaluate(e=>e.classList.contains('campaign-motion-paused')));
   await page.reload();check('motion preference persists',await page.locator('[data-campaign-motion]').getAttribute('aria-pressed')==='true');
-  await page.locator('[data-campaign-motion]').click();await page.waitForFunction(()=>!document.querySelector('[data-campaign-ambient]').paused);
+  await page.locator('[data-campaign-motion]').click();await page.waitForFunction(()=>!window.NUC_DOTS.isPaused());
   await page.locator('[data-campaign-film]').click();await page.waitForFunction(()=>document.querySelector('#campaignFilm video').readyState>=2);
   check('film opens in an accessible modal with a playable video',await page.locator('#campaignFilm').evaluate(e=>e.open)&&await page.locator('#campaignFilm video').evaluate(v=>v.duration>26&&v.duration<28&&v.videoWidth===1280));
   check('film playback pauses background loops',await page.locator('[data-campaign-ambient]').first().evaluate(v=>v.paused));
   await page.keyboard.press('Escape');await page.waitForFunction(()=>!document.querySelector('#campaignFilm').open&&document.querySelector('#campaignFilm video').paused&&document.activeElement===document.querySelector('[data-campaign-film]'));check('Escape closes the film, pauses audio, and returns focus',true);
   await page.locator('#tourTab0').focus();await page.keyboard.press('ArrowDown');check('tour arrows select and focus the next step',await page.locator('#tourTab1').evaluate(e=>e===document.activeElement&&e.getAttribute('aria-selected')==='true')&&await page.locator('#tourPanel1').isVisible()&&!await page.locator('#tourPanel0').isVisible());
   await page.keyboard.press('End');check('tour End reaches the workspace step',await page.locator('#tourPanel2').isVisible());await page.keyboard.press('Home');check('tour Home returns to the brief',await page.locator('#tourPanel0').isVisible());
-  await page.locator('#projectKits').scrollIntoViewIfNeeded();await page.waitForFunction(()=>document.querySelector('.campaign-hero video').paused);check('offscreen ambient videos stop playing',true);
+  await page.locator('[data-campaign-ambient]').first().scrollIntoViewIfNeeded();await page.waitForFunction(()=>!document.querySelector('[data-campaign-ambient]').paused);await page.locator('.footer').scrollIntoViewIfNeeded();await page.waitForFunction(()=>document.querySelector('[data-campaign-ambient]').paused);check('offscreen ambient videos stop playing',true);
   await page.goto(base+'/studio.html');await page.locator('#projectBriefForm [name=name]').fill('Existing project');await page.locator('#projectBriefForm [name=purpose]').fill('Keep this project safe.');await page.locator('#projectBriefForm button[type=submit]').click();const existing=await page.evaluate(()=>window.NUC_PROJECTS.active());
   await page.goto(base+'/index.html');const idea='A tiny research tool & a useful next step';await page.locator('#campaignIdea').fill(idea);await page.locator('[data-idea-workload=dev]').click();await page.locator('#campaignIdeaForm button[type=submit]').click();await page.waitForURL('**/studio.html#brief');
   check('idea entry prefills a new Studio brief and the chosen workload',await page.locator('#projectBriefForm [name=purpose]').inputValue()===idea&&await page.locator('#projectBriefForm [name=workload]').inputValue()==='dev');

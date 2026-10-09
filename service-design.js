@@ -80,16 +80,27 @@
    [...inputs.map(id => [id, 'hub']), ...outputs.map(id => ['hub', id])].forEach(([from, to]) => {
     const first = board.querySelector(`[data-flow-id="${from}"]`).getBoundingClientRect();
     const last = board.querySelector(`[data-flow-id="${to}"]`).getBoundingClientRect();
-    const sx = mobile ? first.left + first.width / 2 - bounds.left : first.right - bounds.left;
-    const sy = mobile ? first.bottom - bounds.top : first.top + first.height / 2 - bounds.top;
-    const tx = mobile ? last.left + last.width / 2 - bounds.left : last.left - bounds.left;
-    const ty = mobile ? last.top - bounds.top : last.top + last.height / 2 - bounds.top;
+    let sx = mobile ? first.left + first.width / 2 - bounds.left : first.right - bounds.left;
+    let sy = mobile ? first.bottom - bounds.top : first.top + first.height / 2 - bounds.top;
+    let tx = mobile ? last.left + last.width / 2 - bounds.left : last.left - bounds.left;
+    let ty = mobile ? last.top - bounds.top : last.top + last.height / 2 - bounds.top;
+    if (isLaunch && !mobile && board.querySelector('.circuit-machine')) {
+     const machine = board.querySelector('.circuit-machine').getBoundingClientRect();
+     if (from === 'hub') { sx = machine.left + machine.width * 314/360 - bounds.left; sy = machine.top + machine.height * 154/275 - bounds.top; }
+     if (to === 'hub') { tx = machine.left + machine.width * 24/360 - bounds.left; ty = machine.top + machine.height * 154/275 - bounds.top; }
+    }
     const bend = mobile ? (ty - sy) * .55 : (tx - sx) * .6;
     const d = mobile ? `M ${sx} ${sy} C ${sx} ${sy + bend}, ${tx} ${ty - bend}, ${tx} ${ty}` : `M ${sx} ${sy} C ${sx + bend} ${sy}, ${tx - bend} ${ty}, ${tx} ${ty}`;
     const active = isLaunch ? selected === 'hub' || selected === from || selected === to : from === service || outputs.includes(to) && (selected === 'hub' || selected === to || selected === service);
-    for (const className of ['ribbon-ribbon', 'ribbon-line']) {
+    const planned = isLaunch && ['wallet', 'pool'].includes(to);
+    const layers = ['ribbon-ribbon', 'ribbon-line'];
+    if (isLaunch && !planned) layers.push('launch-cable-pixel');
+    for (const className of layers) {
      const path = document.createElementNS(svgNS, 'path');
-     path.setAttribute('d', d); path.setAttribute('class', className + (active ? ' is-selected' : '')); svg.append(path);
+     path.setAttribute('d', d);
+     path.setAttribute('class', className + (active ? ' is-selected' : '') + (planned ? ' is-planned' : ''));
+     path.dataset.route = `${from}-${to}`;
+     svg.append(path);
     }
    });
   }
@@ -112,6 +123,12 @@
   }
   buttons.forEach(button => button.addEventListener('click', () => select(button.dataset.flowId)));
   new ResizeObserver(schedule).observe(diagram);
+  if (isLaunch) {
+   let visible = false;
+   const syncSleep = () => board.classList.toggle('is-sleeping', document.hidden || !visible);
+   new IntersectionObserver(entries => { visible = entries[0].isIntersecting; syncSleep(); }).observe(board);
+   document.addEventListener('visibilitychange', syncSleep);
+  }
   document.fonts.ready.then(schedule);
   select('hub');
  });

@@ -43,7 +43,7 @@ if(heroCanvas){
   const ctx=heroCanvas.getContext('2d');let w=0,h=0,raf=0;const phase=1.74;const heroReduce=matchMedia('(prefers-reduced-motion:reduce)');let heroVisible=false;
   function size(){({w,h}=fitCanvas(heroCanvas,ctx))}
   function draw(){
-    const t=heroReduce.matches?0:performance.now()/1000;ctx.clearRect(0,0,w,h);
+    const still=heroReduce.matches||window.NUC_DOTS?.isPaused();const t=still?0:performance.now()/1000;ctx.clearRect(0,0,w,h);
     const gap=w<700?23:28;const cols=Math.ceil(w/gap)+3;const rows=Math.ceil(h/gap)+3;
     for(let c=-1;c<cols;c++){
       const x=c*gap+gap*.5;const centerBias=Math.pow(Math.abs(x/w-.5)*2,1.3);const waveA=Math.sin(x*.009+t*.07+phase)*h*.052;const waveB=Math.sin(x*.019-t*.045+1.1)*h*.018;const sideLift=centerBias*h*.095;const boundary=h*.69-waveA-waveB-sideLift;
@@ -56,10 +56,11 @@ if(heroCanvas){
         ctx.globalAlpha=alpha;ctx.fillStyle=fill;ctx.beginPath();ctx.arc(x,y,radius,0,Math.PI*2);ctx.fill();
       }
     }
-    ctx.globalAlpha=1;if(heroVisible&&!heroReduce.matches&&!document.hidden)raf=requestAnimationFrame(draw);
+    ctx.globalAlpha=1;if(heroVisible&&!heroReduce.matches&&!window.NUC_DOTS?.isPaused()&&!document.hidden&&!document.body.classList.contains('campaign-film-open'))raf=requestAnimationFrame(draw);
   }
   function restartHero(){cancelAnimationFrame(raf);if(!document.hidden&&(heroVisible||heroReduce.matches))draw()}
   size();draw();addEventListener('resize',()=>{size();restartHero()},{passive:true});document.addEventListener('visibilitychange',restartHero);heroReduce.addEventListener('change',restartHero);new IntersectionObserver(entries=>{heroVisible=entries[0].isIntersecting;restartHero()}).observe(heroCanvas);
+  addEventListener('nuc:motion-change',restartHero);
 }
 
 /* little allocation matrix */
