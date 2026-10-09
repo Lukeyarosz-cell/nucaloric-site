@@ -57,6 +57,9 @@
  window.addEventListener('nuc-tool-focus',e=>{if(e.detail==='terminal')setTimeout(()=>{resize();terminal.focus();},100);});
  window.addEventListener('nuc-runtime-change',()=>{const id=window.NUC_DEV_RUNTIME?.selected(),target=window.NUC_DEV_RUNTIME?.list().find(w=>w.id===id);if(target?.id!==selected?.id||Boolean(target?.canUseTerminal)!==Boolean(selected?.canUseTerminal))connect(target);});
  window.addEventListener('pagehide',()=>{clearTimeout(timer);if(session&&selected)fetch('/billing/nucaloric/api/workspaces/'+selected.id+'/shell/close',{method:'POST',credentials:'same-origin',keepalive:true,headers:{'Content-Type':'application/json','X-CSRF-TOKEN':client.state.csrfToken},body:JSON.stringify({session})}).catch(()=>{});});
- window.NUC_TERMINAL={write,clear:()=>terminal.clear(),change:connect,focus:()=>terminal.focus(),get session(){return session;},get terminal(){return terminal;}};
+ window.NUC_TERMINAL={write,clear:()=>terminal.clear(),change:connect,focus:()=>terminal.focus(),prefill(command){
+  if(!session||!prompt||line!==''||localLine!==null||aiBusy||typeof command!=='string'||/[\x00-\x1f\x7f]/.test(command)||command.length>4096)return false;
+  line=command;send(command);terminal.focus();return true;
+ },get session(){return session;},get terminal(){return terminal;}};
  client.ready.then(()=>{const target=window.NUC_DEV_RUNTIME?.list().find(w=>w.id===window.NUC_DEV_RUNTIME.selected());if(target?.canUseTerminal&&!selected)connect(target);});
 })();

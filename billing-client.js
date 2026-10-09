@@ -16,7 +16,11 @@
     }
     const response = await fetch('/billing/nucaloric/api/'+path, {...options, headers, credentials:'same-origin', cache:'no-store'});
     const data = await response.json().catch(()=>({}));
-    if (!response.ok) throw new Error(response.status===401 ? 'Sign in to your account to continue.' : response.status===419 ? 'Your session expired. Reload and try again.' : Object.values(data.errors||{}).flat()[0] || data.message || 'Billing is temporarily unavailable.');
+    if (!response.ok) {
+      if(response.status===401&&state.user){state.user=null;window.dispatchEvent(new Event('nuc-account-expired'));}
+      const error=new Error(response.status===401 ? 'Sign in to your account to continue.' : response.status===419 ? 'Your session expired. Reload and try again.' : Object.values(data.errors||{}).flat()[0] || data.message || 'Billing is temporarily unavailable.');
+      error.status=response.status;throw error;
+    }
     return data;
   }
   const ready = (async () => {

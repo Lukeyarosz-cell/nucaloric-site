@@ -6,7 +6,7 @@
     container.replaceChildren();
     const active=workspaces.filter(w=>!['cancelled','unavailable'].includes(w.billingStatus)),past=workspaces.filter(w=>['cancelled','unavailable'].includes(w.billingStatus));
     function record(w){
-      const card=node('article','','billing-record');card.dataset.workspaceId=w.id;
+      const card=node('article','','billing-record');card.dataset.workspaceId=w.id;card.dataset.setupServer=String(!!w.server||!!w.canAllocate);
       const header=node('div','','billing-record-head'),identity=node('div','','service-identity');identity.append(node('span',w.server?'WEBSITE SERVER':w.plan.workload==='model'?'MODEL PLAN':'WORKSPACE PLAN','service-record-kicker'),node('h3',w.project));
       const status=w.billingStatus==='cancelled'?'Cancelled':w.billingStatus!=='active'?w.billingStatus:states[w.machineStatus]||'Saved plan';const badge=node('span',status,'billing-badge');badge.dataset.status=w.machineStatus;header.append(identity,badge);card.append(header);
       const details=node('dl','','billing-details');
