@@ -72,7 +72,13 @@
     storage.set('nucStudioKit', key);
   }
   if(form){
-    const draft=window.NUC_PROJECTS?.active()?.draft || storage.get('nucProjectBrief',null);
+    const incoming=new URLSearchParams(location.search),idea=incoming.get('project')==='new'?incoming.get('idea')?.trim().slice(0,500):null;
+    let incomingError='';
+    if(idea){
+      try{if(!window.NUC_PROJECTS)throw Error('The project library is unavailable.');window.NUC_PROJECTS.startNew();shortlist=[];storage.set('nucCapabilityShortlist',shortlist);}
+      catch{incomingError='Browser storage is unavailable. Export this new brief to keep it; your existing project has not been replaced.';}
+    }
+    const draft=idea?null:window.NUC_PROJECTS?.active()?.draft || storage.get('nucProjectBrief',null);
     if(draft?.version===1&&draft.fields&&typeof draft.fields==='object'){
       for(const key of ['name','purpose','milestone','repo','demo'])if(typeof draft.fields[key]==='string')form.elements[key].value=draft.fields[key].slice(0,500);
       if(['web','dev','model'].includes(draft.fields.workload))form.elements.workload.value=draft.fields.workload;
@@ -82,10 +88,11 @@
     }
     const queryKit=new URLSearchParams(location.search).get('kit'),pendingKit=storage.get('nucStudioKit',null);
     if(queryKit&&Object.hasOwn(kits,queryKit))selectKit(queryKit,!draft);
-    else if(!draft)selectKit(pendingKit||'creator');
+    else if(!draft)selectKit(idea?'custom':pendingKit||'creator');
+    if(idea){form.elements.name.value=idea.slice(0,80);form.elements.purpose.value=idea;if(['web','dev','model'].includes(incoming.get('workload')))form.elements.workload.value=incoming.get('workload');document.querySelector('#briefStatus').textContent=incomingError||'Your idea is ready. Give it a first milestone, then save your new project.';const clean=new URL(location.href);for(const key of ['project','idea','workload'])clean.searchParams.delete(key);history.replaceState(history.state,'',clean.pathname+clean.search+clean.hash);}
     form.addEventListener('input',renderBrief);form.addEventListener('change',renderBrief);
     document.querySelectorAll('[data-studio-kit]').forEach(b=>b.addEventListener('click',()=>selectKit(b.dataset.studioKit)));
-    form.addEventListener('submit',e=>{e.preventDefault();if(!form.reportValidity())return;const draft={version:1,kit:activeKit,fields:fields(),tools:shortlist,updatedAt:new Date().toISOString()};const result=window.NUC_PROJECTS?.saveDraft(draft);if(result){if(result.ok)storage.set('nucProjectBrief',draft);document.querySelector('#briefStatus').textContent=result.ok?'Project saved on this device. Track its milestones in your library below.':result.error;}else{const ok=storage.set('nucProjectBrief',draft);document.querySelector('#briefStatus').textContent=ok?'Brief saved on this device.':'Your browser could not save this brief. Export a copy instead.';}});
+    form.addEventListener('submit',e=>{e.preventDefault();if(!form.reportValidity())return;if(incomingError){document.querySelector('#briefStatus').textContent=incomingError;return;}const draft={version:1,kit:activeKit,fields:fields(),tools:shortlist,updatedAt:new Date().toISOString()};const result=window.NUC_PROJECTS?.saveDraft(draft);if(result){if(result.ok)storage.set('nucProjectBrief',draft);document.querySelector('#briefStatus').textContent=result.ok?'Project saved on this device. Track its milestones in your library below.':result.error;}else{const ok=storage.set('nucProjectBrief',draft);document.querySelector('#briefStatus').textContent=ok?'Brief saved on this device.':'Your browser could not save this brief. Export a copy instead.';}});
     document.querySelector('#exportBrief').addEventListener('click',()=>{
       if(!form.reportValidity())return;const v=fields();const text=`# ${v.name}\n\n${v.purpose}\n\n## First milestone\n${v.milestone||'Not yet specified'}\n\n## Workspace\n${v.workload}\n\n## Capabilities\n${shortlist.map(n=>'- '+n).join('\n')||'Not yet selected'}\n\n## Project evidence (self-reported)\nRepository: ${v.repo||'Not added'}\nDemo: ${v.demo||'Not added'}\n\n## Proposed income allocation\nBuilders: ${v.builderSplit}%\nCommunity work: ${100-Number(v.builderSplit)}%\n\nPlanning only. No funds move, no returns are promised, and no evidence is independently verified.\n`;
       const url=URL.createObjectURL(new Blob([text],{type:'text/markdown'}));const link=document.createElement('a');link.href=url;link.download=(v.name.toLowerCase().replace(/[^a-z0-9]+/g,'-').slice(0,60)||'project')+'-brief.md';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);document.querySelector('#briefStatus').textContent='Brief exported. Keep building, and add your next proof of work.';

@@ -2,7 +2,7 @@
 (()=>{
  const g=window.gsap;if(!g)return;g.registerPlugin(Flip,ScrollTrigger,DrawSVGPlugin);
  const reduced=matchMedia('(prefers-reduced-motion: reduce)'),mm=g.matchMedia();
- let paused=false,context=null;const started=new WeakSet();
+ let paused=window.NUC_DOTS?.isPaused()||false,context=null;const started=new WeakSet();
  function enabled(){return !reduced.matches&&!paused&&!document.hidden;}
  function enter(element){if(!element||!enabled()||!element.getClientRects().length)return;g.killTweensOf(element);g.fromTo(element,{opacity:.4,y:10},{opacity:1,y:0,duration:.42,ease:'power3.out',clearProps:'opacity,transform',overwrite:true});}
  function build(){context?.revert();if(!enabled())return;context=g.context(()=>{
@@ -25,7 +25,7 @@
  if(work)new MutationObserver(()=>{enter(work);}).observe(work,{attributes:true,attributeFilter:['data-focus']});
  if(inspector)new MutationObserver(()=>{enter(inspector.querySelector('.desk-manager-body'));}).observe(inspector,{attributes:true,attributeFilter:['data-kind']});
  addEventListener('nuc:market-update',()=>{if(!enabled())return;const tiles=[...document.querySelectorAll('#marketResults>article')];if(tiles.length)g.fromTo(tiles,{opacity:.35,y:10},{opacity:1,y:0,duration:.4,stagger:.025,ease:'power3.out',clearProps:'opacity,transform',overwrite:true});});
- document.addEventListener('click',e=>{if(e.target.closest('#deskMotion,[data-explore-motion],[data-modular-motion]'))queueMicrotask(()=>{paused=e.target.closest('button')?.getAttribute('aria-pressed')==='true';build();});});
+ document.addEventListener('click',e=>{if(e.target.closest('#deskMotion,[data-explore-motion],[data-modular-motion],[data-campaign-motion]'))queueMicrotask(()=>{paused=e.target.closest('button')?.getAttribute('aria-pressed')==='true';build();});});
  document.addEventListener('visibilitychange',()=>{if(document.hidden)context?.revert();});
  reduced.addEventListener('change',()=>{if(reduced.matches){context?.revert();g.killTweensOf('.desk-selection-light,#deskWork,.desk-manager-body,#marketResults>article');}else build();});
  // Low amplitude depth for the existing pricing glass; it follows the pointer only.
